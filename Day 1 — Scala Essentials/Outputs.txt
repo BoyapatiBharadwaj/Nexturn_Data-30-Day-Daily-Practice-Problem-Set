@@ -1,0 +1,47 @@
+babblu@LAPTOP-E7CK2BER:~$ cd ~
+mkdir scala-day1
+cd scala-day1
+
+mkdir -p src/main/scala
+babblu@LAPTOP-E7CK2BER:~/scala-day1$ nano src/main/scala/Day1.scala
+babblu@LAPTOP-E7CK2BER:~/scala-day1$ scala -version
+Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
+babblu@LAPTOP-E7CK2BER:~/scala-day1$ scalac src/main/scala/Day1.scala
+babblu@LAPTOP-E7CK2BER:~/scala-day1$ scala Day1
+===== DAY 1 - SCALA ESSENTIALS =====
+College: ABC College
+Initial age: 20
+Updated age: 21
+Before accessing lazy val
+lazy val is being evaluated now
+Welcome to Scala
+Welcome to Scala
+Original list: List(10, 20, 30, 40, 50)
+Doubled list: List(20, 40, 60, 80, 100)
+Original list still unchanged: List(10, 20, 30, 40, 50)
+List: List(Rahul, Priya, Arun, Rahul)
+Vector: Vector(Rahul, Priya, Arun, Rahul)
+Set: Set(Rahul, Priya, Arun)
+Map: Map(Rahul -> 85, Priya -> 92, Arun -> 76)
+
+Students with marks >= 80:
+Rahul scored 85
+Priya scored 92
+[CONSOLE] Student processing started
+[FILE] Student processing completed
+
+===== STUDENT GRADE PROCESSOR =====
+Rahul      Total: 255 Average: 85.00 Grade: B
+Priya      Total: 275 Average: 91.67 Grade: A
+Arun       Total: 195 Average: 65.00 Grade: D
+Sneha      Total: 135 Average: 45.00 Grade: F
+Kiran      Total: 233 Average: 77.67 Grade: C
+
+===== PASSED STUDENTS =====
+Rahul -> Grade B
+Priya -> Grade A
+Arun -> Grade D
+Kiran -> Grade C
+
+===== TOP STUDENT =====
+Priya with average 91.67

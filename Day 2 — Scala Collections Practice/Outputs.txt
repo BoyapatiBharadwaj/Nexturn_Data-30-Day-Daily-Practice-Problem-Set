@@ -1,0 +1,81 @@
+babblu@LAPTOP-E7CK2BER:~/scala-day1$ scala Day2
+========================================
+       DAY 2 - SCALA COLLECTIONS
+========================================
+
+----- 1. MAP -----
+Original sales: List(100, 200, 150, 300, 250)
+Sales with 18% tax: List(118.0, 236.0, 177.0, 354.0, 295.0)
+
+----- 2. FILTER -----
+Original sales: List(100, 200, 150, 300, 250)
+Sales >= 200: List(200, 300, 250)
+
+----- 3. FLATMAP -----
+Original nested list: List(List(Laptop, Mouse), List(Keyboard), List(Monitor, USB Cable))
+Flattened products: List(Laptop, Mouse, Keyboard, Monitor, USB Cable)
+
+----- 4. REDUCE -----
+Sales: List(100, 200, 150, 300, 250)
+Total sales: 1000
+
+----- 5. VECTOR -----
+Customers: Vector(Customer(1,Rahul), Customer(2,Priya), Customer(3,Arun), Customer(4,Sneha))
+Customer at index 0: Customer(1,Rahul)
+Customer at index 2: Customer(3,Arun)
+
+----- 6. MAP - PRODUCT QUANTITY -----
+Product quantities: Map(Laptop -> 5, Mouse -> 20, Keyboard -> 10, Monitor -> 8)
+Laptop quantity: 5
+Mouse quantity: 20
+
+----- 7. MAP - PRODUCT PRICES -----
+Product prices: Map(Laptop -> 60000.0, Mouse -> 800.0, Keyboard -> 1500.0, Monitor -> 12000.0)
+Laptop price: 60000.0
+Mouse price: 800.0
+
+----- 8. FOR-COMPREHENSION -----
+Rahul ordered 1 Laptop
+Rahul ordered 1 Monitor
+Priya ordered 3 Mouse
+Arun ordered 2 Keyboard
+Sneha ordered 2 Mouse
+
+========================================
+         DAILY SALES SUMMARY
+========================================
+Order: 101  Customer: Rahul  Product: Laptop    Qty:  1 Revenue: ₹60000.00
+Order: 102  Customer: Priya  Product: Mouse     Qty:  3 Revenue: ₹2400.00
+Order: 103  Customer: Arun   Product: Keyboard  Qty:  2 Revenue: ₹3000.00
+Order: 104  Customer: Rahul  Product: Monitor   Qty:  1 Revenue: ₹12000.00
+Order: 105  Customer: Sneha  Product: Mouse     Qty:  2 Revenue: ₹1600.00
+
+----- TOTAL DAILY REVENUE -----
+Total revenue: ₹79000.00
+
+----- TOTAL QUANTITY SOLD -----
+Total products sold: 9
+
+----- HIGH VALUE ORDERS -----
+Rahul  Laptop    ₹60000.00
+Rahul  Monitor   ₹12000.00
+
+----- PRODUCT-WISE QUANTITY -----
+Monitor -> 1
+Laptop -> 1
+Mouse -> 5
+Keyboard -> 2
+
+----- PRODUCT-WISE REVENUE -----
+Monitor    -> ₹12000.00
+Laptop     -> ₹60000.00
+Mouse      -> ₹4000.00
+Keyboard   -> ₹3000.00
+
+----- HIGHEST VALUE ORDER -----
+Rahul placed the highest order for Laptop: ₹60000.00
+
+========================================
+           DAY 2 COMPLETED
+========================================
+babblu@LAPTOP-E7CK2BER:~/scala-day1$

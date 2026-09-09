@@ -1,0 +1,102 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day4-rdd$ sbt "run 4"
+[info] ============================================================
+[info] DAY 4 - RDD CREATION
+[info] ============================================================
+[info] Spark Master       : local[4]
+[info] Default Parallelism: 4
+[info] ------------------------------------------------------------
+[info] 1. RDD FROM SCALA COLLECTION
+[info] ------------------------------------------------------------
+[info] Original numbers: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+[info] Partitions      : 4
+[info] ------------------------------------------------------------
+[info] 2. MAP
+[info] ------------------------------------------------------------
+[info] Squared numbers: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
+[info] ------------------------------------------------------------
+[info] 3. FILTER
+[info] ------------------------------------------------------------
+[info] Even numbers: 2, 4, 6, 8, 10
+[info] ------------------------------------------------------------
+[info] 4. FLATMAP
+[info] ------------------------------------------------------------
+[info] Words: Apache, Spark, is, fast, RDDs, are, distributed, Scala, works, with, Spark
+[info] ------------------------------------------------------------
+[info] 5. RDD FROM TEXT FILE
+[info] ------------------------------------------------------------
+[info] Customer records: 15
+[info] Customer partitions: 2
+[info] 101,John,Hyderabad
+[info] 102,Alice,Bangalore
+[info] 103,Bob,Chennai
+[info] 104,David,Mumbai
+[info] 105,Emma,Delhi
+[info] ------------------------------------------------------------
+[info] 6. MAP CUSTOMER DATA
+[info] ------------------------------------------------------------
+[info] Customer names: John, Alice, Bob, David, Emma, Frank, Grace, Helen, Ian, Jack, Karen, Liam, Mia, Noah, Olivia
+[info] ------------------------------------------------------------
+[info] 7. FILTER CUSTOMERS FROM HYDERABAD
+[info] ------------------------------------------------------------
+[info] 101,John,Hyderabad
+[info] 108,Helen,Hyderabad
+[info] 115,Olivia,Hyderabad
+[info] ------------------------------------------------------------
+[info] 8. FLATMAP CUSTOMER DATA
+[info] ------------------------------------------------------------
+[info] Customer fields: 101, John, Hyderabad, 102, Alice, Bangalore, 103, Bob, Chennai, 104, David, Mumbai, 105, Emma, Delhi
+[info] ------------------------------------------------------------
+[info] 9. SALES TRANSACTIONS
+[info] ------------------------------------------------------------
+[info] Sales amounts: 1000.0, 2500.0, 1500.0, 3000.0, 1200.0, 1800.0, 2200.0, 3500.0, 2700.0, 1900.0
+[info] ------------------------------------------------------------
+[info] 10. TOTAL SALES
+[info] ------------------------------------------------------------
+[info] Total Sales: $21300.00
+[info] ------------------------------------------------------------
+[info] 11. TOTAL SALES USING REDUCE
+[info] ------------------------------------------------------------
+[info] Total Sales using reduce: $21300.00
+[info] ------------------------------------------------------------
+[info] 12. PARTITION INSPECTION
+[info] ------------------------------------------------------------
+[info] Number RDD partitions   : 4
+[info] Customer RDD partitions : 2
+[info] Sales RDD partitions    : 2
+[info] ------------------------------------------------------------
+[info] 13. DATA INSIDE EACH CUSTOMER PARTITION
+[info] ------------------------------------------------------------
+[info] Partition 0 -> 101,John,Hyderabad | 102,Alice,Bangalore | 103,Bob,Chennai | 104,David,Mumbai | 105,Emma,Delhi | 106,Frank,Pune | 107,Grace,Kolkata | 108,Helen,Hyderabad
+[info] Partition 1 -> 109,Ian,Bangalore | 110,Jack,Chennai | 111,Karen,Mumbai | 112,Liam,Delhi | 113,Mia,Pune | 114,Noah,Kolkata | 115,Olivia,Hyderabad
+[info] ------------------------------------------------------------
+[info] 14. DEFAULT PARALLELISM
+[info] ------------------------------------------------------------
+[info] Spark defaultParallelism = 4
+[info] For local mode, default parallelism is generally based on the
+[info] number of available local execution threads.
+[info] ------------------------------------------------------------
+[info] 15. LARGE CUSTOMER FILE SCENARIO
+[info] ------------------------------------------------------------
+[info] Requested minimum partitions: 4
+[info] Actual partitions: 4
+[info] Partition 0 contains 4 records
+[info] Partition 1 contains 4 records
+[info] Partition 2 contains 4 records
+[info] Partition 3 contains 3 records
+[info] ------------------------------------------------------------
+[info] 16. PROCESS CUSTOMERS IN PARALLEL
+[info] ------------------------------------------------------------
+[info] Customer 101 -> John -> Hyderabad
+[info] Customer 102 -> Alice -> Bangalore
+[info] Customer 103 -> Bob -> Chennai
+[info] Customer 104 -> David -> Mumbai
+[info] Customer 105 -> Emma -> Delhi
+[info] Customer 106 -> Frank -> Pune
+[info] Customer 107 -> Grace -> Kolkata
+[info] Customer 108 -> Helen -> Hyderabad
+[info] Customer 109 -> Ian -> Bangalore
+[info] Customer 110 -> Jack -> Chennai
+[info] ============================================================
+[info] DAY 4 COMPLETE
+[info] ============================================================
+[success] Total time: 5 s, completed Sep 9, 2026, 12:12:21 PM

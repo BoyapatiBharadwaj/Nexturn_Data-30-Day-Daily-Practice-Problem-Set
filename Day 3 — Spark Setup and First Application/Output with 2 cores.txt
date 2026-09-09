@@ -1,0 +1,84 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day3$ sbt "run 2"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day3/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day3 (in build file:/home/babblu/spark-day3/)
+[info] running (fork) Day3SparkApp 2
+[info] ============================================================
+[info]              DAY 3 - SPARK FIRST APPLICATION
+[info] ============================================================
+[info] SPARK CONFIGURATION
+[info] ------------------------------------------------------------
+[info] Spark Version       : 3.5.6
+[info] Application Name    : Day 3 - Spark First Application
+[info] Master              : local[2]
+[info] Application ID      : local-1788934599447
+[info] Default Parallelism : 2
+[info] Configured Cores    : 2
+[info] SPARK ARCHITECTURE
+[info] ------------------------------------------------------------
+[info] Driver
+[info]   -> Runs the main application
+[info]   -> Creates SparkSession and SparkContext
+[info]   -> Coordinates Spark jobs
+[info] Executor
+[info]   -> Executes Spark tasks
+[info]   -> Processes data
+[info]   -> Stores intermediate data when required
+[info] Cluster Manager
+[info]   -> Allocates resources to Spark applications
+[info]   -> Examples: Standalone, YARN, Kubernetes
+[info] Current Execution Mode: local[2]
+[info] READING TEXT FILE
+[info] ------------------------------------------------------------
+[info] Input File           : data/input.txt
+[info] Number of Partitions : 2
+[info] Number of Lines      : 8
+[info] FILE CONTENTS
+[info] ------------------------------------------------------------
+[info]  1 | Apache Spark is a distributed data processing engine.
+[info]  2 | Spark provides high level APIs for data processing.
+[info]  3 | Scala is commonly used with Apache Spark.
+[info]  4 | Spark applications have a driver and executors.
+[info]  5 | The SparkContext coordinates Spark execution.
+[info]  6 | The SparkSession provides the entry point for Spark SQL.
+[info]  7 | Local mode is useful for development and testing.
+[info]  8 | This Day 3 application demonstrates Spark fundamentals.
+[info] SIMPLE SPARK PROCESSING
+[info] ------------------------------------------------------------
+[info] Lines containing 'Spark': 7
+[info] Matching Lines:
+[info] ------------------------------------------------------------
+[info] -> Apache Spark is a distributed data processing engine.
+[info] -> Spark provides high level APIs for data processing.
+[info] -> Scala is commonly used with Apache Spark.
+[info] -> Spark applications have a driver and executors.
+[info] -> The SparkContext coordinates Spark execution.
+[info] -> The SparkSession provides the entry point for Spark SQL.
+[info] -> This Day 3 application demonstrates Spark fundamentals.
+[info] RDD INFORMATION
+[info] ------------------------------------------------------------
+[info] RDD Type              : MapPartitionsRDD
+[info] RDD Partitions        : 2
+[info] Transformation        : filter
+[info] Actions               : count, collect
+[info] LOCAL MODE
+[info] ------------------------------------------------------------
+[info] This application is currently using local[2].
+[info] Spark can execute tasks using 2 local worker threads.
+[info] DAY 3 REQUIREMENTS
+[info] ------------------------------------------------------------
+[info] [PASS] Scala Spark project created with sbt
+[info] [PASS] SparkSession created
+[info] [PASS] SparkContext obtained
+[info] [PASS] Text file read successfully
+[info] [PASS] File contents displayed
+[info] [PASS] Driver explained
+[info] [PASS] Executor explained
+[info] [PASS] Cluster Manager explained
+[info] [PASS] Local execution configured
+[info] [PASS] Application running with 2 core(s)
+[info] ============================================================
+[info]              DAY 3 APPLICATION COMPLETE
+[info] ============================================================
+[success] Total time: 5 s, completed Sep 9, 2026, 11:46:40 AM

@@ -1,0 +1,8 @@
+Apache Spark is a distributed data processing engine.
+Spark provides high level APIs for data processing.
+Scala is commonly used with Apache Spark.
+Spark applications have a driver and executors.
+The SparkContext coordinates Spark execution.
+The SparkSession provides the entry point for Spark SQL.
+Local mode is useful for development and testing.
+This Day 3 application demonstrates Spark fundamentals.

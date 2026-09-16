@@ -1,0 +1,158 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day9-pair-rdd$ sbt "run"
+[info] Updated file /home/babblu/spark-day9-pair-rdd/project/build.properties: set sbt.version to 1.12.15
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day9-pair-rdd/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day9-pair-rdd (in build file:/home/babblu/spark-day9-pair-rdd/)
+[info] compiling 1 Scala source to /home/babblu/spark-day9-pair-rdd/target/scala-2.12/classes ...
+[info] running (fork) Day9PairRDDApp
+[info] ============================================================
+[info]              DAY 9 - PAIR RDD PRACTICE
+[info] ============================================================
+[info] 1. BASIC PAIR RDD
+[info] ------------------------------------------------------------
+[info] (Laptop,50000)
+[info] (Mouse,500)
+[info] (Laptop,50000)
+[info] (Keyboard,1500)
+[info] (Mouse,500)
+[info] 2. reduceByKey - TOTAL VALUE BY PRODUCT
+[info] ------------------------------------------------------------
+[info] Keyboard -> 1500
+[info] Laptop -> 100000
+[info] Mouse -> 1000
+[info] 3. groupByKey - GROUP VALUES BY PRODUCT
+[info] ------------------------------------------------------------
+[info] Keyboard -> [1500]
+[info] Laptop -> [50000, 50000]
+[info] Mouse -> [500, 500]
+[info] 4. groupByKey + mapValues - TOTAL BY PRODUCT
+[info] ------------------------------------------------------------
+[info] Keyboard -> 1500
+[info] Laptop -> 100000
+[info] Mouse -> 1000
+[info] 5. mapValues - DOUBLE QUANTITY
+[info] ------------------------------------------------------------
+[info] (Keyboard,10)
+[info] (Laptop,4)
+[info] (Monitor,6)
+[info] (Mouse,20)
+[info] 6. READ SALES DATA
+[info] ------------------------------------------------------------
+[info] Number of sales records: 20
+[info] 7. PARSED SALES DATA
+[info] ------------------------------------------------------------
+[info] (101,Laptop,Electronics,50000.0,2)
+[info] (102,Mouse,Electronics,500.0,10)
+[info] (103,Keyboard,Electronics,1500.0,5)
+[info] (104,Monitor,Electronics,12000.0,3)
+[info] (105,Laptop,Electronics,50000.0,1)
+[info] 8. REVENUE BY PRODUCT
+[info] ------------------------------------------------------------
+[info] Laptop       -> ₹400000.00
+[info] Monitor      -> ₹108000.00
+[info] Table        -> ₹90000.00
+[info] Chair        -> ₹70000.00
+[info] Keyboard     -> ₹22500.00
+[info] Mouse        -> ₹12500.00
+[info] 9. REVENUE BY DEPARTMENT
+[info] ------------------------------------------------------------
+[info] Electronics     -> ₹543000.00
+[info] Furniture       -> ₹160000.00
+[info] 10. TOTAL QUANTITY SOLD BY PRODUCT
+[info] ------------------------------------------------------------
+[info] Chair -> 10 units
+[info] Keyboard -> 15 units
+[info] Laptop -> 8 units
+[info] Monitor -> 9 units
+[info] Mouse -> 25 units
+[info] Table -> 6 units
+[info] 11. reduceByKey vs groupByKey
+[info] ------------------------------------------------------------
+[info] reduceByKey result:
+[info] (Keyboard,2500)
+[info] (Laptop,10000)
+[info] (Mouse,2100)
+[info] reduceByKey execution time: 89.966 ms
+[info] groupByKey + mapValues result:
+[info] (Keyboard,2500)
+[info] (Laptop,10000)
+[info] (Mouse,2100)
+[info] groupByKey execution time: 97.366 ms
+[info] Performance concept:
+[info] reduceByKey can combine values locally before shuffle.
+[info] groupByKey moves/groups all values for each key.
+[info] For aggregation, reduceByKey is generally more efficient.
+[info] 12. BANK TRANSACTIONS BY ACCOUNT ID
+[info] ------------------------------------------------------------
+[info] 13. TOTAL TRANSACTION AMOUNT BY ACCOUNT
+[info] ------------------------------------------------------------
+[info] A1001 -> ₹17000.00
+[info] A1002 -> ₹12000.00
+[info] A1003 -> ₹21000.00
+[info] 14. CREDIT AMOUNT BY ACCOUNT
+[info] ------------------------------------------------------------
+[info] A1001 -> ₹13000.00
+[info] A1002 -> ₹6000.00
+[info] A1003 -> ₹17000.00
+[info] 15. DEBIT AMOUNT BY ACCOUNT
+[info] ------------------------------------------------------------
+[info] A1001 -> ₹4000.00
+[info] A1002 -> ₹6000.00
+[info] A1003 -> ₹4000.00
+[info] 16. GROUP TRANSACTIONS BY ACCOUNT
+[info] ------------------------------------------------------------
+[info] A1001 -> [5000.0, 3000.0, 2000.0, 1000.0, 6000.0]
+[info] A1002 -> [2500.0, 1500.0, 3500.0, 4500.0]
+[info] A1003 -> [10000.0, 4000.0, 7000.0]
+[info] 17. ACCOUNT TOTALS USING groupByKey + mapValues
+[info] ------------------------------------------------------------
+[info] A1001 -> ₹17000.00
+[info] A1002 -> ₹12000.00
+[info] A1003 -> ₹21000.00
+[info] 18. PARTITION INFORMATION
+[info] ------------------------------------------------------------
+[info] Sales RDD partitions: 2
+[info] Performance RDD partitions: 2
+[info] Transaction RDD partitions: 2
+[info] Default parallelism: 2
+[info] 19. STAGE AND SHUFFLE CONCEPT
+[info] ------------------------------------------------------------
+[info]       Pair RDD pipeline:
+[info]       Input
+[info]         |
+[info]         v
+[info]       map
+[info]         |
+[info]         v
+[info]       reduceByKey
+[info]         |
+[info]         |  SHUFFLE
+[info]         v
+[info]       reduce
+[info]         |
+[info]         v
+[info]       collect
+[info]       map -> narrow transformation
+[info]       reduceByKey -> wide transformation
+[info]       collect -> action
+[info]       The reduceByKey shuffle creates a stage boundary.
+[info]
+[info] ============================================================
+[info] DAY 9 COMPLETE
+[info] ============================================================
+[info]       Topics completed:
+[info]       1. Pair RDD creation
+[info]       2. reduceByKey
+[info]       3. groupByKey
+[info]       4. mapValues
+[info]       5. Revenue by product
+[info]       6. Revenue by department
+[info]       7. Quantity by product
+[info]       8. reduceByKey vs groupByKey
+[info]       9. Bank transaction aggregation
+[info]       10. Credit/debit aggregation
+[info]       11. Partitions and default parallelism
+[info]       12. Shuffle and stage concepts
+[info]
+[success] Total time: 14 s, completed Sep 16, 2026, 12:36:50 PM

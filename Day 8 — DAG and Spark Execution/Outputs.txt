@@ -1,0 +1,277 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day8-dag-execution$ sbt "run 2"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day8-dag-execution/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day8-dag-execution (in build file:/home/babblu/spark-day8-dag-execution/)
+[info] running (fork) Day8DAGExecutionApp 2
+[info] ============================================================
+[info] DAY 8 - DAG AND SPARK EXECUTION
+[info] ============================================================
+[info] Spark Master        : local[2]
+[info] Default Parallelism : 2
+[info] Serializer          : org.apache.spark.serializer.JavaSerializer
+[info] ------------------------------------------------------------
+[info] 1. CREATE BASE RDD
+[info] ------------------------------------------------------------
+[info] Data: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+[info] Partitions: 2
+[info] ------------------------------------------------------------
+[info] 2. NARROW TRANSFORMATION CHAIN
+[info] ------------------------------------------------------------
+[info] Pipeline:
+[info] numbersRDD
+[info]     -> filter
+[info]     -> map
+[info]     -> filter
+[info]     -> greaterRDD
+[info] Result: 8, 12, 16, 20
+[info] ------------------------------------------------------------
+[info] 3. NARROW TRANSFORMATIONS
+[info] ------------------------------------------------------------
+[info] filter is a narrow transformation.
+[info] map is a narrow transformation.
+[info] A child partition depends on a small number of parent
+[info] partitions, typically one parent partition.
+[info] Therefore:
+[info] filter -> map -> filter
+[info] can execute within the same stage.
+[info] ------------------------------------------------------------
+[info] 4. CREATE KEY-VALUE RDD
+[info] ------------------------------------------------------------
+[info] Key-value data:
+[info] 1 -> 1
+[info] 2 -> 2
+[info] 0 -> 3
+[info] 1 -> 4
+[info] 2 -> 5
+[info] 0 -> 6
+[info] 1 -> 7
+[info] 2 -> 8
+[info] 0 -> 9
+[info] 1 -> 10
+[info] ------------------------------------------------------------
+[info] 5. REDUCEBYKEY - WIDE TRANSFORMATION
+[info] ------------------------------------------------------------
+[info] reduceByKey requires values with the same key
+[info] to be combined.
+[info] This can require a shuffle.
+[info] Therefore reduceByKey is a wide transformation.
+[info] Reduced result:
+[info] 0 -> 18
+[info] 1 -> 22
+[info] 2 -> 15
+[info] ------------------------------------------------------------
+[info] 6. REDUCEBYKEY LINEAGE
+[info] ------------------------------------------------------------
+[info] numbersRDD
+[info]  map(number => (number % 3, number))
+[info]     v
+[info] pairRDD
+[info]  reduceByKey(_ + _)
+[info]
+[info]  ===== SHUFFLE =====
+[info]     v
+[info] reducedRDD
+[info]  collect()
+[info]     v
+[info] RESULT
+[info] ------------------------------------------------------------
+[info] 7. STAGE PREDICTION
+[info] ------------------------------------------------------------
+[info] Pipeline:
+[info] map -> reduceByKey -> collect
+[info] Predicted stages: 2
+[info] Stage 0:
+[info] map
+[info] Shuffle boundary
+[info] Stage 1:
+[info] reduceByKey
+[info] then collect result
+[info] ------------------------------------------------------------
+[info] 8. MULTIPLE TRANSFORMATIONS BEFORE SHUFFLE
+[info] ------------------------------------------------------------
+[info] Pipeline:
+[info] numbersRDD
+[info]     -> filter
+[info]     -> map
+[info]     -> map
+[info]     -> reduceByKey
+[info]     -> collect
+[info] Predicted stages: 2
+[info] Reason: all narrow transformations before reduceByKey
+[info] can belong to the first stage.
+[info] reduceByKey introduces the shuffle boundary.
+[info] Result:
+[info] 0 -> 180
+[info] 1 -> 210
+[info] 2 -> 130
+[info] ------------------------------------------------------------
+[info] 9. SALES DATA
+[info] ------------------------------------------------------------
+[info] Sales records: 12
+[info] 101,Laptop,50000,2
+[info] 102,Mouse,500,10
+[info] 103,Keyboard,1500,5
+[info] 104,Monitor,12000,3
+[info] 105,Laptop,50000,1
+[info] ------------------------------------------------------------
+[info] 10. PARSE SALES RECORDS
+[info] ------------------------------------------------------------
+[info] Parsed sales:
+[info] (101,Laptop,50000.0,2)
+[info] (102,Mouse,500.0,10)
+[info] (103,Keyboard,1500.0,5)
+[info] (104,Monitor,12000.0,3)
+[info] (105,Laptop,50000.0,1)
+[info] ------------------------------------------------------------
+[info] 11. NARROW SALES TRANSFORMATIONS
+[info] ------------------------------------------------------------
+[info] Pipeline:
+[info] salesRDD
+[info]     -> map(parse)
+[info]     -> filter(valid records)
+[info]     -> map(calculate revenue)
+[info] All of these are narrow transformations.
+[info] ------------------------------------------------------------
+[info] 12. SALES REDUCEBYKEY
+[info] ------------------------------------------------------------
+[info] Revenue by product:
+[info] Keyboard     -> ₹22500.00
+[info] Laptop       -> ₹300000.00
+[info] Monitor      -> ₹108000.00
+[info] Mouse        -> ₹12500.00
+[info] ------------------------------------------------------------
+[info] 13. SALES DAG
+[info] ------------------------------------------------------------
+[info] INPUT FILE
+[info]     v
+[info] salesRDD
+[info]  map(parse)
+[info]     v
+[info] parsedSalesRDD
+[info]  filter(valid)
+[info]     v
+[info] validSalesRDD
+[info]  map(revenue)
+[info]     v
+[info] salesWithRevenueRDD
+[info]  reduceByKey
+[info]  ===== SHUFFLE =====
+[info]     v
+[info] productRevenueRDD
+[info]  collect
+[info]     v
+[info] FINAL RESULT
+[info] ------------------------------------------------------------
+[info] 14. SALES STAGE PREDICTION
+[info] ------------------------------------------------------------
+[info] Pipeline:
+[info] textFile -> map -> filter -> map -> reduceByKey -> collect
+[info] Expected number of stages: 2
+[info] Stage 0:
+[info] textFile
+[info]     -> map
+[info]     -> filter
+[info]     -> map
+[info] SHUFFLE
+[info] Stage 1:
+[info] reduceByKey
+[info]     -> collect
+[info] ------------------------------------------------------------
+[info] 15. MULTIPLE ACTIONS
+[info] ------------------------------------------------------------
+[info] Action 1: count()
+[info] Records: 12
+[info] Action 2: first()
+[info] First record: 101,Laptop,50000,2
+[info] Action 3: take(3)
+[info] 101,Laptop,50000,2
+[info] 102,Mouse,500,10
+[info] 103,Keyboard,1500,5
+[info] Each action can trigger its own job.
+[info] Without caching, Spark may recompute the required
+[info] transformations for separate actions.
+[info] ------------------------------------------------------------
+[info] 16. JOBS, STAGES, TASKS AND PARTITIONS
+[info] ------------------------------------------------------------
+[info] JOB:
+[info] A job is created when an action is called.
+[info] STAGE:
+[info] A job is divided into stages around shuffle boundaries.
+[info] TASK:
+[info] A task is the unit of work executed for a partition.
+[info] PARTITION:
+[info] A partition is a chunk of an RDD.
+[info] Relationship:
+[info] Action -> Job -> Stages -> Tasks -> Partitions
+[info] ------------------------------------------------------------
+[info] 17. NARROW VS WIDE TRANSFORMATIONS
+[info] ------------------------------------------------------------
+[info] NARROW TRANSFORMATIONS:
+[info]   map
+[info]   filter
+[info]   flatMap
+[info] WIDE TRANSFORMATIONS:
+[info]   reduceByKey
+[info]   groupByKey
+[info]   distinct
+[info] Narrow:
+[info] No data redistribution is normally required.
+[info] Wide:
+[info] Data may need to move between partitions.
+[info] This is called a shuffle.
+[info] ------------------------------------------------------------
+[info] 18. PARTITION AND TASK EXAMPLE
+[info] ------------------------------------------------------------
+[info] Number of partitions: 4
+[info] Conceptually:
+[info] Partition 0 -> Task 0
+[info] Partition 1 -> Task 1
+[info] Partition 2 -> Task 2
+[info] Partition 3 -> Task 3
+[info] Tasks are executed by Spark executors.
+[info] ------------------------------------------------------------
+[info] 19. DAG VIEW
+[info] ------------------------------------------------------------
+[info]                  DRIVER
+[info]  Action
+[info]                    v
+[info]                   JOB
+[info]           +--------+--------+
+[info]                  |
+[info]        STAGE 0           STAGE 1
+[info]                  |
+[info]     filter/map/...      reduceByKey
+[info]                  |
+[info]        Tasks             Tasks
+[info]                  |
+[info]     Partitions          Partitions
+[info]                  |
+[info]           +------SHUFFLE----+
+[info] ------------------------------------------------------------
+[info] 20. FINAL CONCEPT SUMMARY
+[info] ------------------------------------------------------------
+[info] DAG = Directed Acyclic Graph.
+[info] Spark creates a DAG from transformations.
+[info] An action triggers a job.
+[info] The job is divided into stages.
+[info] Shuffle boundaries separate stages.
+[info] Each partition is processed by a task.
+[info] Narrow transformations stay within a stage.
+[info] Wide transformations can introduce shuffle.
+[info] ============================================================
+[info] DAY 8 SUMMARY
+[info] ============================================================
+[info] Main pipeline:
+[info] map -> filter -> map -> reduceByKey -> collect
+[info] Expected stages for this pipeline: 2
+[info] Narrow transformations:
+[info] map, filter, flatMap
+[info] Wide transformations:
+[info] reduceByKey, groupByKey, distinct
+[info] Shuffle:
+[info] Redistribution of data between partitions.
+[info] ============================================================
+[info] DAY 8 COMPLETE
+[info] ============================================================
+[success] Total time: 5 s, completed Sep 16, 2026, 12:29:55 PM

@@ -1,0 +1,159 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day10-partitioning$ sbt "run"
+[info] Updated file /home/babblu/spark-day10-partitioning/project/build.properties: set sbt.version to 1.12.15
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day10-partitioning/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day10-partitioning (in build file:/home/babblu/spark-day10-partitioning/)
+[info] compiling 1 Scala source to /home/babblu/spark-day10-partitioning/target/scala-2.12/classes ...
+[info] running (fork) Day10PartitioningApp
+[info] ============================================================
+[info]               DAY 10 - PARTITIONING
+[info] ============================================================
+[info] 1. CREATE RDD WITH 2 PARTITIONS
+[info] ------------------------------------------------------------
+[info] rdd2 -> 2 partitions
+[info] Data:
+[info] 1
+[info] 2
+[info] 3
+[info] 4
+[info] 5
+[info] 6
+[info] 7
+[info] 8
+[info] 9
+[info] 10
+[info] 11
+[info] 12
+[info] 13
+[info] 14
+[info] 15
+[info] 16
+[info] 17
+[info] 18
+[info] 19
+[info] 20
+[info] 2. INSPECT PARTITION CONTENT
+[info] ------------------------------------------------------------
+[info] Partition 0 -> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+[info] Partition 1 -> [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+[info] 3. REPARTITION - INCREASE 2 -> 4
+[info] ------------------------------------------------------------
+[info] rdd4 -> 4 partitions
+[info] Partition 0 -> [4, 8, 14, 18]
+[info] Partition 1 -> [1, 5, 9, 11, 15, 19]
+[info] Partition 2 -> [2, 6, 10, 12, 16, 20]
+[info] Partition 3 -> [3, 7, 13, 17]
+[info] 4. REPARTITION - INCREASE 4 -> 8
+[info] ------------------------------------------------------------
+[info] rdd8 -> 8 partitions
+[info] 5. REPARTITION - DECREASE 8 -> 4
+[info] ------------------------------------------------------------
+[info] repartitionedDown -> 4 partitions
+[info] 6. COALESCE - DECREASE 8 -> 4
+[info] ------------------------------------------------------------
+[info] coalesced -> 4 partitions
+[info] 7. REPARTITION vs COALESCE
+[info] ------------------------------------------------------------
+[info]       repartition(4):
+[info]         - Can increase or decrease partitions
+[info]         - Generally performs a shuffle
+[info]         - Redistributes data across partitions
+[info]       coalesce(4):
+[info]         - Mainly used to decrease partitions
+[info]         - Usually avoids a full shuffle
+[info]         - Combines existing partitions
+[info]
+[info] 8. DEFAULT PARALLELISM
+[info] ------------------------------------------------------------
+[info] Spark default parallelism: 4
+[info] 9. TEXT FILE PARTITIONS
+[info] ------------------------------------------------------------
+[info] customerRDD -> 2 partitions
+[info] Customer records: 30
+[info] 10. SCENARIO - DATASET WITH TOO FEW PARTITIONS
+[info] ------------------------------------------------------------
+[info] largeDataset before optimization -> 2 partitions
+[info] Problem: large dataset is using only 2 partitions.
+[info] With only 2 partitions, only 2 tasks can process the stage concurrently.
+[info] 11. INCREASE PARTITIONS
+[info] ------------------------------------------------------------
+[info] optimizedDataset -> 8 partitions
+[info] The dataset now has more partitions and can expose more parallelism.
+[info] 12. PROCESS OPTIMIZED DATA
+[info] ------------------------------------------------------------
+[info] Processed partitions: 8
+[info] Processed count: 50000
+[info] 13. CREATE PAIR RDD
+[info] ------------------------------------------------------------
+[info] salesRDD -> 2 partitions
+[info] (Laptop,50000)
+[info] (Mouse,500)
+[info] (Laptop,50000)
+[info] (Keyboard,1500)
+[info] (Mouse,500)
+[info] (Monitor,12000)
+[info] (Laptop,50000)
+[info] (Keyboard,1500)
+[info] (Mouse,500)
+[info] 14. partitionBy - HASH PARTITIONING
+[info] ------------------------------------------------------------
+[info] partitionedSalesRDD -> 4 partitions
+[info] Partitioner: Some(org.apache.spark.HashPartitioner@4)
+[info] 15. INSPECT PARTITIONED PAIR RDD
+[info] ------------------------------------------------------------
+[info] Partition 0 -> []
+[info] Partition 1 -> [(Mouse,500), (Mouse,500), (Mouse,500)]
+[info] Partition 2 -> [(Laptop,50000), (Laptop,50000), (Monitor,12000), (Laptop,50000)]
+[info] Partition 3 -> [(Keyboard,1500), (Keyboard,1500)]
+[info] 16. REDUCE BY KEY
+[info] ------------------------------------------------------------
+[info] (Keyboard,3000)
+[info] (Laptop,150000)
+[info] (Monitor,12000)
+[info] (Mouse,1500)
+[info] 17. CUSTOMER PAIR RDD
+[info] ------------------------------------------------------------
+[info] customerPairs -> 2 partitions
+[info] 18. PARTITION CUSTOMERS BY CUSTOMER ID
+[info] ------------------------------------------------------------
+[info] partitionedCustomers -> 4 partitions
+[info] Customer partitioner: Some(org.apache.spark.HashPartitioner@4)
+[info] 19. TOO MANY PARTITIONS
+[info] ------------------------------------------------------------
+[info] manyPartitions -> 20 partitions
+[info] fewerPartitions -> 5 partitions
+[info] 20. PARTITION OPTIMIZATION SUMMARY
+[info] ------------------------------------------------------------
+[info]       Situation 1:
+[info]         Large dataset + too few partitions
+[info]         -> Consider repartition()
+[info]         -> Increase parallelism
+[info]       Situation 2:
+[info]         Small dataset + too many partitions
+[info]         -> Consider coalesce()
+[info]         -> Reduce task overhead
+[info]       Situation 3:
+[info]         Repeated Pair RDD operations using the same key
+[info]         -> Consider partitionBy()
+[info]       Important:
+[info]         More partitions are NOT always better.
+[info]         Too many partitions can create task scheduling overhead.
+[info]
+[info] ============================================================
+[info] DAY 10 COMPLETE
+[info] ============================================================
+[info]       Topics completed:
+[info]       1. Partition count inspection
+[info]       2. Partition contents
+[info]       3. repartition
+[info]       4. coalesce
+[info]       5. Default parallelism
+[info]       6. Too few partitions
+[info]       7. Increasing parallelism
+[info]       8. Pair RDD partitioning
+[info]       9. HashPartitioner
+[info]       10. partitionBy
+[info]       11. Partition optimization
+[info]
+[success] Total time: 12 s, completed Sep 16, 2026, 12:42:46 PM

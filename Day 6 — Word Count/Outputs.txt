@@ -1,0 +1,194 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day6-word-count$ sbt "run 2"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day6-word-count/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day6-word-count (in build file:/home/babblu/spark-day6-word-count/)
+[info] running (fork) Day6WordCountApp 2
+[info] ============================================================
+[info] DAY 6 - WORD COUNT
+[info] ============================================================
+[info] Spark Master        : local[2]
+[info] Default Parallelism : 2
+[info] Serializer          : org.apache.spark.serializer.JavaSerializer
+[info] ------------------------------------------------------------
+[info] 1. CREATE SAMPLE TEXT RDD
+[info] ------------------------------------------------------------
+[info] Input sentences:
+[info] Apache Spark is powerful
+[info] Spark is fast
+[info] Scala works with Spark
+[info] Spark makes data processing easier
+[info] ------------------------------------------------------------
+[info] 2. FLATMAP - SPLIT TEXT INTO WORDS
+[info] ------------------------------------------------------------
+[info] Words: Apache, Spark, is, powerful, Spark, is, fast, Scala, works, with, Spark, Spark, makes, data, processing, easier
+[info] ------------------------------------------------------------
+[info] 3. MAP - CREATE (WORD, 1)
+[info] ------------------------------------------------------------
+[info] Word pairs: (Apache,1), (Spark,1), (is,1), (powerful,1), (Spark,1), (is,1), (fast,1), (Scala,1), (works,1), (with,1), (Spark,1), (Spark,1), (makes,1), (data,1), (processing,1), (easier,1)
+[info] ------------------------------------------------------------
+[info] 4. REDUCEBYKEY - COUNT WORDS
+[info] ------------------------------------------------------------
+[info] Word counts:
+[info] Apache          -> 1
+[info] Scala           -> 1
+[info] Spark           -> 4
+[info] data            -> 1
+[info] easier          -> 1
+[info] fast            -> 1
+[info] is              -> 2
+[info] makes           -> 1
+[info] powerful        -> 1
+[info] processing      -> 1
+[info] with            -> 1
+[info] works           -> 1
+[info] ------------------------------------------------------------
+[info] 5. CASE-INSENSITIVE WORD COUNT
+[info] ------------------------------------------------------------
+[info] Case-insensitive word counts:
+[info] apache          -> 1
+[info] data            -> 1
+[info] easier          -> 1
+[info] fast            -> 1
+[info] is              -> 2
+[info] makes           -> 1
+[info] powerful        -> 1
+[info] processing      -> 1
+[info] scala           -> 1
+[info] spark           -> 4
+[info] with            -> 1
+[info] works           -> 1
+[info] ------------------------------------------------------------
+[info] 6. REMOVE PUNCTUATION
+[info] ------------------------------------------------------------
+[info] Cleaned words: spark, is, powerful, spark, is, fast, scala, spark, and, hadoop, data, processing, is, important
+[info] ------------------------------------------------------------
+[info] 7. COMPLETE CLEAN WORD COUNT
+[info] ------------------------------------------------------------
+[info] Clean word counts:
+[info] and             -> 1
+[info] data            -> 1
+[info] fast            -> 1
+[info] hadoop          -> 1
+[info] important       -> 1
+[info] is              -> 3
+[info] powerful        -> 1
+[info] processing      -> 1
+[info] scala           -> 1
+[info] spark           -> 3
+[info] ------------------------------------------------------------
+[info] 8. LOAD APPLICATION LOG
+[info] ------------------------------------------------------------
+[info] Log lines: 15
+[info] ------------------------------------------------------------
+[info] 9. CLEAN APPLICATION LOG WORDS
+[info] ------------------------------------------------------------
+[info] Number of words: 90
+[info] First words: 20260916, 090001, info, application, started, successfully, 20260916, 090112, info, user, login, successful, 20260916, 090215, error, database, connection, failed, 20260916, 090310
+[info] ------------------------------------------------------------
+[info] 10. LOG WORD COUNT
+[info] ------------------------------------------------------------
+[info] Log word counts:
+[info] 090001               -> 1
+[info] 090112               -> 1
+[info] 090215               -> 1
+[info] 090310               -> 1
+[info] 090422               -> 1
+[info] 090530               -> 1
+[info] 090611               -> 1
+[info] 090745               -> 1
+[info] 090812               -> 1
+[info] 090933               -> 1
+[info] 091001               -> 1
+[info] 091145               -> 1
+[info] 091220               -> 1
+[info] 091355               -> 1
+[info] 091410               -> 1
+[info] 20260916             -> 15
+[info] application          -> 1
+[info] authentication       -> 1
+[info] connection           -> 3
+[info] cpu                  -> 1
+[info] database             -> 3
+[info] detected             -> 1
+[info] error                -> 5
+[info] failed               -> 3
+[info] healthy              -> 1
+[info] high                 -> 2
+[info] info                 -> 8
+[info] login                -> 1
+[info] logout               -> 1
+[info] memory               -> 1
+[info] payment              -> 3
+[info] processed            -> 1
+[info] request              -> 1
+[info] restarted            -> 1
+[info] retry                -> 2
+[info] retrying             -> 1
+[info] service              -> 3
+[info] started              -> 2
+[info] successful           -> 2
+[info] successfully         -> 3
+[info] system               -> 1
+[info] timeout              -> 1
+[info] unavailable          -> 1
+[info] usage                -> 2
+[info] user                 -> 2
+[info] warn                 -> 2
+[info] ------------------------------------------------------------
+[info] 11. TOP 10 MOST FREQUENT WORDS
+[info] ------------------------------------------------------------
+[info] Top 10 most frequent words:
+[info]  1. 20260916             -> 15
+[info]  2. info                 -> 8
+[info]  3. error                -> 5
+[info]  4. connection           -> 3
+[info]  5. payment              -> 3
+[info]  6. failed               -> 3
+[info]  7. database             -> 3
+[info]  8. service              -> 3
+[info]  9. successfully         -> 3
+[info] 10. retry                -> 2
+[info] ------------------------------------------------------------
+[info] 12. WORD COUNT PIPELINE
+[info] ------------------------------------------------------------
+[info] STEP 1: flatMap
+[info] Convert each line into individual words.
+[info] STEP 2: map
+[info] Convert each word into (word, 1).
+[info] STEP 3: reduceByKey
+[info] Combine values belonging to the same word.
+[info] Pipeline:
+[info] Text -> flatMap -> words -> map -> (word, 1)
+[info]      -> reduceByKey -> (word, count)
+[info] ------------------------------------------------------------
+[info] 13. TRANSFORMATIONS AND ACTIONS
+[info] ------------------------------------------------------------
+[info] TRANSFORMATIONS:
+[info]   flatMap
+[info]   map
+[info]   filter
+[info]   reduceByKey
+[info]   sortByKey
+[info] ACTIONS:
+[info]   count
+[info]   collect
+[info]   first
+[info]   take
+[info] Transformations are lazy.
+[info] Actions trigger Spark execution.
+[info] ============================================================
+[info] DAY 6 SUMMARY
+[info] ============================================================
+[info] Log lines             : 15
+[info] Log words             : 90
+[info] Unique words          : 46
+[info] Word Count Pipeline   : flatMap -> map -> reduceByKey
+[info] Case insensitive      : YES
+[info] Punctuation removed   : YES
+[info] Empty words removed   : YES
+[info] Top 10 words          : Generated
+[info] ============================================================
+[info] DAY 6 COMPLETE
+[info] ============================================================
+[success] Total time: 6 s, completed Sep 16, 2026, 12:18:28 PM

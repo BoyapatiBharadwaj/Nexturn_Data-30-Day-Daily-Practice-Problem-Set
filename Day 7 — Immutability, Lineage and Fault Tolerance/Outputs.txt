@@ -1,0 +1,212 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day7-lineage-fault-tolerance$ sbt "run 2"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day7-lineage-fault-tolerance/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day7-lineage-fault-tolerance (in build file:/home/babblu/spark-day7-lineage-fault-tolerance/)
+[info] running (fork) Day7LineageFaultToleranceApp 2
+[info] ============================================================
+[info] DAY 7 - IMMUTABILITY, LINEAGE AND FAULT TOLERANCE
+[info] ============================================================
+[info] Spark Master        : local[2]
+[info] Default Parallelism : 2
+[info] Serializer          : org.apache.spark.serializer.JavaSerializer
+[info] ------------------------------------------------------------
+[info] 1. CREATE BASE RDD
+[info] ------------------------------------------------------------
+[info] Original data: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+[info] Partitions: 2
+[info] ------------------------------------------------------------
+[info] 2. MULTI-STEP TRANSFORMATION CHAIN
+[info] ------------------------------------------------------------
+[info] Transformation chain:
+[info] numberRDD
+[info]     |
+[info]     +-- filter(even numbers)
+[info]     |
+[info]     +-- map(x * 10)
+[info]     |
+[info]     +-- filter(x > 20)
+[info]     |
+[info]     v
+[info] finalRDD
+[info] ------------------------------------------------------------
+[info] 3. EXECUTE TRANSFORMATION CHAIN
+[info] ------------------------------------------------------------
+[info] Final result: 40, 60, 80, 100
+[info] ------------------------------------------------------------
+[info] 4. RDD IMMUTABILITY
+[info] ------------------------------------------------------------
+[info] Original RDD:
+[info] 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+[info] After filter:
+[info] 2, 4, 6, 8, 10
+[info] After map:
+[info] 20, 40, 60, 80, 100
+[info] After second filter:
+[info] 40, 60, 80, 100
+[info] The original RDD is unchanged.
+[info] Every transformation creates a new RDD.
+[info] ------------------------------------------------------------
+[info] 5. IMMUTABILITY DEMONSTRATION
+[info] ------------------------------------------------------------
+[info] Original RDD : 10, 20, 30, 40, 50
+[info] Filtered RDD : 30, 40, 50
+[info] Doubled RDD  : 20, 40, 60, 80, 100
+[info] Both transformations started from the same original RDD.
+[info] The original RDD was not modified.
+[info] ------------------------------------------------------------
+[info] 6. RDD LINEAGE
+[info] ------------------------------------------------------------
+[info] Lineage of finalRDD:
+[info] (2) MapPartitionsRDD[3] at filter at Day7LineageFaultToleranceApp.scala:105 []
+[info]  |  MapPartitionsRDD[2] at map at Day7LineageFaultToleranceApp.scala:99 []
+[info]  |  MapPartitionsRDD[1] at filter at Day7LineageFaultToleranceApp.scala:95 []
+[info]  |  ParallelCollectionRDD[0] at parallelize at Day7LineageFaultToleranceApp.scala:70 []
+[info] ------------------------------------------------------------
+[info] 7. LINEAGE DIAGRAM
+[info] ------------------------------------------------------------
+[info] numberRDD
+[info]  filter(x => x % 2 == 0)
+[info]     v
+[info] filteredRDD
+[info]  map(x => x * 10)
+[info]     v
+[info] mappedRDD
+[info]  filter(x => x > 20)
+[info]     v
+[info] finalRDD
+[info]  collect()
+[info]     v
+[info] RESULT
+[info] ------------------------------------------------------------
+[info] 8. WHAT IS LINEAGE?
+[info] ------------------------------------------------------------
+[info] Lineage is the record of transformations used to create an RDD.
+[info] Spark uses lineage to recompute lost partitions.
+[info] Lineage allows Spark to recover data without requiring
+[info] every intermediate RDD to be permanently stored.
+[info] ------------------------------------------------------------
+[info] 9. CUSTOMER DATASET
+[info] ------------------------------------------------------------
+[info] Customer records:
+[info] 101,Alice,85
+[info] 102,Bob,72
+[info] 103,Charlie,91
+[info] 104,David,45
+[info] 105,Emma,88
+[info] 106,Frank,67
+[info] 107,Grace,95
+[info] 108,Helen,53
+[info] 109,Ian,78
+[info] 110,Jack,92
+[info] ------------------------------------------------------------
+[info] 10. CUSTOMER TRANSFORMATION CHAIN
+[info] ------------------------------------------------------------
+[info] Passing customer/student names:
+[info] Alice
+[info] Bob
+[info] Charlie
+[info] Emma
+[info] Frank
+[info] Grace
+[info] Helen
+[info] Ian
+[info] Jack
+[info] ------------------------------------------------------------
+[info] 11. CUSTOMER LINEAGE
+[info] ------------------------------------------------------------
+[info] Customer transformation lineage:
+[info] customerRDD
+[info]  filter(non-empty)
+[info]     v
+[info] clean customer records
+[info]  map(parse CSV)
+[info]     v
+[info] parsedCustomers
+[info]  filter(mark >= 50)
+[info]     v
+[info] passingCustomers
+[info]  map(extract name)
+[info]     v
+[info] customerNames
+[info] Spark stores this transformation relationship as lineage.
+[info] ------------------------------------------------------------
+[info] 12. PARTITION INFORMATION
+[info] ------------------------------------------------------------
+[info] Number RDD partitions     : 2
+[info] Customer RDD partitions  : 2
+[info] Final RDD partitions     : 2
+[info] ------------------------------------------------------------
+[info] 13. CONCEPTUAL EXECUTOR LOSS
+[info] ------------------------------------------------------------
+[info] Imagine the following situation:
+[info] Executor 1 contains Partition 0.
+[info] Executor 2 contains Partition 1.
+[info] Suppose Executor 1 fails.
+[info] Partition 0 is lost from Executor 1.
+[info] Spark does NOT need to recompute the entire RDD.
+[info] Spark uses lineage to recompute the lost Partition 0.
+[info] Conceptually:
+[info] Original RDD
+[info]    +---- Partition 0 ---- Executor 1  X LOST
+[info]    +---- Partition 1 ---- Executor 2  OK
+[info]                  v
+[info] Spark checks lineage
+[info]                  v
+[info] Recompute Partition 0
+[info]                  v
+[info] New executor processes Partition 0
+[info] ------------------------------------------------------------
+[info] 14. WHAT DOES SPARK RECOMPUTE?
+[info] ------------------------------------------------------------
+[info] Spark recomputes the lost partition.
+[info] It starts from the required parent partition.
+[info] It re-executes the transformations needed to recreate it.
+[info] Example lineage:
+[info] numberRDD
+[info]     -> filter
+[info]     -> map
+[info]     -> filter
+[info]     -> finalRDD
+[info] If a finalRDD partition is lost,
+[info] Spark can recompute the necessary parent partition
+[info] through the transformation lineage.
+[info] ------------------------------------------------------------
+[info] 15. FAULT TOLERANCE
+[info] ------------------------------------------------------------
+[info] RDD fault tolerance is based on lineage.
+[info] If a partition is lost:
+[info] 1. Spark detects the missing partition.
+[info] 2. Spark examines the RDD lineage.
+[info] 3. Spark identifies the required parent partition.
+[info] 4. Spark re-executes the necessary transformations.
+[info] 5. The lost partition is recreated.
+[info] ------------------------------------------------------------
+[info] 16. CORE CONCEPT CONNECTION
+[info] ------------------------------------------------------------
+[info] RDD IMMUTABILITY:
+[info] Transformations never modify an existing RDD.
+[info] LINEAGE:
+[info] Spark remembers how each RDD was derived.
+[info] FAULT TOLERANCE:
+[info] Spark uses lineage to recompute lost partitions.
+[info] Therefore:
+[info] IMMUTABILITY -> LINEAGE -> RECOVERY
+[info] ============================================================
+[info] DAY 7 SUMMARY
+[info] ============================================================
+[info] RDDs are immutable.
+[info] Transformations create new RDDs.
+[info] Lineage records the transformation chain.
+[info] Spark uses lineage for fault recovery.
+[info] Only required lost partitions need to be recomputed.
+[info] Main lineage:
+[info] numberRDD
+[info]    -> filter
+[info]    -> map
+[info]    -> filter
+[info]    -> finalRDD
+[info] ============================================================
+[info] DAY 7 COMPLETE
+[info] ============================================================
+[success] Total time: 5 s, completed Sep 16, 2026, 12:25:16 PM

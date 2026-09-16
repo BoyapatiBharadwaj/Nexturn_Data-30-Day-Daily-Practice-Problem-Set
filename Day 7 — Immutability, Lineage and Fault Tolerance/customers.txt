@@ -1,0 +1,10 @@
+101,Alice,85
+102,Bob,72
+103,Charlie,91
+104,David,45
+105,Emma,88
+106,Frank,67
+107,Grace,95
+108,Helen,53
+109,Ian,78
+110,Jack,92

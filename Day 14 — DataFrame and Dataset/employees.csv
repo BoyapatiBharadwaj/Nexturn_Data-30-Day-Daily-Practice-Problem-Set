@@ -1,0 +1,16 @@
+employee_id,name,department,designation,base_salary,bonus,working_days
+E001,Rahul,Engineering,Software Engineer,65000,8000,26
+E002,Priya,Engineering,Senior Software Engineer,85000,12000,25
+E003,Arjun,Data,Data Engineer,78000,10000,26
+E004,Sneha,HR,HR Executive,55000,6000,24
+E005,Vikram,Finance,Financial Analyst,72000,9000,25
+E006,Ananya,Engineering,Software Engineer,68000,7500,26
+E007,Rohit,Data,Data Scientist,95000,15000,26
+E008,Kavya,HR,HR Manager,90000,13000,25
+E009,Aditya,Finance,Accountant,58000,5000,24
+E010,Meera,Engineering,Tech Lead,110000,20000,26
+E011,Kiran,Data,ML Engineer,105000,18000,26
+E012,Pooja,Finance,Finance Manager,98000,14000,25
+E013,Manoj,Engineering,Software Engineer,62000,7000,23
+E014,Divya,HR,Recruiter,60000,6500,26
+E015,Sanjay,Data,Data Analyst,70000,8500,24

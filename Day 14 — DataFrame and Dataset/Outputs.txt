@@ -1,0 +1,458 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day14-dataset$ sbt "run"
+[info] Updated file /home/babblu/spark-day14-dataset/project/build.properties: set sbt.version to 1.12.15
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day14-dataset/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day14-dataset (in build file:/home/babblu/spark-day14-dataset/)
+[info] compiling 1 Scala source to /home/babblu/spark-day14-dataset/target/scala-2.12/classes ...
+[info] running (fork) Day14DatasetApp
+[info] ============================================================
+[info] DAY 14 - DATAFRAME AND DATASET
+[info] ============================================================
+[info] Spark Master       : local[4]
+[info] Default Parallelism: 4
+[info] ============================================================
+[info] 2. READ EMPLOYEE CSV AS DATAFRAME
+[info] ------------------------------------------------------------
+[info] +-----------+------+-----------+------------------------+-----------+-----+------------+
+[info] |employee_id|name  |department |designation             |base_salary|bonus|working_days|
+[info] +-----------+------+-----------+------------------------+-----------+-----+------------+
+[info] |E001       |Rahul |Engineering|Software Engineer       |65000      |8000 |26          |
+[info] |E002       |Priya |Engineering|Senior Software Engineer|85000      |12000|25          |
+[info] |E003       |Arjun |Data       |Data Engineer           |78000      |10000|26          |
+[info] |E004       |Sneha |HR         |HR Executive            |55000      |6000 |24          |
+[info] |E005       |Vikram|Finance    |Financial Analyst       |72000      |9000 |25          |
+[info] |E006       |Ananya|Engineering|Software Engineer       |68000      |7500 |26          |
+[info] |E007       |Rohit |Data       |Data Scientist          |95000      |15000|26          |
+[info] |E008       |Kavya |HR         |HR Manager              |90000      |13000|25          |
+[info] |E009       |Aditya|Finance    |Accountant              |58000      |5000 |24          |
+[info] |E010       |Meera |Engineering|Tech Lead               |110000     |20000|26          |
+[info] |E011       |Kiran |Data       |ML Engineer             |105000     |18000|26          |
+[info] |E012       |Pooja |Finance    |Finance Manager         |98000      |14000|25          |
+[info] |E013       |Manoj |Engineering|Software Engineer       |62000      |7000 |23          |
+[info] |E014       |Divya |HR         |Recruiter               |60000      |6500 |26          |
+[info] |E015       |Sanjay|Data       |Data Analyst            |70000      |8500 |24          |
+[info] +-----------+------+-----------+------------------------+-----------+-----+------------+
+[info] 3. DATAFRAME SCHEMA
+[info] ------------------------------------------------------------
+[info] root
+[info]  |-- employee_id: string (nullable = true)
+[info]  |-- name: string (nullable = true)
+[info]  |-- department: string (nullable = true)
+[info]  |-- designation: string (nullable = true)
+[info]  |-- base_salary: integer (nullable = true)
+[info]  |-- bonus: integer (nullable = true)
+[info]  |-- working_days: integer (nullable = true)
+[info] 4. DATAFRAME OPERATIONS
+[info] ------------------------------------------------------------
+[info] Engineering employees:
+[info] +-----------+------+------------------------+-----------+
+[info] |employee_id|name  |designation             |base_salary|
+[info] +-----------+------+------------------------+-----------+
+[info] |E001       |Rahul |Software Engineer       |65000      |
+[info] |E002       |Priya |Senior Software Engineer|85000      |
+[info] |E006       |Ananya|Software Engineer       |68000      |
+[info] |E010       |Meera |Tech Lead               |110000     |
+[info] |E013       |Manoj |Software Engineer       |62000      |
+[info] +-----------+------+------------------------+-----------+
+[info] 5. DATAFRAME -> DATASET
+[info] ------------------------------------------------------------
+[info] DataFrame successfully converted to Dataset[Employee].
+[info] +-----------+------+-----------+------------------------+-----------+-----+------------+
+[info] |employee_id|name  |department |designation             |base_salary|bonus|working_days|
+[info] +-----------+------+-----------+------------------------+-----------+-----+------------+
+[info] |E001       |Rahul |Engineering|Software Engineer       |65000      |8000 |26          |
+[info] |E002       |Priya |Engineering|Senior Software Engineer|85000      |12000|25          |
+[info] |E003       |Arjun |Data       |Data Engineer           |78000      |10000|26          |
+[info] |E004       |Sneha |HR         |HR Executive            |55000      |6000 |24          |
+[info] |E005       |Vikram|Finance    |Financial Analyst       |72000      |9000 |25          |
+[info] |E006       |Ananya|Engineering|Software Engineer       |68000      |7500 |26          |
+[info] |E007       |Rohit |Data       |Data Scientist          |95000      |15000|26          |
+[info] |E008       |Kavya |HR         |HR Manager              |90000      |13000|25          |
+[info] |E009       |Aditya|Finance    |Accountant              |58000      |5000 |24          |
+[info] |E010       |Meera |Engineering|Tech Lead               |110000     |20000|26          |
+[info] |E011       |Kiran |Data       |ML Engineer             |105000     |18000|26          |
+[info] |E012       |Pooja |Finance    |Finance Manager         |98000      |14000|25          |
+[info] |E013       |Manoj |Engineering|Software Engineer       |62000      |7000 |23          |
+[info] |E014       |Divya |HR         |Recruiter               |60000      |6500 |26          |
+[info] |E015       |Sanjay|Data       |Data Analyst            |70000      |8500 |24          |
+[info] +-----------+------+-----------+------------------------+-----------+-----+------------+
+[info] 6. DATASET TYPE INFORMATION
+[info] ------------------------------------------------------------
+[info] Dataset type = org.apache.spark.sql.Dataset
+[info] Logical type = Dataset[Employee]
+[info] 7. TYPED DATASET FILTER
+[info] ------------------------------------------------------------
+[info] +-----------+-----+-----------+------------------------+-----------+-----+------------+
+[info] |employee_id|name |department |designation             |base_salary|bonus|working_days|
+[info] +-----------+-----+-----------+------------------------+-----------+-----+------------+
+[info] |E002       |Priya|Engineering|Senior Software Engineer|85000      |12000|25          |
+[info] |E007       |Rohit|Data       |Data Scientist          |95000      |15000|26          |
+[info] |E008       |Kavya|HR         |HR Manager              |90000      |13000|25          |
+[info] |E010       |Meera|Engineering|Tech Lead               |110000     |20000|26          |
+[info] |E011       |Kiran|Data       |ML Engineer             |105000     |18000|26          |
+[info] |E012       |Pooja|Finance    |Finance Manager         |98000      |14000|25          |
+[info] +-----------+-----+-----------+------------------------+-----------+-----+------------+
+[info] 8. TYPED DATASET MAP
+[info] ------------------------------------------------------------
+[info] +----+------+--------+
+[info] |_1  |_2    |_3      |
+[info] +----+------+--------+
+[info] |E001|Rahul |73000.0 |
+[info] |E002|Priya |97000.0 |
+[info] |E003|Arjun |88000.0 |
+[info] |E004|Sneha |61000.0 |
+[info] |E005|Vikram|81000.0 |
+[info] |E006|Ananya|75500.0 |
+[info] |E007|Rohit |110000.0|
+[info] |E008|Kavya |103000.0|
+[info] |E009|Aditya|63000.0 |
+[info] |E010|Meera |130000.0|
+[info] |E011|Kiran |123000.0|
+[info] |E012|Pooja |112000.0|
+[info] |E013|Manoj |69000.0 |
+[info] |E014|Divya |66500.0 |
+[info] |E015|Sanjay|78500.0 |
+[info] +----+------+--------+
+[info] 9. CREATE TYPED PAYROLL DATASET
+[info] ------------------------------------------------------------
+[info] +-----------+------+-----------+------------------------+-----------+-------+------------+------------+-------+----------+
+[info] |employee_id|name  |department |designation             |base_salary|bonus  |working_days|gross_salary|tax    |net_salary|
+[info] +-----------+------+-----------+------------------------+-----------+-------+------------+------------+-------+----------+
+[info] |E001       |Rahul |Engineering|Software Engineer       |65000.0    |8000.0 |26          |73000.0     |7300.0 |65700.0   |
+[info] |E002       |Priya |Engineering|Senior Software Engineer|85000.0    |12000.0|25          |97000.0     |9700.0 |87300.0   |
+[info] |E003       |Arjun |Data       |Data Engineer           |78000.0    |10000.0|26          |88000.0     |8800.0 |79200.0   |
+[info] |E004       |Sneha |HR         |HR Executive            |55000.0    |6000.0 |24          |61000.0     |6100.0 |54900.0   |
+[info] |E005       |Vikram|Finance    |Financial Analyst       |72000.0    |9000.0 |25          |81000.0     |8100.0 |72900.0   |
+[info] |E006       |Ananya|Engineering|Software Engineer       |68000.0    |7500.0 |26          |75500.0     |7550.0 |67950.0   |
+[info] |E007       |Rohit |Data       |Data Scientist          |95000.0    |15000.0|26          |110000.0    |11000.0|99000.0   |
+[info] |E008       |Kavya |HR         |HR Manager              |90000.0    |13000.0|25          |103000.0    |10300.0|92700.0   |
+[info] |E009       |Aditya|Finance    |Accountant              |58000.0    |5000.0 |24          |63000.0     |6300.0 |56700.0   |
+[info] |E010       |Meera |Engineering|Tech Lead               |110000.0   |20000.0|26          |130000.0    |13000.0|117000.0  |
+[info] |E011       |Kiran |Data       |ML Engineer             |105000.0   |18000.0|26          |123000.0    |12300.0|110700.0  |
+[info] |E012       |Pooja |Finance    |Finance Manager         |98000.0    |14000.0|25          |112000.0    |11200.0|100800.0  |
+[info] |E013       |Manoj |Engineering|Software Engineer       |62000.0    |7000.0 |23          |69000.0     |6900.0 |62100.0   |
+[info] |E014       |Divya |HR         |Recruiter               |60000.0    |6500.0 |26          |66500.0     |6650.0 |59850.0   |
+[info] |E015       |Sanjay|Data       |Data Analyst            |70000.0    |8500.0 |24          |78500.0     |7850.0 |70650.0   |
+[info] +-----------+------+-----------+------------------------+-----------+-------+------------+------------+-------+----------+
+[info] 10. PAYROLL DATASET SCHEMA
+[info] ------------------------------------------------------------
+[info] root
+[info]  |-- employee_id: string (nullable = true)
+[info]  |-- name: string (nullable = true)
+[info]  |-- department: string (nullable = true)
+[info]  |-- designation: string (nullable = true)
+[info]  |-- base_salary: double (nullable = false)
+[info]  |-- bonus: double (nullable = false)
+[info]  |-- working_days: integer (nullable = false)
+[info]  |-- gross_salary: double (nullable = false)
+[info]  |-- tax: double (nullable = false)
+[info]  |-- net_salary: double (nullable = false)
+[info] 11. HIGH NET-SALARY EMPLOYEES
+[info] ------------------------------------------------------------
+[info] +-----------+-----+-----------+---------------+-----------+-------+------------+------------+-------+----------+
+[info] |employee_id|name |department |designation    |base_salary|bonus  |working_days|gross_salary|tax    |net_salary|
+[info] +-----------+-----+-----------+---------------+-----------+-------+------------+------------+-------+----------+
+[info] |E007       |Rohit|Data       |Data Scientist |95000.0    |15000.0|26          |110000.0    |11000.0|99000.0   |
+[info] |E008       |Kavya|HR         |HR Manager     |90000.0    |13000.0|25          |103000.0    |10300.0|92700.0   |
+[info] |E010       |Meera|Engineering|Tech Lead      |110000.0   |20000.0|26          |130000.0    |13000.0|117000.0  |
+[info] |E011       |Kiran|Data       |ML Engineer    |105000.0   |18000.0|26          |123000.0    |12300.0|110700.0  |
+[info] |E012       |Pooja|Finance    |Finance Manager|98000.0    |14000.0|25          |112000.0    |11200.0|100800.0  |
+[info] +-----------+-----+-----------+---------------+-----------+-------+------------+------------+-------+----------+
+[info] 12. DATASET -> DATAFRAME
+[info] ------------------------------------------------------------
+[info] +-----------+------+-----------+------------------------+-----------+-------+------------+------------+-------+----------+
+[info] |employee_id|name  |department |designation             |base_salary|bonus  |working_days|gross_salary|tax    |net_salary|
+[info] +-----------+------+-----------+------------------------+-----------+-------+------------+------------+-------+----------+
+[info] |E001       |Rahul |Engineering|Software Engineer       |65000.0    |8000.0 |26          |73000.0     |7300.0 |65700.0   |
+[info] |E002       |Priya |Engineering|Senior Software Engineer|85000.0    |12000.0|25          |97000.0     |9700.0 |87300.0   |
+[info] |E003       |Arjun |Data       |Data Engineer           |78000.0    |10000.0|26          |88000.0     |8800.0 |79200.0   |
+[info] |E004       |Sneha |HR         |HR Executive            |55000.0    |6000.0 |24          |61000.0     |6100.0 |54900.0   |
+[info] |E005       |Vikram|Finance    |Financial Analyst       |72000.0    |9000.0 |25          |81000.0     |8100.0 |72900.0   |
+[info] |E006       |Ananya|Engineering|Software Engineer       |68000.0    |7500.0 |26          |75500.0     |7550.0 |67950.0   |
+[info] |E007       |Rohit |Data       |Data Scientist          |95000.0    |15000.0|26          |110000.0    |11000.0|99000.0   |
+[info] |E008       |Kavya |HR         |HR Manager              |90000.0    |13000.0|25          |103000.0    |10300.0|92700.0   |
+[info] |E009       |Aditya|Finance    |Accountant              |58000.0    |5000.0 |24          |63000.0     |6300.0 |56700.0   |
+[info] |E010       |Meera |Engineering|Tech Lead               |110000.0   |20000.0|26          |130000.0    |13000.0|117000.0  |
+[info] |E011       |Kiran |Data       |ML Engineer             |105000.0   |18000.0|26          |123000.0    |12300.0|110700.0  |
+[info] |E012       |Pooja |Finance    |Finance Manager         |98000.0    |14000.0|25          |112000.0    |11200.0|100800.0  |
+[info] |E013       |Manoj |Engineering|Software Engineer       |62000.0    |7000.0 |23          |69000.0     |6900.0 |62100.0   |
+[info] |E014       |Divya |HR         |Recruiter               |60000.0    |6500.0 |26          |66500.0     |6650.0 |59850.0   |
+[info] |E015       |Sanjay|Data       |Data Analyst            |70000.0    |8500.0 |24          |78500.0     |7850.0 |70650.0   |
+[info] +-----------+------+-----------+------------------------+-----------+-------+------------+------------+-------+----------+
+[info] root
+[info]  |-- employee_id: string (nullable = true)
+[info]  |-- name: string (nullable = true)
+[info]  |-- department: string (nullable = true)
+[info]  |-- designation: string (nullable = true)
+[info]  |-- base_salary: double (nullable = false)
+[info]  |-- bonus: double (nullable = false)
+[info]  |-- working_days: integer (nullable = false)
+[info]  |-- gross_salary: double (nullable = false)
+[info]  |-- tax: double (nullable = false)
+[info]  |-- net_salary: double (nullable = false)
+[info] 13. PAYROLL DATAFRAME OPERATIONS
+[info] ------------------------------------------------------------
+[info] +-----------+------+-----------+------------+-------+----------+
+[info] |employee_id|name  |department |gross_salary|tax    |net_salary|
+[info] +-----------+------+-----------+------------+-------+----------+
+[info] |E001       |Rahul |Engineering|73000.0     |7300.0 |65700.0   |
+[info] |E002       |Priya |Engineering|97000.0     |9700.0 |87300.0   |
+[info] |E003       |Arjun |Data       |88000.0     |8800.0 |79200.0   |
+[info] |E004       |Sneha |HR         |61000.0     |6100.0 |54900.0   |
+[info] |E005       |Vikram|Finance    |81000.0     |8100.0 |72900.0   |
+[info] |E006       |Ananya|Engineering|75500.0     |7550.0 |67950.0   |
+[info] |E007       |Rohit |Data       |110000.0    |11000.0|99000.0   |
+[info] |E008       |Kavya |HR         |103000.0    |10300.0|92700.0   |
+[info] |E009       |Aditya|Finance    |63000.0     |6300.0 |56700.0   |
+[info] |E010       |Meera |Engineering|130000.0    |13000.0|117000.0  |
+[info] |E011       |Kiran |Data       |123000.0    |12300.0|110700.0  |
+[info] |E012       |Pooja |Finance    |112000.0    |11200.0|100800.0  |
+[info] |E013       |Manoj |Engineering|69000.0     |6900.0 |62100.0   |
+[info] |E014       |Divya |HR         |66500.0     |6650.0 |59850.0   |
+[info] |E015       |Sanjay|Data       |78500.0     |7850.0 |70650.0   |
+[info] +-----------+------+-----------+------------+-------+----------+
+[info] 14. PAYROLL SORTED BY NET SALARY
+[info] ------------------------------------------------------------
+[info] +-----------+------+-----------+------------------------+-----------+-------+------------+------------+-------+----------+
+[info] |employee_id|name  |department |designation             |base_salary|bonus  |working_days|gross_salary|tax    |net_salary|
+[info] +-----------+------+-----------+------------------------+-----------+-------+------------+------------+-------+----------+
+[info] |E010       |Meera |Engineering|Tech Lead               |110000.0   |20000.0|26          |130000.0    |13000.0|117000.0  |
+[info] |E011       |Kiran |Data       |ML Engineer             |105000.0   |18000.0|26          |123000.0    |12300.0|110700.0  |
+[info] |E012       |Pooja |Finance    |Finance Manager         |98000.0    |14000.0|25          |112000.0    |11200.0|100800.0  |
+[info] |E007       |Rohit |Data       |Data Scientist          |95000.0    |15000.0|26          |110000.0    |11000.0|99000.0   |
+[info] |E008       |Kavya |HR         |HR Manager              |90000.0    |13000.0|25          |103000.0    |10300.0|92700.0   |
+[info] |E002       |Priya |Engineering|Senior Software Engineer|85000.0    |12000.0|25          |97000.0     |9700.0 |87300.0   |
+[info] |E003       |Arjun |Data       |Data Engineer           |78000.0    |10000.0|26          |88000.0     |8800.0 |79200.0   |
+[info] |E005       |Vikram|Finance    |Financial Analyst       |72000.0    |9000.0 |25          |81000.0     |8100.0 |72900.0   |
+[info] |E015       |Sanjay|Data       |Data Analyst            |70000.0    |8500.0 |24          |78500.0     |7850.0 |70650.0   |
+[info] |E006       |Ananya|Engineering|Software Engineer       |68000.0    |7500.0 |26          |75500.0     |7550.0 |67950.0   |
+[info] |E001       |Rahul |Engineering|Software Engineer       |65000.0    |8000.0 |26          |73000.0     |7300.0 |65700.0   |
+[info] |E013       |Manoj |Engineering|Software Engineer       |62000.0    |7000.0 |23          |69000.0     |6900.0 |62100.0   |
+[info] |E014       |Divya |HR         |Recruiter               |60000.0    |6500.0 |26          |66500.0     |6650.0 |59850.0   |
+[info] |E009       |Aditya|Finance    |Accountant              |58000.0    |5000.0 |24          |63000.0     |6300.0 |56700.0   |
+[info] |E004       |Sneha |HR         |HR Executive            |55000.0    |6000.0 |24          |61000.0     |6100.0 |54900.0   |
+[info] +-----------+------+-----------+------------------------+-----------+-------+------------+------------+-------+----------+
+[info] 15. DEPARTMENT PAYROLL ANALYSIS
+[info] ------------------------------------------------------------
+[info] +-----------+--------------+------------------+--------------------+----------------+
+[info] |department |employee_count|total_gross_salary|average_gross_salary|total_net_salary|
+[info] +-----------+--------------+------------------+--------------------+----------------+
+[info] |Engineering|5             |444500.0          |88900.0             |400050.0        |
+[info] |Data       |4             |399500.0          |99875.0             |359550.0        |
+[info] |Finance    |3             |256000.0          |85333.33            |230400.0        |
+[info] |HR         |3             |230500.0          |76833.33            |207450.0        |
+[info] +-----------+--------------+------------------+--------------------+----------------+
+[info] 16. TYPED PAYROLL ANALYSIS
+[info] ------------------------------------------------------------
+[info] +----+------+--------+
+[info] |_1  |_2    |_3      |
+[info] +----+------+--------+
+[info] |E001|Rahul |65700.0 |
+[info] |E002|Priya |87300.0 |
+[info] |E006|Ananya|67950.0 |
+[info] |E010|Meera |117000.0|
+[info] |E013|Manoj |62100.0 |
+[info] +----+------+--------+
+[info] 17. DATASET -> DATAFRAME -> SQL
+[info] ------------------------------------------------------------
+[info] +-----------+-----+-----------+------------------------+------------+-------+----------+
+[info] |employee_id|name |department |designation             |gross_salary|tax    |net_salary|
+[info] +-----------+-----+-----------+------------------------+------------+-------+----------+
+[info] |E010       |Meera|Engineering|Tech Lead               |130000.0    |13000.0|117000.0  |
+[info] |E011       |Kiran|Data       |ML Engineer             |123000.0    |12300.0|110700.0  |
+[info] |E012       |Pooja|Finance    |Finance Manager         |112000.0    |11200.0|100800.0  |
+[info] |E007       |Rohit|Data       |Data Scientist          |110000.0    |11000.0|99000.0   |
+[info] |E008       |Kavya|HR         |HR Manager              |103000.0    |10300.0|92700.0   |
+[info] |E002       |Priya|Engineering|Senior Software Engineer|97000.0     |9700.0 |87300.0   |
+[info] +-----------+-----+-----------+------------------------+------------+-------+----------+
+[info] 18. TOTAL PAYROLL
+[info] ------------------------------------------------------------
+[info] +-------------------+---------+-----------------+
+[info] |total_gross_payroll|total_tax|total_net_payroll|
+[info] +-------------------+---------+-----------------+
+[info] |1330500.0          |133050.0 |1197450.0        |
+[info] +-------------------+---------+-----------------+
+[info] 19. EMPLOYEE PAYROLL SCENARIO
+[info] ------------------------------------------------------------
+[info] Business Scenario:
+[info] A company has employee information.
+[info] Input:
+[info]     Employee CSV
+[info] Step 1:
+[info]     Read CSV as DataFrame
+[info] Step 2:
+[info]     Convert DataFrame to Dataset[Employee]
+[info] Step 3:
+[info]     Perform typed transformations
+[info] Step 4:
+[info]     Calculate:
+[info]         Gross Salary
+[info]         Tax
+[info]         Net Salary
+[info] Step 5:
+[info]     Store result as Dataset[EmployeePayroll]
+[info] Step 6:
+[info]     Convert Dataset to DataFrame
+[info] Step 7:
+[info]     Perform analytical queries
+[info] Step 8:
+[info]     Use Spark SQL for reporting
+[info] Pipeline:
+[info] employees.csv
+[info]      |
+[info]      v
+[info] DataFrame
+[info]      |
+[info]      | .as[Employee]
+[info]      v
+[info] Dataset[Employee]
+[info]      |
+[info]      | typed map/filter
+[info]      v
+[info] Dataset[EmployeePayroll]
+[info]      |
+[info]      | .toDF()
+[info]      v
+[info] DataFrame
+[info]      |
+[info]      +--------+---------+
+[info]      |        |         |
+[info]    SQL     groupBy    orderBy
+[info]      |        |         |
+[info]      +--------+---------+
+[info]               |
+[info]               v
+[info]        Payroll Report
+[info] 20. RDD vs DATAFRAME vs DATASET
+[info] ------------------------------------------------------------
+[info] RDD
+[info] ---
+[info] Low-level distributed collection.
+[info] Example:
+[info]     RDD[Employee]
+[info] Advantages:
+[info]     - Fine-grained control
+[info]     - Flexible object processing
+[info] Disadvantages:
+[info]     - Less structured
+[info]     - Less optimization compared with DataFrame/Dataset APIs
+[info] DataFrame
+[info] ---------
+[info] Distributed data organized into named columns.
+[info] Conceptually:
+[info]     Dataset[Row]
+[info] Advantages:
+[info]     - Schema
+[info]     - SQL support
+[info]     - Catalyst optimization
+[info]     - Easy analytical operations
+[info] Disadvantages:
+[info]     - Columns are accessed more generically
+[info]     - Less compile-time type safety than Dataset
+[info] Dataset
+[info] -------
+[info] Strongly typed distributed collection.
+[info] Example:
+[info]     Dataset[Employee]
+[info] Advantages:
+[info]     - Compile-time type safety
+[info]     - Case classes
+[info]     - Functional transformations
+[info]     - Catalyst optimization
+[info]     - Encoder support
+[info] Disadvantages:
+[info]     - Scala-specific typed API
+[info]     - Requires appropriate encoders
+[info] 21. TYPE SAFETY
+[info] ------------------------------------------------------------
+[info] DataFrame:
+[info] DataFrame
+[info]     |
+[info]     v
+[info] Row
+[info]     |
+[info]     v
+[info] Column access
+[info] Example:
+[info]     row.getAs[Double]("base_salary")
+[info] Dataset:
+[info] Dataset[Employee]
+[info]     |
+[info]     v
+[info] Employee
+[info]     |
+[info]     v
+[info] employee.base_salary
+[info] The compiler knows the expected Employee type.
+[info] This provides stronger compile-time type checking.
+[info] 22. CATALYST OPTIMIZATION
+[info] ------------------------------------------------------------
+[info] Catalyst is Spark SQL's query optimization framework.
+[info] Typical flow:
+[info] DataFrame / Dataset operation
+[info]             |
+[info]             v
+[info]       Logical Plan
+[info]             |
+[info]             v
+[info]    Catalyst Optimization
+[info]             |
+[info]             v
+[info]       Physical Plan
+[info]             |
+[info]             v
+[info]        Execution
+[info] Example:
+[info] payrollDF
+[info]   .filter(net_salary > 90000)
+[info]   .select(name, net_salary)
+[info] Spark can analyze the query plan and optimize execution.
+[info] 23. EXPLAIN QUERY PLAN
+[info] ------------------------------------------------------------
+[info] Physical execution plan:
+[info] == Physical Plan ==
+[info] *(1) Project [name#234, department#235, net_salary#242]
+[info] +- *(1) Filter (net_salary#242 > 90000.0)
+[info]    +- *(1) SerializeFromObject [staticinvoke(class org.apache.spark.unsafe.types.UTF8String, StringType, fromString, knownnotnull(assertnotnull(input[0, Day14DatasetApp$EmployeePayroll, true])).employee_id, true, false, true) AS employee_id#233, staticinvoke(class org.apache.spark.unsafe.types.UTF8String, StringType, fromString, knownnotnull(assertnotnull(input[0, Day14DatasetApp$EmployeePayroll, true])).name, true, false, true) AS name#234, staticinvoke(class org.apache.spark.unsafe.types.UTF8String, StringType, fromString, knownnotnull(assertnotnull(input[0, Day14DatasetApp$EmployeePayroll, true])).department, true, false, true) AS department#235, staticinvoke(class org.apache.spark.unsafe.types.UTF8String, StringType, fromString, knownnotnull(assertnotnull(input[0, Day14DatasetApp$EmployeePayroll, true])).designation, true, false, true) AS designation#236, knownnotnull(assertnotnull(input[0, Day14DatasetApp$EmployeePayroll, true])).base_salary AS base_salary#237, knownnotnull(assertnotnull(input[0, Day14DatasetApp$EmployeePayroll, true])).bonus AS bonus#238, knownnotnull(assertnotnull(input[0, Day14DatasetApp$EmployeePayroll, true])).working_days AS working_days#239, knownnotnull(assertnotnull(input[0, Day14DatasetApp$EmployeePayroll, true])).gross_salary AS gross_salary#240, knownnotnull(assertnotnull(input[0, Day14DatasetApp$EmployeePayroll, true])).tax AS tax#241, knownnotnull(assertnotnull(input[0, Day14DatasetApp$EmployeePayroll, true])).net_salary AS net_salary#242]
+[info]       +- *(1) MapElements Day14DatasetApp$$$Lambda$3170/0x00007c8138e89e68@281a54b, obj#232: Day14DatasetApp$EmployeePayroll
+[info]          +- *(1) DeserializeToObject newInstance(class Day14DatasetApp$Employee), obj#231: Day14DatasetApp$Employee
+[info]             +- FileScan csv [employee_id#17,name#18,department#19,designation#20,base_salary#21,bonus#22,working_days#23] Batched: false, DataFilters: [], Format: CSV, Location: InMemoryFileIndex(1 paths)[file:/home/babblu/spark-day14-dataset/data/employees.csv], PartitionFilters: [], PushedFilters: [], ReadSchema: struct<employee_id:string,name:string,department:string,designation:string,base_salary:int,bonus:...
+[info] 24. KEY DIFFERENCES
+[info] ------------------------------------------------------------
+[info] RDD:
+[info]     Low-level
+[info]     No automatic schema
+[info]     Compile-time type safety for Scala objects
+[info]     Less SQL optimization
+[info] DataFrame:
+[info]     Structured
+[info]     Schema
+[info]     Dataset[Row]
+[info]     Catalyst optimized
+[info]     Less compile-time field/type checking
+[info] Dataset:
+[info]     Structured
+[info]     Schema
+[info]     Strongly typed
+[info]     Catalyst optimized
+[info]     Case-class based
+[info] ============================================================
+[info] DAY 14 COMPLETED
+[info] ============================================================
+[info] Completed:
+[info] 1. Created Employee case class
+[info] 2. Created EmployeePayroll case class
+[info] 3. Read CSV as DataFrame
+[info] 4. Converted DataFrame -> Dataset[Employee]
+[info] 5. Used typed Dataset filter
+[info] 6. Used typed Dataset map
+[info] 7. Built typed payroll pipeline
+[info] 8. Converted Dataset -> DataFrame
+[info] 9. Performed DataFrame analytics
+[info] 10. Used Spark SQL
+[info] 11. Compared RDD/DataFrame/Dataset
+[info] 12. Explained type safety
+[info] 13. Explained Catalyst optimization
+[info] ============================================================
+[success] Total time: 19 s, completed Sep 17, 2026, 2:44:24 PM

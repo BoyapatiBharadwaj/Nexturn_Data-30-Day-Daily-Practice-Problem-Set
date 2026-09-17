@@ -1,0 +1,5 @@
+{"customer_id":"C016","name":"Aarav","age":29,"city":"Delhi","department":"Electronics","purchase_amount":55000,"purchase_count":6,"status":"Active"}
+{"customer_id":"C017","name":"Ishita","age":32,"city":"Mumbai","department":"Furniture","purchase_amount":67000,"purchase_count":8,"status":"Active"}
+{"customer_id":"C018","name":"Varun","age":36,"city":"Hyderabad","department":"Clothing","purchase_amount":42000,"purchase_count":5,"status":"Active"}
+{"customer_id":"C019","name":"Nisha","age":41,"city":"Bangalore","department":"Electronics","purchase_amount":88000,"purchase_count":11,"status":"Active"}
+{"customer_id":"C020","name":"Rakesh","age":28,"city":"Chennai","department":"Furniture","purchase_amount":39000,"purchase_count":4,"status":"Inactive"}

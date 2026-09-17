@@ -1,0 +1,16 @@
+customer_id,name,age,city,department,purchase_amount,purchase_count,status
+C001,Rahul,25,Delhi,Electronics,45000,5,Active
+C002,Priya,31,Mumbai,Furniture,62000,8,Active
+C003,Arjun,28,Hyderabad,Electronics,38000,4,Active
+C004,Sneha,35,Bangalore,Clothing,75000,10,Active
+C005,Vikram,42,Chennai,Electronics,29000,3,Inactive
+C006,Ananya,24,Delhi,Furniture,54000,7,Active
+C007,Rohit,29,Mumbai,Clothing,47000,6,Active
+C008,Kavya,33,Hyderabad,Electronics,82000,12,Active
+C009,Aditya,38,Bangalore,Furniture,31000,4,Inactive
+C010,Meera,27,Chennai,Clothing,68000,9,Active
+C011,Kiran,45,Delhi,Electronics,91000,15,Active
+C012,Pooja,30,Mumbai,Furniture,44000,5,Active
+C013,Manoj,26,Hyderabad,Clothing,36000,3,Inactive
+C014,Divya,34,Bangalore,Electronics,73000,9,Active
+C015,Sanjay,40,Chennai,Furniture,58000,7,Active

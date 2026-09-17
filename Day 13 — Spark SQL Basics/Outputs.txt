@@ -1,0 +1,363 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day13-spark-sql$ sbt "run"
+[info] Updated file /home/babblu/spark-day13-spark-sql/project/build.properties: set sbt.version to 1.12.15
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day13-spark-sql/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day13-spark-sql (in build file:/home/babblu/spark-day13-spark-sql/)
+[info] compiling 1 Scala source to /home/babblu/spark-day13-spark-sql/target/scala-2.12/classes ...
+[info] running (fork) Day13SparkSQLApp
+[info] ============================================================
+[info] DAY 13 - SPARK SQL BASICS
+[info] ============================================================
+[info] Spark Master       : local[4]
+[info] Default Parallelism: 4
+[info] ============================================================
+[info] 2. READ CSV DATA
+[info] ------------------------------------------------------------
+[info] CSV DataFrame created successfully.
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+
+[info] |customer_id|name  |age|city     |department |purchase_amount|purchase_count|status  |
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+
+[info] |C001       |Rahul |25 |Delhi    |Electronics|45000          |5             |Active  |
+[info] |C002       |Priya |31 |Mumbai   |Furniture  |62000          |8             |Active  |
+[info] |C003       |Arjun |28 |Hyderabad|Electronics|38000          |4             |Active  |
+[info] |C004       |Sneha |35 |Bangalore|Clothing   |75000          |10            |Active  |
+[info] |C005       |Vikram|42 |Chennai  |Electronics|29000          |3             |Inactive|
+[info] |C006       |Ananya|24 |Delhi    |Furniture  |54000          |7             |Active  |
+[info] |C007       |Rohit |29 |Mumbai   |Clothing   |47000          |6             |Active  |
+[info] |C008       |Kavya |33 |Hyderabad|Electronics|82000          |12            |Active  |
+[info] |C009       |Aditya|38 |Bangalore|Furniture  |31000          |4             |Inactive|
+[info] |C010       |Meera |27 |Chennai  |Clothing   |68000          |9             |Active  |
+[info] |C011       |Kiran |45 |Delhi    |Electronics|91000          |15            |Active  |
+[info] |C012       |Pooja |30 |Mumbai   |Furniture  |44000          |5             |Active  |
+[info] |C013       |Manoj |26 |Hyderabad|Clothing   |36000          |3             |Inactive|
+[info] |C014       |Divya |34 |Bangalore|Electronics|73000          |9             |Active  |
+[info] |C015       |Sanjay|40 |Chennai  |Furniture  |58000          |7             |Active  |
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+
+[info] 3. CSV SCHEMA
+[info] ------------------------------------------------------------
+[info] root
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- name: string (nullable = true)
+[info]  |-- age: integer (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info]  |-- department: string (nullable = true)
+[info]  |-- purchase_amount: integer (nullable = true)
+[info]  |-- purchase_count: integer (nullable = true)
+[info]  |-- status: string (nullable = true)
+[info] 4. SELECT COLUMNS
+[info] ------------------------------------------------------------
+[info] +-----------+------+---------+---------------+
+[info] |customer_id|name  |city     |purchase_amount|
+[info] +-----------+------+---------+---------------+
+[info] |C001       |Rahul |Delhi    |45000          |
+[info] |C002       |Priya |Mumbai   |62000          |
+[info] |C003       |Arjun |Hyderabad|38000          |
+[info] |C004       |Sneha |Bangalore|75000          |
+[info] |C005       |Vikram|Chennai  |29000          |
+[info] |C006       |Ananya|Delhi    |54000          |
+[info] |C007       |Rohit |Mumbai   |47000          |
+[info] |C008       |Kavya |Hyderabad|82000          |
+[info] |C009       |Aditya|Bangalore|31000          |
+[info] |C010       |Meera |Chennai  |68000          |
+[info] |C011       |Kiran |Delhi    |91000          |
+[info] |C012       |Pooja |Mumbai   |44000          |
+[info] |C013       |Manoj |Hyderabad|36000          |
+[info] |C014       |Divya |Bangalore|73000          |
+[info] |C015       |Sanjay|Chennai  |58000          |
+[info] +-----------+------+---------+---------------+
+[info] 5. FILTER CUSTOMERS
+[info] ------------------------------------------------------------
+[info] Customers with purchase_amount > 50000:
+[info] +-----------+------+---+---------+-----------+---------------+--------------+------+
+[info] |customer_id|name  |age|city     |department |purchase_amount|purchase_count|status|
+[info] +-----------+------+---+---------+-----------+---------------+--------------+------+
+[info] |C002       |Priya |31 |Mumbai   |Furniture  |62000          |8             |Active|
+[info] |C004       |Sneha |35 |Bangalore|Clothing   |75000          |10            |Active|
+[info] |C006       |Ananya|24 |Delhi    |Furniture  |54000          |7             |Active|
+[info] |C008       |Kavya |33 |Hyderabad|Electronics|82000          |12            |Active|
+[info] |C010       |Meera |27 |Chennai  |Clothing   |68000          |9             |Active|
+[info] |C011       |Kiran |45 |Delhi    |Electronics|91000          |15            |Active|
+[info] |C014       |Divya |34 |Bangalore|Electronics|73000          |9             |Active|
+[info] |C015       |Sanjay|40 |Chennai  |Furniture  |58000          |7             |Active|
+[info] +-----------+------+---+---------+-----------+---------------+--------------+------+
+[info] 6. MULTIPLE FILTER CONDITIONS
+[info] ------------------------------------------------------------
+[info] Active customers with purchase_amount > 50000:
+[info] +-----------+------+---+---------+-----------+---------------+--------------+------+
+[info] |customer_id|name  |age|city     |department |purchase_amount|purchase_count|status|
+[info] +-----------+------+---+---------+-----------+---------------+--------------+------+
+[info] |C002       |Priya |31 |Mumbai   |Furniture  |62000          |8             |Active|
+[info] |C004       |Sneha |35 |Bangalore|Clothing   |75000          |10            |Active|
+[info] |C006       |Ananya|24 |Delhi    |Furniture  |54000          |7             |Active|
+[info] |C008       |Kavya |33 |Hyderabad|Electronics|82000          |12            |Active|
+[info] |C010       |Meera |27 |Chennai  |Clothing   |68000          |9             |Active|
+[info] |C011       |Kiran |45 |Delhi    |Electronics|91000          |15            |Active|
+[info] |C014       |Divya |34 |Bangalore|Electronics|73000          |9             |Active|
+[info] |C015       |Sanjay|40 |Chennai  |Furniture  |58000          |7             |Active|
+[info] +-----------+------+---+---------+-----------+---------------+--------------+------+
+[info] 7. WITHCOLUMN
+[info] ------------------------------------------------------------
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+----------------+
+[info] |customer_id|name  |age|city     |department |purchase_amount|purchase_count|status  |average_purchase|
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+----------------+
+[info] |C001       |Rahul |25 |Delhi    |Electronics|45000          |5             |Active  |9000.0          |
+[info] |C002       |Priya |31 |Mumbai   |Furniture  |62000          |8             |Active  |7750.0          |
+[info] |C003       |Arjun |28 |Hyderabad|Electronics|38000          |4             |Active  |9500.0          |
+[info] |C004       |Sneha |35 |Bangalore|Clothing   |75000          |10            |Active  |7500.0          |
+[info] |C005       |Vikram|42 |Chennai  |Electronics|29000          |3             |Inactive|9666.67         |
+[info] |C006       |Ananya|24 |Delhi    |Furniture  |54000          |7             |Active  |7714.29         |
+[info] |C007       |Rohit |29 |Mumbai   |Clothing   |47000          |6             |Active  |7833.33         |
+[info] |C008       |Kavya |33 |Hyderabad|Electronics|82000          |12            |Active  |6833.33         |
+[info] |C009       |Aditya|38 |Bangalore|Furniture  |31000          |4             |Inactive|7750.0          |
+[info] |C010       |Meera |27 |Chennai  |Clothing   |68000          |9             |Active  |7555.56         |
+[info] |C011       |Kiran |45 |Delhi    |Electronics|91000          |15            |Active  |6066.67         |
+[info] |C012       |Pooja |30 |Mumbai   |Furniture  |44000          |5             |Active  |8800.0          |
+[info] |C013       |Manoj |26 |Hyderabad|Clothing   |36000          |3             |Inactive|12000.0         |
+[info] |C014       |Divya |34 |Bangalore|Electronics|73000          |9             |Active  |8111.11         |
+[info] |C015       |Sanjay|40 |Chennai  |Furniture  |58000          |7             |Active  |8285.71         |
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+----------------+
+[info] 8. CUSTOMER SEGMENT
+[info] ------------------------------------------------------------
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+----------------+----------------+
+[info] |customer_id|name  |age|city     |department |purchase_amount|purchase_count|status  |average_purchase|customer_segment|
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+----------------+----------------+
+[info] |C001       |Rahul |25 |Delhi    |Electronics|45000          |5             |Active  |9000.0          |Standard        |
+[info] |C002       |Priya |31 |Mumbai   |Furniture  |62000          |8             |Active  |7750.0          |Gold            |
+[info] |C003       |Arjun |28 |Hyderabad|Electronics|38000          |4             |Active  |9500.0          |Standard        |
+[info] |C004       |Sneha |35 |Bangalore|Clothing   |75000          |10            |Active  |7500.0          |Premium         |
+[info] |C005       |Vikram|42 |Chennai  |Electronics|29000          |3             |Inactive|9666.67         |Standard        |
+[info] |C006       |Ananya|24 |Delhi    |Furniture  |54000          |7             |Active  |7714.29         |Gold            |
+[info] |C007       |Rohit |29 |Mumbai   |Clothing   |47000          |6             |Active  |7833.33         |Standard        |
+[info] |C008       |Kavya |33 |Hyderabad|Electronics|82000          |12            |Active  |6833.33         |Premium         |
+[info] |C009       |Aditya|38 |Bangalore|Furniture  |31000          |4             |Inactive|7750.0          |Standard        |
+[info] |C010       |Meera |27 |Chennai  |Clothing   |68000          |9             |Active  |7555.56         |Gold            |
+[info] |C011       |Kiran |45 |Delhi    |Electronics|91000          |15            |Active  |6066.67         |Premium         |
+[info] |C012       |Pooja |30 |Mumbai   |Furniture  |44000          |5             |Active  |8800.0          |Standard        |
+[info] |C013       |Manoj |26 |Hyderabad|Clothing   |36000          |3             |Inactive|12000.0         |Standard        |
+[info] |C014       |Divya |34 |Bangalore|Electronics|73000          |9             |Active  |8111.11         |Premium         |
+[info] |C015       |Sanjay|40 |Chennai  |Furniture  |58000          |7             |Active  |8285.71         |Gold            |
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+----------------+----------------+
+[info] 9. CREATE TEMPORARY VIEW
+[info] ------------------------------------------------------------
+[info] Temporary view 'customers' created successfully.
+[info] 10. BASIC SPARK SQL
+[info] ------------------------------------------------------------
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+----------------+----------------+
+[info] |customer_id|name  |age|city     |department |purchase_amount|purchase_count|status  |average_purchase|customer_segment|
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+----------------+----------------+
+[info] |C001       |Rahul |25 |Delhi    |Electronics|45000          |5             |Active  |9000.0          |Standard        |
+[info] |C002       |Priya |31 |Mumbai   |Furniture  |62000          |8             |Active  |7750.0          |Gold            |
+[info] |C003       |Arjun |28 |Hyderabad|Electronics|38000          |4             |Active  |9500.0          |Standard        |
+[info] |C004       |Sneha |35 |Bangalore|Clothing   |75000          |10            |Active  |7500.0          |Premium         |
+[info] |C005       |Vikram|42 |Chennai  |Electronics|29000          |3             |Inactive|9666.67         |Standard        |
+[info] |C006       |Ananya|24 |Delhi    |Furniture  |54000          |7             |Active  |7714.29         |Gold            |
+[info] |C007       |Rohit |29 |Mumbai   |Clothing   |47000          |6             |Active  |7833.33         |Standard        |
+[info] |C008       |Kavya |33 |Hyderabad|Electronics|82000          |12            |Active  |6833.33         |Premium         |
+[info] |C009       |Aditya|38 |Bangalore|Furniture  |31000          |4             |Inactive|7750.0          |Standard        |
+[info] |C010       |Meera |27 |Chennai  |Clothing   |68000          |9             |Active  |7555.56         |Gold            |
+[info] |C011       |Kiran |45 |Delhi    |Electronics|91000          |15            |Active  |6066.67         |Premium         |
+[info] |C012       |Pooja |30 |Mumbai   |Furniture  |44000          |5             |Active  |8800.0          |Standard        |
+[info] |C013       |Manoj |26 |Hyderabad|Clothing   |36000          |3             |Inactive|12000.0         |Standard        |
+[info] |C014       |Divya |34 |Bangalore|Electronics|73000          |9             |Active  |8111.11         |Premium         |
+[info] |C015       |Sanjay|40 |Chennai  |Furniture  |58000          |7             |Active  |8285.71         |Gold            |
+[info] +-----------+------+---+---------+-----------+---------------+--------------+--------+----------------+----------------+
+[info] 11. SQL FILTER
+[info] ------------------------------------------------------------
+[info] Active customers with purchase amount above ₹50000:
+[info] +-----------+------+---------+---------------+----------------+
+[info] |customer_id|name  |city     |purchase_amount|customer_segment|
+[info] +-----------+------+---------+---------------+----------------+
+[info] |C011       |Kiran |Delhi    |91000          |Premium         |
+[info] |C008       |Kavya |Hyderabad|82000          |Premium         |
+[info] |C004       |Sneha |Bangalore|75000          |Premium         |
+[info] |C014       |Divya |Bangalore|73000          |Premium         |
+[info] |C010       |Meera |Chennai  |68000          |Gold            |
+[info] |C002       |Priya |Mumbai   |62000          |Gold            |
+[info] |C015       |Sanjay|Chennai  |58000          |Gold            |
+[info] |C006       |Ananya|Delhi    |54000          |Gold            |
+[info] +-----------+------+---------+---------------+----------------+
+[info] 12. TOTAL CUSTOMERS
+[info] ------------------------------------------------------------
+[info] +---------------+
+[info] |total_customers|
+[info] +---------------+
+[info] |             15|
+[info] +---------------+
+[info] 13. ACTIVE CUSTOMERS
+[info] ------------------------------------------------------------
+[info] +----------------+
+[info] |active_customers|
+[info] +----------------+
+[info] |              12|
+[info] +----------------+
+[info] 14. TOTAL PURCHASE AMOUNT
+[info] ------------------------------------------------------------
+[info] +---------------------+
+[info] |total_purchase_amount|
+[info] +---------------------+
+[info] |               833000|
+[info] +---------------------+
+[info] 15. REVENUE BY CITY
+[info] ------------------------------------------------------------
+[info] +---------+--------------+---------------------+-----------------------+
+[info] |city     |customer_count|total_purchase_amount|average_purchase_amount|
+[info] +---------+--------------+---------------------+-----------------------+
+[info] |Delhi    |3             |190000               |63333.33               |
+[info] |Bangalore|3             |179000               |59666.67               |
+[info] |Hyderabad|3             |156000               |52000.0                |
+[info] |Chennai  |3             |155000               |51666.67               |
+[info] |Mumbai   |3             |153000               |51000.0                |
+[info] +---------+--------------+---------------------+-----------------------+
+[info] 16. REVENUE BY DEPARTMENT
+[info] ------------------------------------------------------------
+[info] +-----------+--------------+---------------------+-----------------------+
+[info] |department |customer_count|total_purchase_amount|average_purchase_amount|
+[info] +-----------+--------------+---------------------+-----------------------+
+[info] |Electronics|6             |358000               |59666.67               |
+[info] |Furniture  |5             |249000               |49800.0                |
+[info] |Clothing   |4             |226000               |56500.0                |
+[info] +-----------+--------------+---------------------+-----------------------+
+[info] 17. CUSTOMER SEGMENT ANALYSIS
+[info] ------------------------------------------------------------
+[info] +----------------+--------------+---------------------+-----------------------+
+[info] |customer_segment|customer_count|total_purchase_amount|average_purchase_amount|
+[info] +----------------+--------------+---------------------+-----------------------+
+[info] |Premium         |4             |321000               |80250.0                |
+[info] |Standard        |7             |270000               |38571.43               |
+[info] |Gold            |4             |242000               |60500.0                |
+[info] +----------------+--------------+---------------------+-----------------------+
+[info] 18. TOP 5 CUSTOMERS
+[info] ------------------------------------------------------------
+[info] +-----------+-----+---------+-----------+---------------+--------------+----------------+
+[info] |customer_id|name |city     |department |purchase_amount|purchase_count|customer_segment|
+[info] +-----------+-----+---------+-----------+---------------+--------------+----------------+
+[info] |C011       |Kiran|Delhi    |Electronics|91000          |15            |Premium         |
+[info] |C008       |Kavya|Hyderabad|Electronics|82000          |12            |Premium         |
+[info] |C004       |Sneha|Bangalore|Clothing   |75000          |10            |Premium         |
+[info] |C014       |Divya|Bangalore|Electronics|73000          |9             |Premium         |
+[info] |C010       |Meera|Chennai  |Clothing   |68000          |9             |Gold            |
+[info] +-----------+-----+---------+-----------+---------------+--------------+----------------+
+[info] 19. CUSTOMER ANALYTICS REPORT
+[info] ============================================================
+[info] +----------------+---------+-------------+---------------+---------------+
+[info] |customer_segment|customers|total_revenue|average_revenue|total_purchases|
+[info] +----------------+---------+-------------+---------------+---------------+
+[info] |Premium         |4        |321000       |80250.0        |46             |
+[info] |Standard        |7        |270000       |38571.43       |30             |
+[info] |Gold            |4        |242000       |60500.0        |31             |
+[info] +----------------+---------+-------------+---------------+---------------+
+[info] 20. READ JSON DATA
+[info] ------------------------------------------------------------
+[info] JSON DataFrame created successfully.
+[info] +---+---------+-----------+-----------+------+---------------+--------------+--------+
+[info] |age|city     |customer_id|department |name  |purchase_amount|purchase_count|status  |
+[info] +---+---------+-----------+-----------+------+---------------+--------------+--------+
+[info] |29 |Delhi    |C016       |Electronics|Aarav |55000          |6             |Active  |
+[info] |32 |Mumbai   |C017       |Furniture  |Ishita|67000          |8             |Active  |
+[info] |36 |Hyderabad|C018       |Clothing   |Varun |42000          |5             |Active  |
+[info] |41 |Bangalore|C019       |Electronics|Nisha |88000          |11            |Active  |
+[info] |28 |Chennai  |C020       |Furniture  |Rakesh|39000          |4             |Inactive|
+[info] +---+---------+-----------+-----------+------+---------------+--------------+--------+
+[info] 21. JSON SCHEMA
+[info] ------------------------------------------------------------
+[info] root
+[info]  |-- age: long (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- department: string (nullable = true)
+[info]  |-- name: string (nullable = true)
+[info]  |-- purchase_amount: long (nullable = true)
+[info]  |-- purchase_count: long (nullable = true)
+[info]  |-- status: string (nullable = true)
+[info] 22. DATAFRAME API VS SQL
+[info] ------------------------------------------------------------
+[info] DataFrame API:
+[info] customersCSV
+[info]   .filter(...)
+[info]   .select(...)
+[info]   .withColumn(...)
+[info] Spark SQL:
+[info] SELECT ...
+[info] FROM customers
+[info] WHERE ...
+[info] Both can be used to perform structured data processing.
+[info] 23. CUSTOMER ANALYTICS SCENARIO
+[info] ------------------------------------------------------------
+[info] Business Scenario:
+[info] A company has customer purchase data.
+[info] Required analytics:
+[info] 1. Identify high-value customers.
+[info] 2. Calculate average purchase value.
+[info] 3. Segment customers.
+[info] 4. Calculate revenue by city.
+[info] 5. Calculate revenue by department.
+[info] 6. Analyze customer segments.
+[info] 7. Find top customers.
+[info] Spark SQL Solution:
+[info] CSV / JSON
+[info]     |
+[info]     v
+[info] DataFrame
+[info]     |
+[info]     +--> Schema inspection
+[info]     |
+[info]     +--> Select / Filter
+[info]     |
+[info]     +--> withColumn
+[info]     |
+[info]     v
+[info] Temporary View
+[info]     |
+[info]     v
+[info] Spark SQL
+[info]     |
+[info]     +--> Aggregation
+[info]     +--> Group By
+[info]     +--> Order By
+[info]     +--> Filtering
+[info]     |
+[info]     v
+[info] Customer Analytics Report
+[info] 24. IMPORTANT CONCEPTS
+[info] ------------------------------------------------------------
+[info] DataFrame
+[info]     -> Distributed table-like data structure
+[info] Schema
+[info]     -> Structure and data types of DataFrame columns
+[info] select()
+[info]     -> Select required columns
+[info] filter()
+[info]     -> Keep rows satisfying a condition
+[info] withColumn()
+[info]     -> Add or replace a column
+[info] Temporary View
+[info]     -> Gives a DataFrame a SQL table-like name
+[info] spark.sql()
+[info]     -> Executes SQL against Spark tables/views
+[info] groupBy()
+[info]     -> Groups rows based on column values
+[info] ORDER BY
+[info]     -> Sorts SQL query results
+[info] COUNT()
+[info]     -> Counts rows
+[info] SUM()
+[info]     -> Calculates total
+[info] AVG()
+[info]     -> Calculates average
+[info] ============================================================
+[info] DAY 13 COMPLETED
+[info] ============================================================
+[info] Completed:
+[info] 1. Created DataFrame from CSV
+[info] 2. Created DataFrame from JSON
+[info] 3. Inspected DataFrame schema
+[info] 4. Selected columns
+[info] 5. Filtered rows
+[info] 6. Created columns using withColumn
+[info] 7. Used Spark SQL expressions
+[info] 8. Created temporary SQL view
+[info] 9. Executed SQL queries
+[info] 10. Built customer analytics report
+[info] ============================================================
+[success] Total time: 18 s, completed Sep 17, 2026, 2:35:44 PM

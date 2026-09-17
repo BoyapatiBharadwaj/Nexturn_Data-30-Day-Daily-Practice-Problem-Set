@@ -1,0 +1,188 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day12-cache-persist$ sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day12-cache-persist/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day12-cache-persist (in build file:/home/babblu/spark-day12-cache-persist/)
+[info] compiling 1 Scala source to /home/babblu/spark-day12-cache-persist/target/scala-2.12/classes ...
+[info] running (fork) Day12CachePersistApp
+[info] ============================================================
+[info] DAY 12 - CACHE AND PERSIST
+[info] ============================================================
+[info] Spark Master       : local[4]
+[info] Default Parallelism: 4
+[info] ============================================================
+[info] 2. READING RAW TRANSACTIONS
+[info] ------------------------------------------------------------
+[info] Raw transaction count = 36
+[info] 3. CLEANING TRANSACTIONS
+[info] ------------------------------------------------------------
+[info] Cleaned transaction count = 33
+[info] 4. CACHE CLEANED TRANSACTIONS
+[info] ------------------------------------------------------------
+[info] cleanedTransactions.cache() called.
+[info] Storage level before materialization = StorageLevel(memory, deserialized, 1 replicas)
+[info] 5. MATERIALIZE CACHE
+[info] ------------------------------------------------------------
+[info] Cleaned transaction count = 33
+[info] Storage level after count() = StorageLevel(memory, deserialized, 1 replicas)
+[info] 6. REPORT 1 - REVENUE BY PRODUCT
+[info] ------------------------------------------------------------
+[info] Chair           ₹84000.00
+[info] Keyboard        ₹52500.00
+[info] Laptop          ₹650000.00
+[info] Monitor         ₹180000.00
+[info] Mouse           ₹22500.00
+[info] Table           ₹60000.00
+[info] 7. REPORT 2 - REVENUE BY ACCOUNT
+[info] ------------------------------------------------------------
+[info] A1001           ₹354000.00
+[info] A1002           ₹85000.00
+[info] A1003           ₹245000.00
+[info] A1004           ₹134000.00
+[info] A1005           ₹231000.00
+[info] 8. REPORT 3 - TRANSACTION COUNT BY LOCATION
+[info] ------------------------------------------------------------
+[info] Bangalore       7 transactions
+[info] Chennai         7 transactions
+[info] Delhi           5 transactions
+[info] Hyderabad       7 transactions
+[info] Mumbai          7 transactions
+[info] 9. CACHE STATUS
+[info] ------------------------------------------------------------
+[info] cleanedTransactions storage level = StorageLevel(memory, deserialized, 1 replicas)
+[info] cleanedTransactions persisted = true
+[info] 10. CACHE VS PERSIST
+[info] ------------------------------------------------------------
+[info] cache():
+[info]   - Convenience method
+[info]   - Uses Spark's default caching storage level
+[info]   - Useful when the default behavior is sufficient
+[info] persist():
+[info]   - Allows explicit storage level selection
+[info]   - Examples:
+[info]       MEMORY_ONLY
+[info]       MEMORY_AND_DISK
+[info]       DISK_ONLY
+[info] 11. PERSIST - MEMORY_ONLY
+[info] ------------------------------------------------------------
+[info] Storage level = StorageLevel(memory, deserialized, 1 replicas)
+[info] Count = 33
+[info] MEMORY_ONLY keeps persisted partitions in memory when possible.
+[info] If memory is insufficient, partitions may need recomputation.
+[info] 12. PERSIST - MEMORY_AND_DISK
+[info] ------------------------------------------------------------
+[info] Storage level = StorageLevel(disk, memory, deserialized, 1 replicas)
+[info] Count = 33
+[info] MEMORY_AND_DISK stores partitions in memory when possible
+[info] and uses disk when there is not enough memory.
+[info] 13. PERSIST - DISK_ONLY
+[info] ------------------------------------------------------------
+[info] Storage level = StorageLevel(disk, 1 replicas)
+[info] Count = 33
+[info] DISK_ONLY stores persisted partitions only on disk.
+[info] 14. REUSING CACHED DATA
+[info] ------------------------------------------------------------
+[info] Running multiple actions on cleanedTransactions...
+[info] Report A - valid transaction count : 33
+[info] Report B - unique products         : 6
+[info] Report C - unique locations        : 5
+[info] The same cleaned RDD is reused by multiple actions.
+[info] Because it is cached, Spark can reuse persisted partitions
+[info] instead of repeatedly recomputing the cleaning lineage
+[info] when the cached partitions are available.
+[info] 15. WHEN CACHING CAN HURT PERFORMANCE
+[info] ------------------------------------------------------------
+[info] Caching is NOT always beneficial.
+[info] Caching can hurt performance when:
+[info] 1. The RDD is used only once.
+[info] 2. The RDD is very large.
+[info] 3. The cached data causes memory pressure.
+[info] 4. Other useful cached data gets evicted.
+[info] 5. The original computation is cheap.
+[info] 6. Serialization/deserialization overhead becomes significant.
+[info] 7. Disk-based persistence is slower than recomputation for a cheap job.
+[info] Rule:
+[info] Cache/Persist when:
+[info]     Expensive computation
+[info]            +
+[info]     Multiple reuse
+[info]            +
+[info]     Enough resources
+[info] Avoid unnecessary caching when:
+[info]     Cheap computation
+[info]            +
+[info]     Single use
+[info]            +
+[info]     Large dataset
+[info] 16. DAY 12 SCENARIO
+[info] ------------------------------------------------------------
+[info] Scenario:
+[info] We have a large transaction dataset.
+[info] Step 1:
+[info]     Read raw transactions
+[info] Step 2:
+[info]     Clean and validate transactions
+[info] Step 3:
+[info]     Generate three reports
+[info]         Report 1 → Revenue by Product
+[info]         Report 2 → Revenue by Account
+[info]         Report 3 → Transactions by Location
+[info] Solution:
+[info] Raw Transactions
+[info]        |
+[info]        v
+[info]    Cleaning
+[info]        |
+[info]        v
+[info] cleanedTransactions
+[info]        |
+[info]       CACHE
+[info]        |
+[info]    +---+---+---+
+[info]    |       |       |
+[info]    v       v       v
+[info] Report 1 Report 2 Report 3
+[info] The cleaned dataset is expensive to produce and is reused
+[info] multiple times, so caching is useful.
+[info] 17. CACHE AND PERSIST SUMMARY
+[info] ------------------------------------------------------------
+[info] cache()
+[info]     |
+[info]     +--> Uses default persistence storage level
+[info] persist()
+[info]     |
+[info]     +--> Allows explicit storage level
+[info] MEMORY_ONLY
+[info]     |
+[info]     +--> Memory
+[info] MEMORY_AND_DISK
+[info]     |
+[info]     +--> Memory + Disk fallback
+[info] DISK_ONLY
+[info]     |
+[info]     +--> Disk
+[info] unpersist()
+[info]     |
+[info]     +--> Releases persisted data
+[info] 18. UNPERSIST
+[info] ------------------------------------------------------------
+[info] Persisted demonstration RDDs have been unpersisted.
+[info] cleanedTransactions remains cached for the end of the job.
+[info] ============================================================
+[info] DAY 12 COMPLETED
+[info] ============================================================
+[info] Topics completed:
+[info] 1. Cache an RDD
+[info] 2. Materialize cached data
+[info] 3. Reuse cached RDD
+[info] 4. Compare cache() and persist()
+[info] 5. MEMORY_ONLY
+[info] 6. MEMORY_AND_DISK
+[info] 7. DISK_ONLY
+[info] 8. Explain when caching helps
+[info] 9. Explain when caching hurts
+[info] 10. Unpersist cached data
+[info] Key concept:
+[info] Caching avoids repeated recomputation of reused RDD data when persisted partitions are available.
+[info] ============================================================
+[success] Total time: 11 s, completed Sep 17, 2026, 2:31:22 PM

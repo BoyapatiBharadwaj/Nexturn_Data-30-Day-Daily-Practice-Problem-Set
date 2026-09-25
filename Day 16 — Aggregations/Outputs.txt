@@ -1,0 +1,338 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day16-aggregations$ sbt "run"
+[info] Updated file /home/babblu/spark-day16-aggregations/project/build.properties: set sbt.version to 1.12.15
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day16-aggregations/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day16-aggregations (in build file:/home/babblu/spark-day16-aggregations/)
+[info] compiling 1 Scala source to /home/babblu/spark-day16-aggregations/target/scala-2.12/classes ...
+[info] running (fork) Day16AggregationsApp
+[info] ============================================================
+[info] DAY 16 - SPARK AGGREGATIONS
+[info] ============================================================
+[info] Spark Master       : local[4]
+[info] Default Parallelism: 4
+[info] ============================================================
+[info] 2. READ HOSPITAL TRANSACTIONS
+[info] ------------------------------------------------------------
+[info] +--------------+----------+------------+----------------+---------+---------+-------------+--------------+----------+-------------+----------------+--------------+
+[info] |transaction_id|patient_id|patient_name|department      |doctor   |city     |service_type |service_amount|doctor_fee|days_admitted|insurance_amount|payment_status|
+[info] +--------------+----------+------------+----------------+---------+---------+-------------+--------------+----------+-------------+----------------+--------------+
+[info] |H001          |P001      |Rahul       |Cardiology      |Dr_Sharma|Delhi    |Consultation |5000          |2000      |1            |3000            |Paid          |
+[info] |H002          |P002      |Priya       |Cardiology      |Dr_Sharma|Mumbai   |Angiography  |45000         |10000     |3            |30000           |Paid          |
+[info] |H003          |P003      |Arjun       |Neurology       |Dr_Rao   |Hyderabad|Consultation |7000          |2500      |1            |4000            |Paid          |
+[info] |H004          |P004      |Sneha       |Orthopedics     |Dr_Kumar |Bangalore|Surgery      |85000         |18000     |5            |60000           |Paid          |
+[info] |H005          |P005      |Vikram      |Pediatrics      |Dr_Mehta |Chennai  |Consultation |4000          |1500      |1            |2500            |Paid          |
+[info] |H006          |P006      |Ananya      |Cardiology      |Dr_Sharma|Delhi    |Surgery      |120000        |25000     |7            |85000           |Paid          |
+[info] |H007          |P007      |Rohit       |Neurology       |Dr_Rao   |Mumbai   |MRI          |25000         |6000      |2            |18000           |Paid          |
+[info] |H008          |P008      |Kavya       |Orthopedics     |Dr_Kumar |Hyderabad|Physiotherapy|12000         |3000      |4            |8000            |Paid          |
+[info] |H009          |P009      |Aditya      |General_Medicine|Dr_Verma |Bangalore|Consultation |3000          |1200      |1            |2000            |Paid          |
+[info] |H010          |P010      |Meera       |Cardiology      |Dr_Patel |Chennai  |ECG          |8000          |2500      |1            |5000            |Paid          |
+[info] +--------------+----------+------------+----------------+---------+---------+-------------+--------------+----------+-------------+----------------+--------------+
+[info] only showing top 10 rows
+[info] 3. HOSPITAL DATA SCHEMA
+[info] ------------------------------------------------------------
+[info] root
+[info]  |-- transaction_id: string (nullable = true)
+[info]  |-- patient_id: string (nullable = true)
+[info]  |-- patient_name: string (nullable = true)
+[info]  |-- department: string (nullable = true)
+[info]  |-- doctor: string (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info]  |-- service_type: string (nullable = true)
+[info]  |-- service_amount: integer (nullable = true)
+[info]  |-- doctor_fee: integer (nullable = true)
+[info]  |-- days_admitted: integer (nullable = true)
+[info]  |-- insurance_amount: integer (nullable = true)
+[info]  |-- payment_status: string (nullable = true)
+[info] 4. COUNT
+[info] ------------------------------------------------------------
+[info] Total hospital transactions = 40
+[info] 5. SUM
+[info] ------------------------------------------------------------
+[info] +-------------+
+[info] |total_revenue|
+[info] +-------------+
+[info] |      1372900|
+[info] +-------------+
+[info] 6. AVERAGE
+[info] ------------------------------------------------------------
+[info] +----------------------+
+[info] |average_service_amount|
+[info] +----------------------+
+[info] |               34322.5|
+[info] +----------------------+
+[info] 7. MINIMUM
+[info] ------------------------------------------------------------
+[info] +----------------------+
+[info] |minimum_service_amount|
+[info] +----------------------+
+[info] |                  2500|
+[info] +----------------------+
+[info] 8. MAXIMUM
+[info] ------------------------------------------------------------
+[info] +----------------------+
+[info] |maximum_service_amount|
+[info] +----------------------+
+[info] |                180000|
+[info] +----------------------+
+[info] 9. ALL BASIC AGGREGATIONS
+[info] ------------------------------------------------------------
+[info] +-----------------+-------------+---------------+---------------+---------------+
+[info] |transaction_count|total_revenue|average_revenue|minimum_revenue|maximum_revenue|
+[info] +-----------------+-------------+---------------+---------------+---------------+
+[info] |40               |1372900      |34322.5        |2500           |180000         |
+[info] +-----------------+-------------+---------------+---------------+---------------+
+[info] 10. DEPARTMENT-WISE REVENUE
+[info] ------------------------------------------------------------
+[info] +----------------+-----------------+-------------+---------------+---------------+---------------+
+[info] |department      |transaction_count|total_revenue|average_revenue|minimum_revenue|maximum_revenue|
+[info] +----------------+-----------------+-------------+---------------+---------------+---------------+
+[info] |Cardiology      |11               |539700       |49063.64       |5000           |180000         |
+[info] |Orthopedics     |8                |439000       |54875.0        |6000           |110000         |
+[info] |Neurology       |8                |306500       |38312.5        |6500           |105000         |
+[info] |Pediatrics      |7                |65200        |9314.29        |3500           |18000          |
+[info] |General_Medicine|6                |22500        |3750.0         |2500           |6500           |
+[info] +----------------+-----------------+-------------+---------------+---------------+---------------+
+[info] 11. GROUP BY DEPARTMENT + CITY
+[info] ------------------------------------------------------------
+[info] +----------------+---------+-----------------+-------------+---------------+
+[info] |department      |city     |transaction_count|total_revenue|average_revenue|
+[info] +----------------+---------+-----------------+-------------+---------------+
+[info] |Cardiology      |Bangalore|5                |344700       |68940.0        |
+[info] |Cardiology      |Delhi    |3                |131000       |43666.67       |
+[info] |Cardiology      |Mumbai   |1                |45000        |45000.0        |
+[info] |Cardiology      |Chennai  |2                |19000        |9500.0         |
+[info] |General_Medicine|Chennai  |4                |15700        |3925.0         |
+[info] |General_Medicine|Delhi    |1                |3800         |3800.0         |
+[info] |General_Medicine|Bangalore|1                |3000         |3000.0         |
+[info] |Neurology       |Delhi    |4                |141500       |35375.0        |
+[info] |Neurology       |Hyderabad|2                |112000       |56000.0        |
+[info] |Neurology       |Mumbai   |2                |53000        |26500.0        |
+[info] |Orthopedics     |Hyderabad|6                |262000       |43666.67       |
+[info] |Orthopedics     |Mumbai   |1                |92000        |92000.0        |
+[info] |Orthopedics     |Bangalore|1                |85000        |85000.0        |
+[info] |Pediatrics      |Mumbai   |4                |41000        |10250.0        |
+[info] |Pediatrics      |Delhi    |1                |16000        |16000.0        |
+[info] |Pediatrics      |Bangalore|1                |4200         |4200.0         |
+[info] |Pediatrics      |Chennai  |1                |4000         |4000.0         |
+[info] +----------------+---------+-----------------+-------------+---------------+
+[info] 12. GROUP BY DEPARTMENT + SERVICE TYPE
+[info] ------------------------------------------------------------
+[info] +----------------+------------------+-----------------+-------------+---------------+
+[info] |department      |service_type      |transaction_count|total_revenue|average_revenue|
+[info] +----------------+------------------+-----------------+-------------+---------------+
+[info] |Orthopedics     |Surgery           |3                |255000       |85000.0        |
+[info] |Neurology       |Surgery           |2                |200000       |100000.0       |
+[info] |Cardiology      |Bypass_Surgery    |1                |180000       |180000.0       |
+[info] |Cardiology      |Angioplasty       |1                |145000       |145000.0       |
+[info] |Cardiology      |Surgery           |1                |120000       |120000.0       |
+[info] |Orthopedics     |Knee_Surgery      |1                |110000       |110000.0       |
+[info] |Neurology       |MRI               |2                |53000        |26500.0        |
+[info] |Pediatrics      |Emergency         |3                |49000        |16333.33       |
+[info] |Cardiology      |Angiography       |1                |45000        |45000.0        |
+[info] |Orthopedics     |Fracture_Treatment|1                |42000        |42000.0        |
+[info] |Orthopedics     |Physiotherapy     |2                |26000        |13000.0        |
+[info] |Neurology       |CT_Scan           |1                |22000        |22000.0        |
+[info] |Cardiology      |Consultation      |4                |21700        |5425.0         |
+[info] |Neurology       |EEG               |1                |18000        |18000.0        |
+[info] |Neurology       |Consultation      |2                |13500        |6750.0         |
+[info] |General_Medicine|Consultation      |4                |13500        |3375.0         |
+[info] |Pediatrics      |Consultation      |3                |12700        |4233.33        |
+[info] |Cardiology      |Stress_Test       |1                |11000        |11000.0        |
+[info] |Cardiology      |Echo              |1                |9000         |9000.0         |
+[info] |Cardiology      |ECG               |1                |8000         |8000.0         |
+[info] +----------------+------------------+-----------------+-------------+---------------+
+[info] only showing top 20 rows
+[info] 13. HAVING-LIKE FILTERING
+[info] ------------------------------------------------------------
+[info] +-----------+-----------------+-------------+---------------+
+[info] |department |transaction_count|total_revenue|average_revenue|
+[info] +-----------+-----------------+-------------+---------------+
+[info] |Cardiology |11               |539700       |49063.64       |
+[info] |Orthopedics|8                |439000       |54875.0        |
+[info] |Neurology  |8                |306500       |38312.5        |
+[info] +-----------+-----------------+-------------+---------------+
+[info] 14. DEPARTMENTS WITH MORE THAN 5 TRANSACTIONS
+[info] ------------------------------------------------------------
+[info] +----------------+-----------------+-------------+
+[info] |department      |transaction_count|total_revenue|
+[info] +----------------+-----------------+-------------+
+[info] |Cardiology      |11               |539700       |
+[info] |Neurology       |8                |306500       |
+[info] |Orthopedics     |8                |439000       |
+[info] |Pediatrics      |7                |65200        |
+[info] |General_Medicine|6                |22500        |
+[info] +----------------+-----------------+-------------+
+[info] 15. DEPARTMENT + DOCTOR STATISTICS
+[info] ------------------------------------------------------------
+[info] +----------------+---------+-------------+-------------+---------------+---------------+---------------+
+[info] |department      |doctor   |patient_count|total_revenue|average_revenue|minimum_revenue|maximum_revenue|
+[info] +----------------+---------+-------------+-------------+---------------+---------------+---------------+
+[info] |Orthopedics     |Dr_Kumar |8            |439000       |54875.0        |6000           |110000         |
+[info] |Cardiology      |Dr_Sharma|6            |326200       |54366.67       |5000           |145000         |
+[info] |Neurology       |Dr_Rao   |8            |306500       |38312.5        |6500           |105000         |
+[info] |Cardiology      |Dr_Patel |5            |213500       |42700.0        |5500           |180000         |
+[info] |Pediatrics      |Dr_Mehta |7            |65200        |9314.29        |3500           |18000          |
+[info] |General_Medicine|Dr_Verma |6            |22500        |3750.0         |2500           |6500           |
+[info] +----------------+---------+-------------+-------------+---------------+---------------+---------------+
+[info] 16. HOSPITAL DEPARTMENT REVENUE METRICS
+[info] ------------------------------------------------------------
+[info] +----------------+--------------+-------------+-----------------+------------+------------+------------+---------------------+-----------------+
+[info] |department      |patient_visits|gross_revenue|insurance_revenue|average_bill|minimum_bill|maximum_bill|average_days_admitted|total_doctor_fees|
+[info] +----------------+--------------+-------------+-----------------+------------+------------+------------+---------------------+-----------------+
+[info] |Cardiology      |11            |539700       |376800           |49063.64    |5000        |180000      |2.91                 |117400           |
+[info] |Orthopedics     |8             |439000       |311000           |54875.0     |6000        |110000      |4.13                 |95300            |
+[info] |Neurology       |8             |306500       |217000           |38312.5     |6500        |105000      |2.88                 |73800            |
+[info] |Pediatrics      |7             |65200        |43300            |9314.29     |3500        |18000       |1.43                 |19900            |
+[info] |General_Medicine|6             |22500        |14200            |3750.0      |2500        |6500        |1.0                  |8200             |
+[info] +----------------+--------------+-------------+-----------------+------------+------------+------------+---------------------+-----------------+
+[info] 17. NET REVENUE
+[info] ------------------------------------------------------------
+[info] +----------------+--------------+-------------+-----------------+-----------+------------+-----------------+
+[info] |department      |patient_visits|gross_revenue|insurance_revenue|net_revenue|average_bill|total_doctor_fees|
+[info] +----------------+--------------+-------------+-----------------+-----------+------------+-----------------+
+[info] |Cardiology      |11            |539700       |376800           |162900     |49063.64    |117400           |
+[info] |Orthopedics     |8             |439000       |311000           |128000     |54875.0     |95300            |
+[info] |Neurology       |8             |306500       |217000           |89500      |38312.5     |73800            |
+[info] |Pediatrics      |7             |65200        |43300            |21900      |9314.29     |19900            |
+[info] |General_Medicine|6             |22500        |14200            |8300       |3750.0      |8200             |
+[info] +----------------+--------------+-------------+-----------------+-----------+------------+-----------------+
+[info] 18. HIGH-VALUE DEPARTMENTS
+[info] ------------------------------------------------------------
+[info] +-----------+--------------+-------------+------------+------------+
+[info] |department |patient_visits|gross_revenue|average_bill|maximum_bill|
+[info] +-----------+--------------+-------------+------------+------------+
+[info] |Cardiology |11            |539700       |49063.64    |180000      |
+[info] |Orthopedics|8             |439000       |54875.0     |110000      |
+[info] |Neurology  |8             |306500       |38312.5     |105000      |
+[info] +-----------+--------------+-------------+------------+------------+
+[info] 19. CREATE TEMPORARY VIEW
+[info] ------------------------------------------------------------
+[info] Temporary view 'hospital_transactions' created.
+[info] 20. HOSPITAL REVENUE USING SQL
+[info] ------------------------------------------------------------
+[info] +----------------+--------------+-------------+------------+------------+------------+
+[info] |department      |patient_visits|gross_revenue|average_bill|minimum_bill|maximum_bill|
+[info] +----------------+--------------+-------------+------------+------------+------------+
+[info] |Cardiology      |11            |539700       |49063.64    |5000        |180000      |
+[info] |Orthopedics     |8             |439000       |54875.0     |6000        |110000      |
+[info] |Neurology       |8             |306500       |38312.5     |6500        |105000      |
+[info] |Pediatrics      |7             |65200        |9314.29     |3500        |18000       |
+[info] |General_Medicine|6             |22500        |3750.0      |2500        |6500        |
+[info] +----------------+--------------+-------------+------------+------------+------------+
+[info] 21. SQL HAVING
+[info] ------------------------------------------------------------
+[info] +-----------+--------------+-------------+------------+
+[info] |department |patient_visits|total_revenue|average_bill|
+[info] +-----------+--------------+-------------+------------+
+[info] |Cardiology |11            |539700       |49063.64    |
+[info] |Orthopedics|8             |439000       |54875.0     |
+[info] |Neurology  |8             |306500       |38312.5     |
+[info] +-----------+--------------+-------------+------------+
+[info] 22. SQL GROUP BY DEPARTMENT + CITY
+[info] ------------------------------------------------------------
+[info] +----------------+---------+--------------+-------------+------------+
+[info] |department      |city     |patient_visits|total_revenue|average_bill|
+[info] +----------------+---------+--------------+-------------+------------+
+[info] |Cardiology      |Bangalore|5             |344700       |68940.0     |
+[info] |Cardiology      |Delhi    |3             |131000       |43666.67    |
+[info] |Cardiology      |Mumbai   |1             |45000        |45000.0     |
+[info] |Cardiology      |Chennai  |2             |19000        |9500.0      |
+[info] |General_Medicine|Chennai  |4             |15700        |3925.0      |
+[info] |General_Medicine|Delhi    |1             |3800         |3800.0      |
+[info] |General_Medicine|Bangalore|1             |3000         |3000.0      |
+[info] |Neurology       |Delhi    |4             |141500       |35375.0     |
+[info] |Neurology       |Hyderabad|2             |112000       |56000.0     |
+[info] |Neurology       |Mumbai   |2             |53000        |26500.0     |
+[info] |Orthopedics     |Hyderabad|6             |262000       |43666.67    |
+[info] |Orthopedics     |Mumbai   |1             |92000        |92000.0     |
+[info] |Orthopedics     |Bangalore|1             |85000        |85000.0     |
+[info] |Pediatrics      |Mumbai   |4             |41000        |10250.0     |
+[info] |Pediatrics      |Delhi    |1             |16000        |16000.0     |
+[info] |Pediatrics      |Bangalore|1             |4200         |4200.0      |
+[info] |Pediatrics      |Chennai  |1             |4000         |4000.0      |
+[info] +----------------+---------+--------------+-------------+------------+
+[info] 23. DEPARTMENT-WISE SALARY STATISTICS
+[info] ------------------------------------------------------------
+[info] +----------------+----------------+-----------------+--------------+--------------+--------------+
+[info] |department      |employee_records|total_salary_cost|average_salary|minimum_salary|maximum_salary|
+[info] +----------------+----------------+-----------------+--------------+--------------+--------------+
+[info] |Cardiology      |11              |117400           |10672.73      |2000          |35000         |
+[info] |Orthopedics     |8               |95300            |11912.5       |1800          |24000         |
+[info] |Neurology       |8               |73800            |9225.0        |2300          |24000         |
+[info] |Pediatrics      |7               |19900            |2842.86       |1000          |5000          |
+[info] |General_Medicine|6               |8200             |1366.67       |900           |2000          |
+[info] +----------------+----------------+-----------------+--------------+--------------+--------------+
+[info] 24. TOP REVENUE DEPARTMENT
+[info] ------------------------------------------------------------
+[info] +----------+--------------+-------------+-----------------+------------+------------+------------+---------------------+-----------------+
+[info] |department|patient_visits|gross_revenue|insurance_revenue|average_bill|minimum_bill|maximum_bill|average_days_admitted|total_doctor_fees|
+[info] +----------+--------------+-------------+-----------------+------------+------------+------------+---------------------+-----------------+
+[info] |Cardiology|11            |539700       |376800           |49063.64    |5000        |180000      |2.91                 |117400           |
+[info] +----------+--------------+-------------+-----------------+------------+------------+------------+---------------------+-----------------+
+[info] 25. FINAL HOSPITAL ANALYTICS REPORT
+[info] ============================================================
+[info] +----------------+--------------+-------------+----------------+-----------+------------+------------+------------+----------------------+
+[info] |department      |patient_visits|gross_revenue|insurance_claims|net_revenue|average_bill|minimum_bill|maximum_bill|average_admission_days|
+[info] +----------------+--------------+-------------+----------------+-----------+------------+------------+------------+----------------------+
+[info] |Cardiology      |11            |539700       |376800          |162900     |49063.64    |5000        |180000      |2.91                  |
+[info] |Orthopedics     |8             |439000       |311000          |128000     |54875.0     |6000        |110000      |4.13                  |
+[info] |Neurology       |8             |306500       |217000          |89500      |38312.5     |6500        |105000      |2.88                  |
+[info] |Pediatrics      |7             |65200        |43300           |21900      |9314.29     |3500        |18000       |1.43                  |
+[info] |General_Medicine|6             |22500        |14200           |8300       |3750.0      |2500        |6500        |1.0                   |
+[info] +----------------+--------------+-------------+----------------+-----------+------------+------------+------------+----------------------+
+[info] 26. AGGREGATION CONCEPTS
+[info] ------------------------------------------------------------
+[info] COUNT
+[info] -----
+[info] Counts rows.
+[info] SUM
+[info] ---
+[info] Adds numeric values.
+[info] AVG
+[info] ---
+[info] Calculates average.
+[info] MIN
+[info] ---
+[info] Finds smallest value.
+[info] MAX
+[info] ---
+[info] Finds largest value.
+[info] GROUP BY
+[info] --------
+[info] Groups rows before aggregation.
+[info] HAVING
+[info] ------
+[info] Filters groups after aggregation.
+[info] DataFrame equivalent:
+[info] groupBy()
+[info]     |
+[info]     v
+[info] agg()
+[info]     |
+[info]     v
+[info] filter()
+[info] SQL equivalent:
+[info] GROUP BY
+[info]     |
+[info]     v
+[info] HAVING
+[info] ============================================================
+[info] DAY 16 COMPLETED
+[info] ============================================================
+[info] Completed:
+[info] 1. count()
+[info] 2. sum()
+[info] 3. avg()
+[info] 4. min()
+[info] 5. max()
+[info] 6. groupBy()
+[info] 7. groupBy() with multiple columns
+[info] 8. HAVING-like filtering
+[info] 9. Department-wise statistics
+[info] 10. Hospital revenue metrics
+[info] 11. Spark SQL aggregation
+[info] 12. SQL HAVING
+[info] Key concept: aggregation summarizes multiple rows into business-level metrics.
+[info] ============================================================
+[success] Total time: 25 s, completed Sep 25, 2026, 12:00:25 PM

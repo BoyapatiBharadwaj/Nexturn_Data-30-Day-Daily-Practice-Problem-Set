@@ -1,0 +1,740 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day17-window-functions$ sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day17-window-functions/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day17-window-functions (in build file:/home/babblu/spark-day17-window-functions/)
+[info] compiling 1 Scala source to /home/babblu/spark-day17-window-functions/target/scala-2.12/classes ...
+[info] running (fork) Day17WindowFunctionsApp
+[info] ================================================================================
+[info] DAY 17 - SPARK WINDOW FUNCTIONS
+[info] ================================================================================
+[info] ================================================================================
+[info] 1. STUDENT DATA
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |
+[info] +----------+------------+----------------+--------+-----+----------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|
+[info] |S005      |Vikram      |Data_Engineering|4       |76   |2026-09-01|
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|
+[info] |S010      |Meera       |Spark           |4       |74   |2026-09-02|
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|
+[info] |S015      |Sanjay      |Kafka           |4       |71   |2026-09-03|
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|
+[info] |S020      |Rakesh      |Scala           |4       |73   |2026-09-04|
+[info] +----------+------------+----------------+--------+-----+----------+
+[info] Schema:
+[info] root
+[info]  |-- student_id: string (nullable = true)
+[info]  |-- student_name: string (nullable = true)
+[info]  |-- course: string (nullable = true)
+[info]  |-- semester: integer (nullable = true)
+[info]  |-- marks: integer (nullable = true)
+[info]  |-- exam_date: date (nullable = true)
+[info] ================================================================================
+[info] 2. WINDOW FUNCTION CONCEPT
+[info] ================================================================================
+[info] A window function performs a calculation across related rows
+[info] without collapsing those rows into one row.
+[info] Basic structure:
+[info] Window
+[info]   |
+[info]   +-- partitionBy() -> divides rows into groups
+[info]   +-- orderBy() -> defines order inside each group
+[info] Example:
+[info] Window
+[info]   .partitionBy("course")
+[info]   .orderBy(col("marks").desc)
+[info] ================================================================================
+[info] 3. ROW_NUMBER()
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |row_number|
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|1         |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|2         |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|3         |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|4         |
+[info] |S005      |Vikram      |Data_Engineering|4       |76   |2026-09-01|5         |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|1         |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|2         |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|3         |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|4         |
+[info] |S015      |Sanjay      |Kafka           |4       |71   |2026-09-03|5         |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|1         |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|2         |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|3         |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|4         |
+[info] |S020      |Rakesh      |Scala           |4       |73   |2026-09-04|5         |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|1         |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|2         |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|3         |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|4         |
+[info] |S010      |Meera       |Spark           |4       |74   |2026-09-02|5         |
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] row_number():
+[info] Assigns a unique sequential number to every row
+[info] inside each partition.
+[info] If two students have the same marks:
+[info] 95 -> 1
+[info] 95 -> 2
+[info] There are no duplicate row numbers.
+[info] ================================================================================
+[info] 4. RANK()
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+----+
+[info] |student_id|student_name|course          |semester|marks|exam_date |rank|
+[info] +----------+------------+----------------+--------+-----+----------+----+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|1   |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|1   |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|3   |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|4   |
+[info] |S005      |Vikram      |Data_Engineering|4       |76   |2026-09-01|5   |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|1   |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|1   |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|3   |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|4   |
+[info] |S015      |Sanjay      |Kafka           |4       |71   |2026-09-03|5   |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|1   |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|1   |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|3   |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|4   |
+[info] |S020      |Rakesh      |Scala           |4       |73   |2026-09-04|5   |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|1   |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|1   |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|3   |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|4   |
+[info] |S010      |Meera       |Spark           |4       |74   |2026-09-02|5   |
+[info] +----------+------------+----------------+--------+-----+----------+----+
+[info] rank():
+[info] Students with the same marks receive the same rank.
+[info] Example:
+[info] Marks: 95  95  90  85
+[info] Rank :  1   1   3   4
+[info] Notice that rank 2 is skipped.
+[info] ================================================================================
+[info] 5. DENSE_RANK()
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |dense_rank|
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|1         |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|1         |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|2         |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|3         |
+[info] |S005      |Vikram      |Data_Engineering|4       |76   |2026-09-01|4         |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|1         |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|1         |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|2         |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|3         |
+[info] |S015      |Sanjay      |Kafka           |4       |71   |2026-09-03|4         |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|1         |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|1         |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|2         |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|3         |
+[info] |S020      |Rakesh      |Scala           |4       |73   |2026-09-04|4         |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|1         |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|1         |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|2         |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|3         |
+[info] |S010      |Meera       |Spark           |4       |74   |2026-09-02|4         |
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] dense_rank():
+[info] Students with the same marks receive the same rank,
+[info] but ranking numbers do not have gaps.
+[info] Example:
+[info] Marks:       95  95  90  85
+[info] Dense Rank:   1   1   2   3
+[info] ================================================================================
+[info] 6. ROW_NUMBER vs RANK vs DENSE_RANK
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+----------+----+----------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |row_number|rank|dense_rank|
+[info] +----------+------------+----------------+--------+-----+----------+----------+----+----------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|1         |1   |1         |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|2         |1   |1         |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|3         |3   |2         |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|4         |4   |3         |
+[info] |S005      |Vikram      |Data_Engineering|4       |76   |2026-09-01|5         |5   |4         |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|1         |1   |1         |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|2         |1   |1         |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|3         |3   |2         |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|4         |4   |3         |
+[info] |S015      |Sanjay      |Kafka           |4       |71   |2026-09-03|5         |5   |4         |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|1         |1   |1         |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|2         |1   |1         |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|3         |3   |2         |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|4         |4   |3         |
+[info] |S020      |Rakesh      |Scala           |4       |73   |2026-09-04|5         |5   |4         |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|1         |1   |1         |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|2         |1   |1         |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|3         |3   |2         |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|4         |4   |3         |
+[info] |S010      |Meera       |Spark           |4       |74   |2026-09-02|5         |5   |4         |
+[info] +----------+------------+----------------+--------+-----+----------+----------+----+----------+
+[info] ================================================================================
+[info] 7. TOP 3 STUDENTS PER COURSE - DENSE_RANK
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |dense_rank|
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|1         |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|1         |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|2         |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|3         |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|1         |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|1         |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|2         |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|3         |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|1         |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|1         |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|2         |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|3         |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|1         |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|1         |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|2         |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|3         |
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] This returns students belonging to the top 3 ranks
+[info] in every course.
+[info] Because dense_rank keeps ties together, the result can
+[info] contain more than exactly 3 students for a course.
+[info] ================================================================================
+[info] 8. EXACTLY TOP 3 STUDENTS PER COURSE - ROW_NUMBER
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |row_number|
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|1         |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|2         |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|3         |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|1         |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|2         |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|3         |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|1         |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|2         |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|3         |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|1         |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|2         |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|3         |
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] row_number() is useful when you need exactly N rows
+[info] from every group.
+[info] ================================================================================
+[info] 9. LAG() - PREVIOUS MARKS
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+--------------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |previous_marks|
+[info] +----------+------------+----------------+--------+-----+----------+--------------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|NULL          |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|92            |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|92            |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|88            |
+[info] |S005      |Vikram      |Data_Engineering|4       |76   |2026-09-01|81            |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|NULL          |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|91            |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|91            |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|87            |
+[info] |S015      |Sanjay      |Kafka           |4       |71   |2026-09-03|79            |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|NULL          |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|94            |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|94            |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|86            |
+[info] |S020      |Rakesh      |Scala           |4       |73   |2026-09-04|80            |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|NULL          |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|95            |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|95            |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|89            |
+[info] |S010      |Meera       |Spark           |4       |74   |2026-09-02|82            |
+[info] +----------+------------+----------------+--------+-----+----------+--------------+
+[info] lag():
+[info] Returns the value from a previous row
+[info] within the window.
+[info] lag("marks", 1)
+[info] means:
+[info] Get the marks from one row before the current row.
+[info] ================================================================================
+[info] 10. DIFFERENCE FROM PREVIOUS STUDENT
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+--------------+----------------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |previous_marks|marks_difference|
+[info] +----------+------------+----------------+--------+-----+----------+--------------+----------------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|NULL          |NULL            |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|92            |0               |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|92            |-4              |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|88            |-7              |
+[info] |S005      |Vikram      |Data_Engineering|4       |76   |2026-09-01|81            |-5              |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|NULL          |NULL            |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|91            |0               |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|91            |-4              |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|87            |-8              |
+[info] |S015      |Sanjay      |Kafka           |4       |71   |2026-09-03|79            |-8              |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|NULL          |NULL            |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|94            |0               |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|94            |-8              |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|86            |-6              |
+[info] |S020      |Rakesh      |Scala           |4       |73   |2026-09-04|80            |-7              |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|NULL          |NULL            |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|95            |0               |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|95            |-6              |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|89            |-7              |
+[info] |S010      |Meera       |Spark           |4       |74   |2026-09-02|82            |-8              |
+[info] +----------+------------+----------------+--------+-----+----------+--------------+----------------+
+[info] ================================================================================
+[info] 11. LEAD() - NEXT MARKS
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |next_marks|
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|92        |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|88        |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|81        |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|76        |
+[info] |S005      |Vikram      |Data_Engineering|4       |76   |2026-09-01|NULL      |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|91        |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|87        |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|79        |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|71        |
+[info] |S015      |Sanjay      |Kafka           |4       |71   |2026-09-03|NULL      |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|94        |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|86        |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|80        |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|73        |
+[info] |S020      |Rakesh      |Scala           |4       |73   |2026-09-04|NULL      |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|95        |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|89        |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|82        |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|74        |
+[info] |S010      |Meera       |Spark           |4       |74   |2026-09-02|NULL      |
+[info] +----------+------------+----------------+--------+-----+----------+----------+
+[info] lead():
+[info] Returns a value from a following row.
+[info] lead("marks", 1)
+[info] means:
+[info] Get the marks from one row after the current row.
+[info] ================================================================================
+[info] 12. LAG + LEAD TOGETHER
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+--------------+----------+------------------------+------------------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |previous_marks|next_marks|difference_from_previous|difference_to_next|
+[info] +----------+------------+----------------+--------+-----+----------+--------------+----------+------------------------+------------------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|NULL          |92        |NULL                    |0                 |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|92            |88        |0                       |-4                |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|92            |81        |-4                      |-7                |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|88            |76        |-7                      |-5                |
+[info] |S005      |Vikram      |Data_Engineering|4       |76   |2026-09-01|81            |NULL      |-5                      |NULL              |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|NULL          |91        |NULL                    |0                 |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|91            |87        |0                       |-4                |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|91            |79        |-4                      |-8                |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|87            |71        |-8                      |-8                |
+[info] |S015      |Sanjay      |Kafka           |4       |71   |2026-09-03|79            |NULL      |-8                      |NULL              |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|NULL          |94        |NULL                    |0                 |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|94            |86        |0                       |-8                |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|94            |80        |-8                      |-6                |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|86            |73        |-6                      |-7                |
+[info] |S020      |Rakesh      |Scala           |4       |73   |2026-09-04|80            |NULL      |-7                      |NULL              |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|NULL          |95        |NULL                    |0                 |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|95            |89        |0                       |-6                |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|95            |82        |-6                      |-7                |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|89            |74        |-7                      |-8                |
+[info] |S010      |Meera       |Spark           |4       |74   |2026-09-02|82            |NULL      |-8                      |NULL              |
+[info] +----------+------------+----------------+--------+-----+----------+--------------+----------+------------------------+------------------+
+[info] ================================================================================
+[info] 13. CUSTOMER POLICY DATA
+[info] ================================================================================
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+
+[info] |policy_id|customer_id|customer_name|policy_type|premium|policy_status|policy_date|
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+
+[info] |P001     |C001       |Rahul        |Health     |12000  |Active       |2026-01-10 |
+[info] |P002     |C001       |Rahul        |Health     |15000  |Active       |2026-04-15 |
+[info] |P003     |C001       |Rahul        |Health     |18000  |Active       |2026-08-20 |
+[info] |P004     |C002       |Priya        |Life       |22000  |Active       |2026-02-05 |
+[info] |P005     |C002       |Priya        |Life       |25000  |Active       |2026-06-18 |
+[info] |P006     |C002       |Priya        |Life       |28000  |Expired      |2026-09-01 |
+[info] |P007     |C003       |Arjun        |Vehicle    |18000  |Active       |2026-01-22 |
+[info] |P008     |C003       |Arjun        |Vehicle    |21000  |Active       |2026-05-12 |
+[info] |P009     |C003       |Arjun        |Vehicle    |24000  |Active       |2026-08-30 |
+[info] |P010     |C004       |Sneha        |Health     |14000  |Active       |2026-03-11 |
+[info] |P011     |C004       |Sneha        |Health     |17000  |Active       |2026-07-25 |
+[info] |P012     |C005       |Vikram       |Life       |30000  |Active       |2026-01-15 |
+[info] |P013     |C005       |Vikram       |Life       |32000  |Active       |2026-05-20 |
+[info] |P014     |C005       |Vikram       |Life       |35000  |Active       |2026-09-05 |
+[info] |P015     |C006       |Ananya       |Vehicle    |16000  |Active       |2026-02-18 |
+[info] |P016     |C006       |Ananya       |Vehicle    |19000  |Expired      |2026-06-22 |
+[info] |P017     |C007       |Rohit        |Health     |11000  |Active       |2026-04-01 |
+[info] |P018     |C007       |Rohit        |Health     |13500  |Active       |2026-08-10 |
+[info] |P019     |C008       |Kavya        |Life       |26000  |Active       |2026-01-30 |
+[info] |P020     |C008       |Kavya        |Life       |29000  |Active       |2026-09-10 |
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+
+[info] Schema:
+[info] root
+[info]  |-- policy_id: string (nullable = true)
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- customer_name: string (nullable = true)
+[info]  |-- policy_type: string (nullable = true)
+[info]  |-- premium: integer (nullable = true)
+[info]  |-- policy_status: string (nullable = true)
+[info]  |-- policy_date: date (nullable = true)
+[info] ================================================================================
+[info] 14. NUMBER POLICIES FOR EACH CUSTOMER
+[info] ================================================================================
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------+
+[info] |policy_id|customer_id|customer_name|policy_type|premium|policy_status|policy_date|row_number|
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------+
+[info] |P003     |C001       |Rahul        |Health     |18000  |Active       |2026-08-20 |1         |
+[info] |P002     |C001       |Rahul        |Health     |15000  |Active       |2026-04-15 |2         |
+[info] |P001     |C001       |Rahul        |Health     |12000  |Active       |2026-01-10 |3         |
+[info] |P006     |C002       |Priya        |Life       |28000  |Expired      |2026-09-01 |1         |
+[info] |P005     |C002       |Priya        |Life       |25000  |Active       |2026-06-18 |2         |
+[info] |P004     |C002       |Priya        |Life       |22000  |Active       |2026-02-05 |3         |
+[info] |P009     |C003       |Arjun        |Vehicle    |24000  |Active       |2026-08-30 |1         |
+[info] |P008     |C003       |Arjun        |Vehicle    |21000  |Active       |2026-05-12 |2         |
+[info] |P007     |C003       |Arjun        |Vehicle    |18000  |Active       |2026-01-22 |3         |
+[info] |P011     |C004       |Sneha        |Health     |17000  |Active       |2026-07-25 |1         |
+[info] |P010     |C004       |Sneha        |Health     |14000  |Active       |2026-03-11 |2         |
+[info] |P014     |C005       |Vikram       |Life       |35000  |Active       |2026-09-05 |1         |
+[info] |P013     |C005       |Vikram       |Life       |32000  |Active       |2026-05-20 |2         |
+[info] |P012     |C005       |Vikram       |Life       |30000  |Active       |2026-01-15 |3         |
+[info] |P016     |C006       |Ananya       |Vehicle    |19000  |Expired      |2026-06-22 |1         |
+[info] |P015     |C006       |Ananya       |Vehicle    |16000  |Active       |2026-02-18 |2         |
+[info] |P018     |C007       |Rohit        |Health     |13500  |Active       |2026-08-10 |1         |
+[info] |P017     |C007       |Rohit        |Health     |11000  |Active       |2026-04-01 |2         |
+[info] |P020     |C008       |Kavya        |Life       |29000  |Active       |2026-09-10 |1         |
+[info] |P019     |C008       |Kavya        |Life       |26000  |Active       |2026-01-30 |2         |
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------+
+[info] ================================================================================
+[info] 15. LATEST POLICY PER CUSTOMER
+[info] ================================================================================
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------+
+[info] |policy_id|customer_id|customer_name|policy_type|premium|policy_status|policy_date|row_number|
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------+
+[info] |P003     |C001       |Rahul        |Health     |18000  |Active       |2026-08-20 |1         |
+[info] |P006     |C002       |Priya        |Life       |28000  |Expired      |2026-09-01 |1         |
+[info] |P009     |C003       |Arjun        |Vehicle    |24000  |Active       |2026-08-30 |1         |
+[info] |P011     |C004       |Sneha        |Health     |17000  |Active       |2026-07-25 |1         |
+[info] |P014     |C005       |Vikram       |Life       |35000  |Active       |2026-09-05 |1         |
+[info] |P016     |C006       |Ananya       |Vehicle    |19000  |Expired      |2026-06-22 |1         |
+[info] |P018     |C007       |Rohit        |Health     |13500  |Active       |2026-08-10 |1         |
+[info] |P020     |C008       |Kavya        |Life       |29000  |Active       |2026-09-10 |1         |
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------+
+[info] IMPORTANT PATTERN:
+[info] Window:
+[info]   partitionBy(customer_id)
+[info]   orderBy(policy_date DESC)
+[info] Then:
+[info]   row_number = 1
+[info] This gives the latest record for every customer.
+[info] ================================================================================
+[info] 16. PREVIOUS POLICY PREMIUM
+[info] ================================================================================
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+
+[info] |policy_id|customer_id|customer_name|policy_type|premium|policy_status|policy_date|previous_premium|
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+
+[info] |P001     |C001       |Rahul        |Health     |12000  |Active       |2026-01-10 |NULL            |
+[info] |P002     |C001       |Rahul        |Health     |15000  |Active       |2026-04-15 |12000           |
+[info] |P003     |C001       |Rahul        |Health     |18000  |Active       |2026-08-20 |15000           |
+[info] |P004     |C002       |Priya        |Life       |22000  |Active       |2026-02-05 |NULL            |
+[info] |P005     |C002       |Priya        |Life       |25000  |Active       |2026-06-18 |22000           |
+[info] |P006     |C002       |Priya        |Life       |28000  |Expired      |2026-09-01 |25000           |
+[info] |P007     |C003       |Arjun        |Vehicle    |18000  |Active       |2026-01-22 |NULL            |
+[info] |P008     |C003       |Arjun        |Vehicle    |21000  |Active       |2026-05-12 |18000           |
+[info] |P009     |C003       |Arjun        |Vehicle    |24000  |Active       |2026-08-30 |21000           |
+[info] |P010     |C004       |Sneha        |Health     |14000  |Active       |2026-03-11 |NULL            |
+[info] |P011     |C004       |Sneha        |Health     |17000  |Active       |2026-07-25 |14000           |
+[info] |P012     |C005       |Vikram       |Life       |30000  |Active       |2026-01-15 |NULL            |
+[info] |P013     |C005       |Vikram       |Life       |32000  |Active       |2026-05-20 |30000           |
+[info] |P014     |C005       |Vikram       |Life       |35000  |Active       |2026-09-05 |32000           |
+[info] |P015     |C006       |Ananya       |Vehicle    |16000  |Active       |2026-02-18 |NULL            |
+[info] |P016     |C006       |Ananya       |Vehicle    |19000  |Expired      |2026-06-22 |16000           |
+[info] |P017     |C007       |Rohit        |Health     |11000  |Active       |2026-04-01 |NULL            |
+[info] |P018     |C007       |Rohit        |Health     |13500  |Active       |2026-08-10 |11000           |
+[info] |P019     |C008       |Kavya        |Life       |26000  |Active       |2026-01-30 |NULL            |
+[info] |P020     |C008       |Kavya        |Life       |29000  |Active       |2026-09-10 |26000           |
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+
+[info] ================================================================================
+[info] 17. PREMIUM CHANGE
+[info] ================================================================================
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+--------------+
+[info] |policy_id|customer_id|customer_name|policy_type|premium|policy_status|policy_date|previous_premium|premium_change|
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+--------------+
+[info] |P001     |C001       |Rahul        |Health     |12000  |Active       |2026-01-10 |NULL            |NULL          |
+[info] |P002     |C001       |Rahul        |Health     |15000  |Active       |2026-04-15 |12000           |3000          |
+[info] |P003     |C001       |Rahul        |Health     |18000  |Active       |2026-08-20 |15000           |3000          |
+[info] |P004     |C002       |Priya        |Life       |22000  |Active       |2026-02-05 |NULL            |NULL          |
+[info] |P005     |C002       |Priya        |Life       |25000  |Active       |2026-06-18 |22000           |3000          |
+[info] |P006     |C002       |Priya        |Life       |28000  |Expired      |2026-09-01 |25000           |3000          |
+[info] |P007     |C003       |Arjun        |Vehicle    |18000  |Active       |2026-01-22 |NULL            |NULL          |
+[info] |P008     |C003       |Arjun        |Vehicle    |21000  |Active       |2026-05-12 |18000           |3000          |
+[info] |P009     |C003       |Arjun        |Vehicle    |24000  |Active       |2026-08-30 |21000           |3000          |
+[info] |P010     |C004       |Sneha        |Health     |14000  |Active       |2026-03-11 |NULL            |NULL          |
+[info] |P011     |C004       |Sneha        |Health     |17000  |Active       |2026-07-25 |14000           |3000          |
+[info] |P012     |C005       |Vikram       |Life       |30000  |Active       |2026-01-15 |NULL            |NULL          |
+[info] |P013     |C005       |Vikram       |Life       |32000  |Active       |2026-05-20 |30000           |2000          |
+[info] |P014     |C005       |Vikram       |Life       |35000  |Active       |2026-09-05 |32000           |3000          |
+[info] |P015     |C006       |Ananya       |Vehicle    |16000  |Active       |2026-02-18 |NULL            |NULL          |
+[info] |P016     |C006       |Ananya       |Vehicle    |19000  |Expired      |2026-06-22 |16000           |3000          |
+[info] |P017     |C007       |Rohit        |Health     |11000  |Active       |2026-04-01 |NULL            |NULL          |
+[info] |P018     |C007       |Rohit        |Health     |13500  |Active       |2026-08-10 |11000           |2500          |
+[info] |P019     |C008       |Kavya        |Life       |26000  |Active       |2026-01-30 |NULL            |NULL          |
+[info] |P020     |C008       |Kavya        |Life       |29000  |Active       |2026-09-10 |26000           |3000          |
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+--------------+
+[info] ================================================================================
+[info] 18. NEXT POLICY DATE
+[info] ================================================================================
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+
+[info] |policy_id|customer_id|customer_name|policy_type|premium|policy_status|policy_date|next_policy_date|
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+
+[info] |P001     |C001       |Rahul        |Health     |12000  |Active       |2026-01-10 |2026-04-15      |
+[info] |P002     |C001       |Rahul        |Health     |15000  |Active       |2026-04-15 |2026-08-20      |
+[info] |P003     |C001       |Rahul        |Health     |18000  |Active       |2026-08-20 |NULL            |
+[info] |P004     |C002       |Priya        |Life       |22000  |Active       |2026-02-05 |2026-06-18      |
+[info] |P005     |C002       |Priya        |Life       |25000  |Active       |2026-06-18 |2026-09-01      |
+[info] |P006     |C002       |Priya        |Life       |28000  |Expired      |2026-09-01 |NULL            |
+[info] |P007     |C003       |Arjun        |Vehicle    |18000  |Active       |2026-01-22 |2026-05-12      |
+[info] |P008     |C003       |Arjun        |Vehicle    |21000  |Active       |2026-05-12 |2026-08-30      |
+[info] |P009     |C003       |Arjun        |Vehicle    |24000  |Active       |2026-08-30 |NULL            |
+[info] |P010     |C004       |Sneha        |Health     |14000  |Active       |2026-03-11 |2026-07-25      |
+[info] |P011     |C004       |Sneha        |Health     |17000  |Active       |2026-07-25 |NULL            |
+[info] |P012     |C005       |Vikram       |Life       |30000  |Active       |2026-01-15 |2026-05-20      |
+[info] |P013     |C005       |Vikram       |Life       |32000  |Active       |2026-05-20 |2026-09-05      |
+[info] |P014     |C005       |Vikram       |Life       |35000  |Active       |2026-09-05 |NULL            |
+[info] |P015     |C006       |Ananya       |Vehicle    |16000  |Active       |2026-02-18 |2026-06-22      |
+[info] |P016     |C006       |Ananya       |Vehicle    |19000  |Expired      |2026-06-22 |NULL            |
+[info] |P017     |C007       |Rohit        |Health     |11000  |Active       |2026-04-01 |2026-08-10      |
+[info] |P018     |C007       |Rohit        |Health     |13500  |Active       |2026-08-10 |NULL            |
+[info] |P019     |C008       |Kavya        |Life       |26000  |Active       |2026-01-30 |2026-09-10      |
+[info] |P020     |C008       |Kavya        |Life       |29000  |Active       |2026-09-10 |NULL            |
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+
+[info] ================================================================================
+[info] 19. COMPLETE CUSTOMER POLICY HISTORY
+[info] ================================================================================
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+------------+--------------+
+[info] |policy_id|customer_id|customer_name|policy_type|premium|policy_status|policy_date|previous_premium|next_premium|premium_change|
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+------------+--------------+
+[info] |P001     |C001       |Rahul        |Health     |12000  |Active       |2026-01-10 |NULL            |15000       |NULL          |
+[info] |P002     |C001       |Rahul        |Health     |15000  |Active       |2026-04-15 |12000           |18000       |3000          |
+[info] |P003     |C001       |Rahul        |Health     |18000  |Active       |2026-08-20 |15000           |NULL        |3000          |
+[info] |P004     |C002       |Priya        |Life       |22000  |Active       |2026-02-05 |NULL            |25000       |NULL          |
+[info] |P005     |C002       |Priya        |Life       |25000  |Active       |2026-06-18 |22000           |28000       |3000          |
+[info] |P006     |C002       |Priya        |Life       |28000  |Expired      |2026-09-01 |25000           |NULL        |3000          |
+[info] |P007     |C003       |Arjun        |Vehicle    |18000  |Active       |2026-01-22 |NULL            |21000       |NULL          |
+[info] |P008     |C003       |Arjun        |Vehicle    |21000  |Active       |2026-05-12 |18000           |24000       |3000          |
+[info] |P009     |C003       |Arjun        |Vehicle    |24000  |Active       |2026-08-30 |21000           |NULL        |3000          |
+[info] |P010     |C004       |Sneha        |Health     |14000  |Active       |2026-03-11 |NULL            |17000       |NULL          |
+[info] |P011     |C004       |Sneha        |Health     |17000  |Active       |2026-07-25 |14000           |NULL        |3000          |
+[info] |P012     |C005       |Vikram       |Life       |30000  |Active       |2026-01-15 |NULL            |32000       |NULL          |
+[info] |P013     |C005       |Vikram       |Life       |32000  |Active       |2026-05-20 |30000           |35000       |2000          |
+[info] |P014     |C005       |Vikram       |Life       |35000  |Active       |2026-09-05 |32000           |NULL        |3000          |
+[info] |P015     |C006       |Ananya       |Vehicle    |16000  |Active       |2026-02-18 |NULL            |19000       |NULL          |
+[info] |P016     |C006       |Ananya       |Vehicle    |19000  |Expired      |2026-06-22 |16000           |NULL        |3000          |
+[info] |P017     |C007       |Rohit        |Health     |11000  |Active       |2026-04-01 |NULL            |13500       |NULL          |
+[info] |P018     |C007       |Rohit        |Health     |13500  |Active       |2026-08-10 |11000           |NULL        |2500          |
+[info] |P019     |C008       |Kavya        |Life       |26000  |Active       |2026-01-30 |NULL            |29000       |NULL          |
+[info] |P020     |C008       |Kavya        |Life       |29000  |Active       |2026-09-10 |26000           |NULL        |3000          |
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+----------------+------------+--------------+
+[info] ================================================================================
+[info] 20. SQL WINDOW FUNCTION - LATEST POLICY
+[info] ================================================================================
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+
+[info] |policy_id|customer_id|customer_name|policy_type|premium|policy_status|policy_date|
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+
+[info] |P003     |C001       |Rahul        |Health     |18000  |Active       |2026-08-20 |
+[info] |P006     |C002       |Priya        |Life       |28000  |Expired      |2026-09-01 |
+[info] |P009     |C003       |Arjun        |Vehicle    |24000  |Active       |2026-08-30 |
+[info] |P011     |C004       |Sneha        |Health     |17000  |Active       |2026-07-25 |
+[info] |P014     |C005       |Vikram       |Life       |35000  |Active       |2026-09-05 |
+[info] |P016     |C006       |Ananya       |Vehicle    |19000  |Expired      |2026-06-22 |
+[info] |P018     |C007       |Rohit        |Health     |13500  |Active       |2026-08-10 |
+[info] |P020     |C008       |Kavya        |Life       |29000  |Active       |2026-09-10 |
+[info] +---------+-----------+-------------+-----------+-------+-------------+-----------+
+[info] ================================================================================
+[info] 21. SQL WINDOW FUNCTION - TOP 3 STUDENTS
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+------------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |student_rank|
+[info] +----------+------------+----------------+--------+-----+----------+------------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|1           |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|1           |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|2           |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|3           |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|1           |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|1           |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|2           |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|3           |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|1           |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|1           |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|2           |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|3           |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|1           |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|1           |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|2           |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|3           |
+[info] +----------+------------+----------------+--------+-----+----------+------------+
+[info] ================================================================================
+[info] 22. SQL LAG AND LEAD
+[info] ================================================================================
+[info] +----------+------------+----------------+-----+--------------+----------+
+[info] |student_id|student_name|course          |marks|previous_marks|next_marks|
+[info] +----------+------------+----------------+-----+--------------+----------+
+[info] |S001      |Rahul       |Data_Engineering|92   |NULL          |92        |
+[info] |S003      |Arjun       |Data_Engineering|92   |92            |88        |
+[info] |S002      |Priya       |Data_Engineering|88   |92            |81        |
+[info] |S004      |Sneha       |Data_Engineering|81   |88            |76        |
+[info] |S005      |Vikram      |Data_Engineering|76   |81            |NULL      |
+[info] |S011      |Kiran       |Kafka           |91   |NULL          |91        |
+[info] |S012      |Pooja       |Kafka           |91   |91            |87        |
+[info] |S013      |Manoj       |Kafka           |87   |91            |79        |
+[info] |S014      |Divya       |Kafka           |79   |87            |71        |
+[info] |S015      |Sanjay      |Kafka           |71   |79            |NULL      |
+[info] |S016      |Aarav       |Scala           |94   |NULL          |94        |
+[info] |S018      |Varun       |Scala           |94   |94            |86        |
+[info] |S017      |Ishita      |Scala           |86   |94            |80        |
+[info] |S019      |Nisha       |Scala           |80   |86            |73        |
+[info] |S020      |Rakesh      |Scala           |73   |80            |NULL      |
+[info] |S006      |Ananya      |Spark           |95   |NULL          |95        |
+[info] |S008      |Kavya       |Spark           |95   |95            |89        |
+[info] |S007      |Rohit       |Spark           |89   |95            |82        |
+[info] |S009      |Aditya      |Spark           |82   |89            |74        |
+[info] |S010      |Meera       |Spark           |74   |82            |NULL      |
+[info] +----------+------------+----------------+-----+--------------+----------+
+[info] ================================================================================
+[info] 23. WINDOW FUNCTIONS VS GROUP BY
+[info] ================================================================================
+[info] GROUP BY:
+[info]   students
+[info]       |
+[info]       +---- GROUP BY course
+[info]       |
+[info]       v
+[info]   one row per course
+[info] WINDOW FUNCTION:
+[info]   students
+[info]       |
+[info]       +---- PARTITION BY course
+[info]       |
+[info]       v
+[info]   every original row is preserved
+[info] Example:
+[info] GROUP BY:
+[info] course       average_marks
+[info] --------------------------------
+[info] Spark              89
+[info] Kafka              84
+[info] WINDOW:
+[info] student     course      marks    avg_course_marks
+[info] --------------------------------------------------
+[info] Ananya      Spark        95           89
+[info] Kavya       Spark        95           89
+[info] ...
+[info] The window function adds information to each row
+[info] instead of collapsing rows.
+[info] ================================================================================
+[info] 24. RANKING FUNCTION COMPARISON
+[info] ================================================================================
+[info] +----------+------------+----------------+--------+-----+----------+----------+----+----------+
+[info] |student_id|student_name|course          |semester|marks|exam_date |row_number|rank|dense_rank|
+[info] +----------+------------+----------------+--------+-----+----------+----------+----+----------+
+[info] |S001      |Rahul       |Data_Engineering|4       |92   |2026-09-01|1         |1   |1         |
+[info] |S003      |Arjun       |Data_Engineering|4       |92   |2026-09-01|2         |1   |1         |
+[info] |S002      |Priya       |Data_Engineering|4       |88   |2026-09-01|3         |3   |2         |
+[info] |S004      |Sneha       |Data_Engineering|4       |81   |2026-09-01|4         |4   |3         |
+[info] |S005      |Vikram      |Data_Engineering|4       |76   |2026-09-01|5         |5   |4         |
+[info] |S011      |Kiran       |Kafka           |4       |91   |2026-09-03|1         |1   |1         |
+[info] |S012      |Pooja       |Kafka           |4       |91   |2026-09-03|2         |1   |1         |
+[info] |S013      |Manoj       |Kafka           |4       |87   |2026-09-03|3         |3   |2         |
+[info] |S014      |Divya       |Kafka           |4       |79   |2026-09-03|4         |4   |3         |
+[info] |S015      |Sanjay      |Kafka           |4       |71   |2026-09-03|5         |5   |4         |
+[info] |S016      |Aarav       |Scala           |4       |94   |2026-09-04|1         |1   |1         |
+[info] |S018      |Varun       |Scala           |4       |94   |2026-09-04|2         |1   |1         |
+[info] |S017      |Ishita      |Scala           |4       |86   |2026-09-04|3         |3   |2         |
+[info] |S019      |Nisha       |Scala           |4       |80   |2026-09-04|4         |4   |3         |
+[info] |S020      |Rakesh      |Scala           |4       |73   |2026-09-04|5         |5   |4         |
+[info] |S006      |Ananya      |Spark           |4       |95   |2026-09-02|1         |1   |1         |
+[info] |S008      |Kavya       |Spark           |4       |95   |2026-09-02|2         |1   |1         |
+[info] |S007      |Rohit       |Spark           |4       |89   |2026-09-02|3         |3   |2         |
+[info] |S009      |Aditya      |Spark           |4       |82   |2026-09-02|4         |4   |3         |
+[info] |S010      |Meera       |Spark           |4       |74   |2026-09-02|5         |5   |4         |
+[info] +----------+------------+----------------+--------+-----+----------+----------+----+----------+
+[info] ================================================================================
+[info] 25. COMMON WINDOW FUNCTION USE CASES
+[info] ================================================================================
+[info] 1. TOP N PER GROUP
+[info]    Example:
+[info]    Top 3 students per course
+[info] 2. LATEST RECORD PER CUSTOMER
+[info]    Example:
+[info]    Latest insurance policy per customer
+[info] 3. PREVIOUS VALUE
+[info]    Using LAG()
+[info]    Example:
+[info]    Previous transaction amount
+[info] 4. NEXT VALUE
+[info]    Using LEAD()
+[info]    Example:
+[info]    Next transaction date
+[info] 5. RUNNING TOTAL
+[info]    SUM(...) OVER(...)
+[info] 6. RANKING
+[info]    ROW_NUMBER()
+[info]    RANK()
+[info]    DENSE_RANK()
+[info] 7. CHANGE DETECTION
+[info]    Current value - previous value
+[info] ================================================================================
+[info] 26. DAY 17 VIVA SUMMARY
+[info] ================================================================================
+[info] Q1. What is a window function?
+[info] A:
+[info] A window function performs calculations across related rows
+[info] while preserving the individual rows in the result.
+[info] Q2. What does partitionBy do?
+[info] A:
+[info] It divides the dataset into independent groups for the
+[info] window calculation.
+[info] Q3. What does orderBy do inside Window?
+[info] A:
+[info] It defines the ordering of rows within each partition.
+[info] Q4. Difference between row_number, rank and dense_rank?
+[info] A:
+[info] row_number gives every row a unique number.
+[info] rank gives tied rows the same rank and leaves gaps.
+[info] dense_rank gives tied rows the same rank without gaps.
+[info] Q5. What is lag?
+[info] A:
+[info] lag accesses a value from a previous row.
+[info] Q6. What is lead?
+[info] A:
+[info] lead accesses a value from a following row.
+[info] Q7. How do you find the latest record per customer?
+[info] A:
+[info] Partition by customer, order by date descending,
+[info] apply row_number and filter row_number = 1.
+[info] Q8. How do you find top 3 students per course?
+[info] A:
+[info] Partition by course, order by marks descending,
+[info] apply dense_rank and filter rank <= 3.
+[info] Q9. When would you use row_number instead of dense_rank?
+[info] A:
+[info] When I need exactly 3 rows per group rather than all
+[info] rows belonging to the top 3 ranks.
+[info] Q10. Difference between GROUP BY and window functions?
+[info] A:
+[info] GROUP BY reduces multiple rows into groups.
+[info] Window functions preserve the original rows and add
+[info] calculated information to them.
+[info] ================================================================================
+[info] DAY 17 COMPLETED
+[info] ================================================================================
+[success] Total time: 23 s, completed Sep 25, 2026, 12:12:25 PM

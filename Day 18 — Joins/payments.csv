@@ -1,0 +1,11 @@
+payment_id,order_id,payment_method,payment_status,payment_amount,payment_date
+P001,O001,UPI,Paid,75000,2026-09-01
+P002,O002,Credit_Card,Paid,3000,2026-09-02
+P003,O003,UPI,Paid,5000,2026-09-03
+P004,O004,Debit_Card,Paid,25000,2026-09-04
+P005,O005,UPI,Paid,14000,2026-09-05
+P006,O006,Credit_Card,Paid,80000,2026-09-06
+P007,O007,UPI,Pending,20000,2026-09-07
+P008,O008,UPI,Paid,4500,2026-09-08
+P009,O009,Credit_Card,Paid,50000,2026-09-09
+P010,O011,UPI,Paid,12000,2026-09-10

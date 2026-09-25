@@ -1,0 +1,511 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day18-joins$ sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day18-joins/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day18-joins (in build file:/home/babblu/spark-day18-joins/)
+[info] compiling 1 Scala source to /home/babblu/spark-day18-joins/target/scala-2.12/classes ...
+[info] running (fork) Day18JoinsApp
+[info] ================================================================================
+[info] DAY 18 - SPARK JOINS
+[info] ================================================================================
+[info] ================================================================================
+[info] 1. CUSTOMERS
+[info] ================================================================================
+[info] +-----------+-------------+---------+-------+
+[info] |customer_id|customer_name|city     |segment|
+[info] +-----------+-------------+---------+-------+
+[info] |C001       |Rahul        |Delhi    |Premium|
+[info] |C002       |Ananya       |Mumbai   |Regular|
+[info] |C003       |Arjun        |Hyderabad|Premium|
+[info] |C004       |Priya        |Bangalore|Regular|
+[info] |C005       |Kiran        |Chennai  |Premium|
+[info] |C006       |Sneha        |Pune     |Regular|
+[info] |C007       |Vikram       |Kolkata  |Premium|
+[info] |C008       |Neha         |Jaipur   |Regular|
+[info] +-----------+-------------+---------+-------+
+[info] root
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- customer_name: string (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info]  |-- segment: string (nullable = true)
+[info] ================================================================================
+[info] 2. ORDERS
+[info] ================================================================================
+[info] +--------+-----------+--------+--------+------------+----------+
+[info] |order_id|customer_id|product |quantity|order_amount|order_date|
+[info] +--------+-----------+--------+--------+------------+----------+
+[info] |O001    |C001       |Laptop  |1       |75000       |2026-09-01|
+[info] |O002    |C002       |Mouse   |2       |3000        |2026-09-02|
+[info] |O003    |C003       |Keyboard|2       |5000        |2026-09-03|
+[info] |O004    |C001       |Monitor |1       |25000       |2026-09-04|
+[info] |O005    |C004       |Chair   |2       |14000       |2026-09-05|
+[info] |O006    |C005       |Laptop  |1       |80000       |2026-09-06|
+[info] |O007    |C006       |Desk    |1       |20000       |2026-09-07|
+[info] |O008    |C003       |Mouse   |3       |4500        |2026-09-08|
+[info] |O009    |C007       |Monitor |2       |50000       |2026-09-09|
+[info] |O010    |C009       |Printer |1       |18000       |2026-09-10|
+[info] +--------+-----------+--------+--------+------------+----------+
+[info] root
+[info]  |-- order_id: string (nullable = true)
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- product: string (nullable = true)
+[info]  |-- quantity: integer (nullable = true)
+[info]  |-- order_amount: integer (nullable = true)
+[info]  |-- order_date: date (nullable = true)
+[info] ================================================================================
+[info] 3. PAYMENTS
+[info] ================================================================================
+[info] +----------+--------+--------------+--------------+--------------+------------+
+[info] |payment_id|order_id|payment_method|payment_status|payment_amount|payment_date|
+[info] +----------+--------+--------------+--------------+--------------+------------+
+[info] |P001      |O001    |UPI           |Paid          |75000         |2026-09-01  |
+[info] |P002      |O002    |Credit_Card   |Paid          |3000          |2026-09-02  |
+[info] |P003      |O003    |UPI           |Paid          |5000          |2026-09-03  |
+[info] |P004      |O004    |Debit_Card    |Paid          |25000         |2026-09-04  |
+[info] |P005      |O005    |UPI           |Paid          |14000         |2026-09-05  |
+[info] |P006      |O006    |Credit_Card   |Paid          |80000         |2026-09-06  |
+[info] |P007      |O007    |UPI           |Pending       |20000         |2026-09-07  |
+[info] |P008      |O008    |UPI           |Paid          |4500          |2026-09-08  |
+[info] |P009      |O009    |Credit_Card   |Paid          |50000         |2026-09-09  |
+[info] |P010      |O011    |UPI           |Paid          |12000         |2026-09-10  |
+[info] +----------+--------+--------------+--------------+--------------+------------+
+[info] root
+[info]  |-- payment_id: string (nullable = true)
+[info]  |-- order_id: string (nullable = true)
+[info]  |-- payment_method: string (nullable = true)
+[info]  |-- payment_status: string (nullable = true)
+[info]  |-- payment_amount: integer (nullable = true)
+[info]  |-- payment_date: date (nullable = true)
+[info] ================================================================================
+[info] 4. INNER JOIN - ORDERS + CUSTOMERS
+[info] ================================================================================
+[info] +--------+-----------+-------------+---------+--------+------------+
+[info] |order_id|customer_id|customer_name|city     |product |order_amount|
+[info] +--------+-----------+-------------+---------+--------+------------+
+[info] |O001    |C001       |Rahul        |Delhi    |Laptop  |75000       |
+[info] |O002    |C002       |Ananya       |Mumbai   |Mouse   |3000        |
+[info] |O003    |C003       |Arjun        |Hyderabad|Keyboard|5000        |
+[info] |O004    |C001       |Rahul        |Delhi    |Monitor |25000       |
+[info] |O005    |C004       |Priya        |Bangalore|Chair   |14000       |
+[info] |O006    |C005       |Kiran        |Chennai  |Laptop  |80000       |
+[info] |O007    |C006       |Sneha        |Pune     |Desk    |20000       |
+[info] |O008    |C003       |Arjun        |Hyderabad|Mouse   |4500        |
+[info] |O009    |C007       |Vikram       |Kolkata  |Monitor |50000       |
+[info] +--------+-----------+-------------+---------+--------+------------+
+[info] INNER JOIN:
+[info] Only rows having a matching key in BOTH datasets
+[info] are returned.
+[info] orders.customer_id = customers.customer_id
+[info] ================================================================================
+[info] 5. LEFT JOIN - ORDERS + CUSTOMERS
+[info] ================================================================================
+[info] +--------+-----------+-------------+---------+--------+------------+
+[info] |order_id|customer_id|customer_name|city     |product |order_amount|
+[info] +--------+-----------+-------------+---------+--------+------------+
+[info] |O001    |C001       |Rahul        |Delhi    |Laptop  |75000       |
+[info] |O002    |C002       |Ananya       |Mumbai   |Mouse   |3000        |
+[info] |O003    |C003       |Arjun        |Hyderabad|Keyboard|5000        |
+[info] |O004    |C001       |Rahul        |Delhi    |Monitor |25000       |
+[info] |O005    |C004       |Priya        |Bangalore|Chair   |14000       |
+[info] |O006    |C005       |Kiran        |Chennai  |Laptop  |80000       |
+[info] |O007    |C006       |Sneha        |Pune     |Desk    |20000       |
+[info] |O008    |C003       |Arjun        |Hyderabad|Mouse   |4500        |
+[info] |O009    |C007       |Vikram       |Kolkata  |Monitor |50000       |
+[info] |O010    |C009       |NULL         |NULL     |Printer |18000       |
+[info] +--------+-----------+-------------+---------+--------+------------+
+[info] LEFT JOIN:
+[info] Keeps ALL rows from the LEFT table.
+[info] If there is no matching customer,
+[info] customer columns become NULL.
+[info] ================================================================================
+[info] 6. RIGHT JOIN - ORDERS + CUSTOMERS
+[info] ================================================================================
+[info] +--------+-----------+-------------+---------+--------+------------+
+[info] |order_id|customer_id|customer_name|city     |product |order_amount|
+[info] +--------+-----------+-------------+---------+--------+------------+
+[info] |O004    |C001       |Rahul        |Delhi    |Monitor |25000       |
+[info] |O001    |C001       |Rahul        |Delhi    |Laptop  |75000       |
+[info] |O002    |C002       |Ananya       |Mumbai   |Mouse   |3000        |
+[info] |O008    |C003       |Arjun        |Hyderabad|Mouse   |4500        |
+[info] |O003    |C003       |Arjun        |Hyderabad|Keyboard|5000        |
+[info] |O005    |C004       |Priya        |Bangalore|Chair   |14000       |
+[info] |O006    |C005       |Kiran        |Chennai  |Laptop  |80000       |
+[info] |O007    |C006       |Sneha        |Pune     |Desk    |20000       |
+[info] |O009    |C007       |Vikram       |Kolkata  |Monitor |50000       |
+[info] |NULL    |C008       |Neha         |Jaipur   |NULL    |NULL        |
+[info] +--------+-----------+-------------+---------+--------+------------+
+[info] RIGHT JOIN:
+[info] Keeps ALL rows from the RIGHT table.
+[info] Customers without orders will have NULL
+[info] in the order columns.
+[info] ================================================================================
+[info] 7. FULL OUTER JOIN - ORDERS + CUSTOMERS
+[info] ================================================================================
+[info] +-----------+--------+-------------+---------+--------+------------+
+[info] |customer_id|order_id|customer_name|city     |product |order_amount|
+[info] +-----------+--------+-------------+---------+--------+------------+
+[info] |C001       |O001    |Rahul        |Delhi    |Laptop  |75000       |
+[info] |C001       |O004    |Rahul        |Delhi    |Monitor |25000       |
+[info] |C002       |O002    |Ananya       |Mumbai   |Mouse   |3000        |
+[info] |C003       |O003    |Arjun        |Hyderabad|Keyboard|5000        |
+[info] |C003       |O008    |Arjun        |Hyderabad|Mouse   |4500        |
+[info] |C004       |O005    |Priya        |Bangalore|Chair   |14000       |
+[info] |C005       |O006    |Kiran        |Chennai  |Laptop  |80000       |
+[info] |C006       |O007    |Sneha        |Pune     |Desk    |20000       |
+[info] |C007       |O009    |Vikram       |Kolkata  |Monitor |50000       |
+[info] |C008       |NULL    |Neha         |Jaipur   |NULL    |NULL        |
+[info] |C009       |O010    |NULL         |NULL     |Printer |18000       |
+[info] +-----------+--------+-------------+---------+--------+------------+
+[info] FULL OUTER JOIN:
+[info] Keeps ALL rows from BOTH datasets.
+[info] Matched rows are combined.
+[info] Unmatched rows contain NULL on the missing side.
+[info] ================================================================================
+[info] 8. HANDLING AMBIGUOUS COLUMN NAMES
+[info] ================================================================================
+[info] Both orders and customers contain:
+[info] customer_id
+[info] If we reference:
+[info] col("customer_id")
+[info] after a join, Spark may report an ambiguous
+[info] reference because both DataFrames contain that column.
+[info] Solution:
+[info] Use aliases.
+[info] +--------+-----------------+--------------------+-------------+---------+--------+------------+
+[info] |order_id|order_customer_id|customer_customer_id|customer_name|city     |product |order_amount|
+[info] +--------+-----------------+--------------------+-------------+---------+--------+------------+
+[info] |O001    |C001             |C001                |Rahul        |Delhi    |Laptop  |75000       |
+[info] |O002    |C002             |C002                |Ananya       |Mumbai   |Mouse   |3000        |
+[info] |O003    |C003             |C003                |Arjun        |Hyderabad|Keyboard|5000        |
+[info] |O004    |C001             |C001                |Rahul        |Delhi    |Monitor |25000       |
+[info] |O005    |C004             |C004                |Priya        |Bangalore|Chair   |14000       |
+[info] |O006    |C005             |C005                |Kiran        |Chennai  |Laptop  |80000       |
+[info] |O007    |C006             |C006                |Sneha        |Pune     |Desk    |20000       |
+[info] |O008    |C003             |C003                |Arjun        |Hyderabad|Mouse   |4500        |
+[info] |O009    |C007             |C007                |Vikram       |Kolkata  |Monitor |50000       |
+[info] +--------+-----------------+--------------------+-------------+---------+--------+------------+
+[info] ================================================================================
+[info] 9. NULL HANDLING AFTER LEFT JOIN
+[info] ================================================================================
+[info] +--------+-----------+----------------+------------+--------+------------+
+[info] |order_id|customer_id|customer_name   |city        |product |order_amount|
+[info] +--------+-----------+----------------+------------+--------+------------+
+[info] |O001    |C001       |Rahul           |Delhi       |Laptop  |75000       |
+[info] |O002    |C002       |Ananya          |Mumbai      |Mouse   |3000        |
+[info] |O003    |C003       |Arjun           |Hyderabad   |Keyboard|5000        |
+[info] |O004    |C001       |Rahul           |Delhi       |Monitor |25000       |
+[info] |O005    |C004       |Priya           |Bangalore   |Chair   |14000       |
+[info] |O006    |C005       |Kiran           |Chennai     |Laptop  |80000       |
+[info] |O007    |C006       |Sneha           |Pune        |Desk    |20000       |
+[info] |O008    |C003       |Arjun           |Hyderabad   |Mouse   |4500        |
+[info] |O009    |C007       |Vikram          |Kolkata     |Monitor |50000       |
+[info] |O010    |C009       |Unknown Customer|Unknown City|Printer |18000       |
+[info] +--------+-----------+----------------+------------+--------+------------+
+[info] ================================================================================
+[info] 10. ORDERS WITH NO CUSTOMER MATCH
+[info] ================================================================================
+[info] +--------+-----------+-------+------------+
+[info] |order_id|customer_id|product|order_amount|
+[info] +--------+-----------+-------+------------+
+[info] |O010    |C009       |Printer|18000       |
+[info] +--------+-----------+-------+------------+
+[info] ================================================================================
+[info] 11. CUSTOMERS WITH NO ORDERS
+[info] ================================================================================
+[info] +-----------+-------------+------+-------+
+[info] |customer_id|customer_name|city  |segment|
+[info] +-----------+-------------+------+-------+
+[info] |C008       |Neha         |Jaipur|Regular|
+[info] +-----------+-------------+------+-------+
+[info] ================================================================================
+[info] 12. ORDERS + PAYMENTS
+[info] ================================================================================
+[info] +--------+-----------+--------+------------+--------------+--------------+--------------+
+[info] |order_id|customer_id|product |order_amount|payment_method|payment_status|payment_amount|
+[info] +--------+-----------+--------+------------+--------------+--------------+--------------+
+[info] |O001    |C001       |Laptop  |75000       |UPI           |Paid          |75000         |
+[info] |O002    |C002       |Mouse   |3000        |Credit_Card   |Paid          |3000          |
+[info] |O003    |C003       |Keyboard|5000        |UPI           |Paid          |5000          |
+[info] |O004    |C001       |Monitor |25000       |Debit_Card    |Paid          |25000         |
+[info] |O005    |C004       |Chair   |14000       |UPI           |Paid          |14000         |
+[info] |O006    |C005       |Laptop  |80000       |Credit_Card   |Paid          |80000         |
+[info] |O007    |C006       |Desk    |20000       |UPI           |Pending       |20000         |
+[info] |O008    |C003       |Mouse   |4500        |UPI           |Paid          |4500          |
+[info] |O009    |C007       |Monitor |50000       |Credit_Card   |Paid          |50000         |
+[info] |O010    |C009       |Printer |18000       |NULL          |NULL          |NULL          |
+[info] +--------+-----------+--------+------------+--------------+--------------+--------------+
+[info] ================================================================================
+[info] 13. THREE-WAY JOIN
+[info] ORDERS + CUSTOMERS + PAYMENTS
+[info] ================================================================================
+[info] +--------+-----------+-------------+---------+-------+--------+--------+------------+--------------+--------------+--------------+
+[info] |order_id|customer_id|customer_name|city     |segment|product |quantity|order_amount|payment_method|payment_status|payment_amount|
+[info] +--------+-----------+-------------+---------+-------+--------+--------+------------+--------------+--------------+--------------+
+[info] |O001    |C001       |Rahul        |Delhi    |Premium|Laptop  |1       |75000       |UPI           |Paid          |75000         |
+[info] |O002    |C002       |Ananya       |Mumbai   |Regular|Mouse   |2       |3000        |Credit_Card   |Paid          |3000          |
+[info] |O003    |C003       |Arjun        |Hyderabad|Premium|Keyboard|2       |5000        |UPI           |Paid          |5000          |
+[info] |O004    |C001       |Rahul        |Delhi    |Premium|Monitor |1       |25000       |Debit_Card    |Paid          |25000         |
+[info] |O005    |C004       |Priya        |Bangalore|Regular|Chair   |2       |14000       |UPI           |Paid          |14000         |
+[info] |O006    |C005       |Kiran        |Chennai  |Premium|Laptop  |1       |80000       |Credit_Card   |Paid          |80000         |
+[info] |O007    |C006       |Sneha        |Pune     |Regular|Desk    |1       |20000       |UPI           |Pending       |20000         |
+[info] |O008    |C003       |Arjun        |Hyderabad|Premium|Mouse   |3       |4500        |UPI           |Paid          |4500          |
+[info] |O009    |C007       |Vikram       |Kolkata  |Premium|Monitor |2       |50000       |Credit_Card   |Paid          |50000         |
+[info] |O010    |C009       |NULL         |NULL     |NULL   |Printer |1       |18000       |No Payment    |No Payment    |0             |
+[info] +--------+-----------+-------------+---------+-------+--------+--------+------------+--------------+--------------+--------------+
+[info] ================================================================================
+[info] 14. PAYMENT VALIDATION
+[info] ================================================================================
+[info] +--------+------------+--------------+------------------+-------------+
+[info] |order_id|order_amount|payment_amount|payment_difference|payment_check|
+[info] +--------+------------+--------------+------------------+-------------+
+[info] |O001    |75000       |75000         |0                 |Fully Paid   |
+[info] |O002    |3000        |3000          |0                 |Fully Paid   |
+[info] |O003    |5000        |5000          |0                 |Fully Paid   |
+[info] |O004    |25000       |25000         |0                 |Fully Paid   |
+[info] |O005    |14000       |14000         |0                 |Fully Paid   |
+[info] |O006    |80000       |80000         |0                 |Fully Paid   |
+[info] |O007    |20000       |20000         |0                 |Fully Paid   |
+[info] |O008    |4500        |4500          |0                 |Fully Paid   |
+[info] |O009    |50000       |50000         |0                 |Fully Paid   |
+[info] |O010    |18000       |0             |18000             |No Payment   |
+[info] +--------+------------+--------------+------------------+-------------+
+[info] ================================================================================
+[info] 15. CUSTOMER REVENUE
+[info] ================================================================================
+[info] +-----------+-------------+---------+-------+-----------+-------------+-------------------+
+[info] |customer_id|customer_name|city     |segment|order_count|total_revenue|average_order_value|
+[info] +-----------+-------------+---------+-------+-----------+-------------+-------------------+
+[info] |C001       |Rahul        |Delhi    |Premium|2          |100000       |50000.0            |
+[info] |C005       |Kiran        |Chennai  |Premium|1          |80000        |80000.0            |
+[info] |C007       |Vikram       |Kolkata  |Premium|1          |50000        |50000.0            |
+[info] |C006       |Sneha        |Pune     |Regular|1          |20000        |20000.0            |
+[info] |C004       |Priya        |Bangalore|Regular|1          |14000        |14000.0            |
+[info] |C003       |Arjun        |Hyderabad|Premium|2          |9500         |4750.0             |
+[info] |C002       |Ananya       |Mumbai   |Regular|1          |3000         |3000.0             |
+[info] +-----------+-------------+---------+-------+-----------+-------------+-------------------+
+[info] ================================================================================
+[info] 16. PAYMENT STATUS ANALYSIS
+[info] ================================================================================
+[info] +--------------+-----------+-----------+-------------+
+[info] |payment_status|order_count|order_value|payment_value|
+[info] +--------------+-----------+-----------+-------------+
+[info] |Paid          |8          |256500     |256500       |
+[info] |Pending       |1          |20000      |20000        |
+[info] |No Payment    |1          |18000      |0            |
+[info] +--------------+-----------+-----------+-------------+
+[info] ================================================================================
+[info] 17. FULL JOIN - ORDERS + PAYMENTS
+[info] ================================================================================
+[info] +--------+-----------+--------+------------+----------+--------------+--------------+--------------+
+[info] |order_id|customer_id|product |order_amount|payment_id|payment_method|payment_status|payment_amount|
+[info] +--------+-----------+--------+------------+----------+--------------+--------------+--------------+
+[info] |O001    |C001       |Laptop  |75000       |P001      |UPI           |Paid          |75000         |
+[info] |O002    |C002       |Mouse   |3000        |P002      |Credit_Card   |Paid          |3000          |
+[info] |O003    |C003       |Keyboard|5000        |P003      |UPI           |Paid          |5000          |
+[info] |O004    |C001       |Monitor |25000       |P004      |Debit_Card    |Paid          |25000         |
+[info] |O005    |C004       |Chair   |14000       |P005      |UPI           |Paid          |14000         |
+[info] |O006    |C005       |Laptop  |80000       |P006      |Credit_Card   |Paid          |80000         |
+[info] |O007    |C006       |Desk    |20000       |P007      |UPI           |Pending       |20000         |
+[info] |O008    |C003       |Mouse   |4500        |P008      |UPI           |Paid          |4500          |
+[info] |O009    |C007       |Monitor |50000       |P009      |Credit_Card   |Paid          |50000         |
+[info] |O010    |C009       |Printer |18000       |NULL      |NULL          |NULL          |NULL          |
+[info] |O011    |NULL       |NULL    |NULL        |P010      |UPI           |Paid          |12000         |
+[info] +--------+-----------+--------+------------+----------+--------------+--------------+--------------+
+[info] ================================================================================
+[info] 18. ORPHAN PAYMENTS
+[info] ================================================================================
+[info] +----------+--------+--------------+--------------+--------------+
+[info] |payment_id|order_id|payment_method|payment_status|payment_amount|
+[info] +----------+--------+--------------+--------------+--------------+
+[info] |P010      |O011    |UPI           |Paid          |12000         |
+[info] +----------+--------+--------------+--------------+--------------+
+[info] ================================================================================
+[info] 19. JOIN EXECUTION PLAN
+[info] ================================================================================
+[info] == Parsed Logical Plan ==
+[info] Join Inner, (customer_id#65 = customer_id#17)
+[info] :- SubqueryAlias o
+[info] :  +- Relation [order_id#64,customer_id#65,product#66,quantity#67,order_amount#68,order_date#69] csv
+[info] +- SubqueryAlias c
+[info]    +- Relation [customer_id#17,customer_name#18,city#19,segment#20] csv
+[info] == Analyzed Logical Plan ==
+[info] order_id: string, customer_id: string, product: string, quantity: int, order_amount: int, order_date: date, customer_id: string, customer_name: string, city: string, segment: string
+[info] Join Inner, (customer_id#65 = customer_id#17)
+[info] :- SubqueryAlias o
+[info] :  +- Relation [order_id#64,customer_id#65,product#66,quantity#67,order_amount#68,order_date#69] csv
+[info] +- SubqueryAlias c
+[info]    +- Relation [customer_id#17,customer_name#18,city#19,segment#20] csv
+[info] == Optimized Logical Plan ==
+[info] Join Inner, (customer_id#65 = customer_id#17)
+[info] :- Filter isnotnull(customer_id#65)
+[info] :  +- Relation [order_id#64,customer_id#65,product#66,quantity#67,order_amount#68,order_date#69] csv
+[info] +- Filter isnotnull(customer_id#17)
+[info]    +- Relation [customer_id#17,customer_name#18,city#19,segment#20] csv
+[info] == Physical Plan ==
+[info] AdaptiveSparkPlan isFinalPlan=false
+[info] +- BroadcastHashJoin [customer_id#65], [customer_id#17], Inner, BuildRight, false
+[info]    :- Filter isnotnull(customer_id#65)
+[info]    :  +- FileScan csv [order_id#64,customer_id#65,product#66,quantity#67,order_amount#68,order_date#69] Batched: false, DataFilters: [isnotnull(customer_id#65)], Format: CSV, Location: InMemoryFileIndex(1 paths)[file:/home/babblu/spark-day18-joins/data/orders.csv], PartitionFilters: [], PushedFilters: [IsNotNull(customer_id)], ReadSchema: struct<order_id:string,customer_id:string,product:string,quantity:int,order_amount:int,order_date...
+[info]    +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=1616]
+[info]       +- Filter isnotnull(customer_id#17)
+[info]          +- FileScan csv [customer_id#17,customer_name#18,city#19,segment#20] Batched: false, DataFilters: [isnotnull(customer_id#17)], Format: CSV, Location: InMemoryFileIndex(1 paths)[file:/home/babblu/spark-day18-joins/data/customers.csv], PartitionFilters: [], PushedFilters: [IsNotNull(customer_id)], ReadSchema: struct<customer_id:string,customer_name:string,city:string,segment:string>
+[info] ================================================================================
+[info] 20. SHUFFLE SORT MERGE JOIN
+[info] ================================================================================
+[info] Shuffle Sort Merge Join
+[info] A common Spark join strategy for joining relatively
+[info] large datasets.
+[info] Conceptually:
+[info]              ORDERS
+[info]                 |
+[info]                 v
+[info]           Hash Partition
+[info]                 |
+[info]                 v
+[info]              Shuffle
+[info]                 |
+[info]                 v
+[info]                Sort
+[info]                 |
+[info]                 |
+[info]                 +----------+
+[info]                            |
+[info]                            v
+[info]                        MERGE JOIN
+[info]                            ^
+[info]                            |
+[info]                 +----------+
+[info]                 |
+[info]                 v
+[info]              Sort
+[info]                 |
+[info]                 v
+[info]              Shuffle
+[info]                 ^
+[info]                 |
+[info]           Hash Partition
+[info]                 ^
+[info]                 |
+[info]             CUSTOMERS
+[info] Typical process:
+[info] 1. Partition both datasets by join key.
+[info] 2. Shuffle data across the cluster.
+[info] 3. Sort rows within each partition.
+[info] 4. Merge matching sorted records.
+[info] Why is it called:
+[info] Shuffle -> data is redistributed
+[info] Sort -> each partition is sorted
+[info] Merge -> matching sorted records are merged
+[info] ================================================================================
+[info] 21. JOIN TYPES SUMMARY
+[info] ================================================================================
+[info] INNER JOIN
+[info] -----------
+[info] Returns only matching rows.
+[info] LEFT JOIN
+[info] ---------
+[info] All rows from left table.
+[info] Unmatched right columns become NULL.
+[info] RIGHT JOIN
+[info] ----------
+[info] All rows from right table.
+[info] Unmatched left columns become NULL.
+[info] FULL OUTER JOIN
+[info] ---------------
+[info] All rows from both tables.
+[info] Missing side becomes NULL.
+[info] ================================================================================
+[info] 22. DAY 18 VIVA SUMMARY
+[info] ================================================================================
+[info] Q1. What is a join?
+[info] A:
+[info] A join combines rows from two datasets based on
+[info] a related column or condition.
+[info] Q2. What is an inner join?
+[info] A:
+[info] It returns only rows having matching keys in both datasets.
+[info] Q3. What is a left join?
+[info] A:
+[info] It keeps every row from the left dataset.
+[info] If there is no match on the right side, right-side
+[info] columns become NULL.
+[info] Q4. What is a right join?
+[info] A:
+[info] It keeps every row from the right dataset.
+[info] Q5. What is a full outer join?
+[info] A:
+[info] It keeps rows from both datasets, including unmatched rows.
+[info] Q6. Why do we use aliases?
+[info] A:
+[info] Aliases distinguish columns from different DataFrames
+[info] when they have the same column name.
+[info] Example:
+[info] orders.alias("o")
+[info] customers.alias("c")
+[info] col("o.customer_id")
+[info] col("c.customer_id")
+[info] Q7. How do you handle NULL after a left join?
+[info] A:
+[info] Use functions such as:
+[info] coalesce()
+[info] when()
+[info] isNull()
+[info] na.fill()
+[info] Q8. What is Shuffle Sort Merge Join?
+[info] A:
+[info] It is a Spark join strategy where both datasets are
+[info] partitioned/shuffled according to the join key,
+[info] sorted within partitions, and then matching rows
+[info] are merged.
+[info] Q9. Why does shuffle happen during a join?
+[info] A:
+[info] Rows having the same join key may initially exist
+[info] in different partitions. Spark redistributes them
+[info] so matching keys can be brought together.
+[info] Q10. Why is shuffle expensive?
+[info] A:
+[info] It can involve network transfer, disk I/O and sorting,
+[info] which adds execution overhead.
+[info] Q11. What is a broadcast join?
+[info] A:
+[info] Spark can broadcast a small dataset to executors so
+[info] the larger dataset does not need a full shuffle for
+[info] that join.
+[info] Q12. When might Spark use a broadcast join?
+[info] A:
+[info] When one side of the join is sufficiently small and
+[info] Spark's optimizer determines that broadcasting it is
+[info] appropriate.
+[info] ================================================================================
+[info] 23. FINAL PROJECT FLOW
+[info] ================================================================================
+[info]                     CUSTOMERS
+[info]                         |
+[info]                         |
+[info]                         | customer_id
+[info]                         |
+[info]                         v
+[info] ORDERS ---------------- JOIN
+[info]   |
+[info]   |
+[info]   | order_id
+[info]   |
+[info]   v
+[info] PAYMENTS
+[info] Final analytical dataset:
+[info] Order
+[info]   +
+[info] Customer
+[info]   +
+[info] Payment
+[info]         |
+[info]         v
+[info] Customer analytics
+[info] Payment validation
+[info] Revenue analysis
+[info] Missing customer detection
+[info] Orphan payment detection
+[info] ================================================================================
+[info] DAY 18 COMPLETED
+[info] ================================================================================
+[success] Total time: 27 s, completed Sep 25, 2026, 12:28:04 PM

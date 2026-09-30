@@ -1,0 +1,21 @@
+booking_id,customer_id,hotel_id,customer_name,hotel_name,city,room_type,check_in,check_out,nights,booking_amount,booking_status
+B001,C001,H001,Rahul Sharma,Grand Delhi Hotel,Delhi,Deluxe,2026-09-01,2026-09-03,2,12000,Confirmed
+B002,C002,H002,Ananya Singh,Mumbai Beach Resort,Mumbai,Suite,2026-09-02,2026-09-05,3,27000,Confirmed
+B003,C003,H003,Arjun Rao,Hyderabad Palace,Hyderabad,Standard,2026-09-03,2026-09-04,1,4500,Completed
+B004,C004,H004,Priya Reddy,Bangalore Residency,Bangalore,Deluxe,2026-09-04,2026-09-07,3,18000,Confirmed
+B005,C005,H005,Kiran Kumar,Chennai Grand,Chennai,Suite,2026-09-05,2026-09-08,3,24000,Completed
+B006,C006,H006,Sneha Das,Pune Central Hotel,Pune,Standard,2026-09-06,2026-09-07,1,4000,Cancelled
+B007,C007,H001,Vikram Singh,Grand Delhi Hotel,Delhi,Suite,2026-09-07,2026-09-10,3,21000,Confirmed
+B008,C008,H002,Neha Sharma,Mumbai Beach Resort,Mumbai,Deluxe,2026-09-08,2026-09-11,3,19500,Completed
+B009,C001,H003,Rahul Sharma,Hyderabad Palace,Hyderabad,Suite,2026-09-09,2026-09-12,3,16500,Confirmed
+B010,C002,H004,Ananya Singh,Bangalore Residency,Bangalore,Standard,2026-09-10,2026-09-12,2,10000,Completed
+B011,C003,H005,Arjun Rao,Chennai Grand,Chennai,Deluxe,2026-09-11,2026-09-14,3,21000,Confirmed
+B012,C004,H006,Priya Reddy,Pune Central Hotel,Pune,Suite,2026-09-12,2026-09-15,3,22500,Confirmed
+B013,C005,H001,Kiran Kumar,Grand Delhi Hotel,Delhi,Standard,2026-09-13,2026-09-15,2,9000,Completed
+B014,C006,H002,Sneha Das,Mumbai Beach Resort,Mumbai,Suite,2026-09-14,2026-09-17,3,25500,Confirmed
+B015,C007,H003,Vikram Singh,Hyderabad Palace,Hyderabad,Deluxe,2026-09-15,2026-09-18,3,18000,Completed
+B016,C008,H004,Neha Sharma,Bangalore Residency,Bangalore,Suite,2026-09-16,2026-09-19,3,24000,Confirmed
+B017,C001,H005,Rahul Sharma,Chennai Grand,Chennai,Deluxe,2026-09-17,2026-09-20,3,21000,Completed
+B018,C002,H006,Ananya Singh,Pune Central Hotel,Pune,Standard,2026-09-18,2026-09-19,1,4000,Confirmed
+B019,C003,H001,Arjun Rao,Grand Delhi Hotel,Delhi,Suite,2026-09-19,2026-09-22,3,22500,Confirmed
+B020,C004,H002,Priya Reddy,Mumbai Beach Resort,Mumbai,Deluxe,2026-09-20,2026-09-23,3,19500,Completed

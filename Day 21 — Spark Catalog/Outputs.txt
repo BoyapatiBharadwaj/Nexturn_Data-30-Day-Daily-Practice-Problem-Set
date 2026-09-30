@@ -1,0 +1,482 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day21-catalog$ sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day21-catalog/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day21-catalog (in build file:/home/babblu/spark-day21-catalog/)
+[info] compiling 1 Scala source to /home/babblu/spark-day21-catalog/target/scala-2.12/classes ...
+[info] running (fork) Day21SparkCatalogApp
+[info] ==========================================================================================
+[info] DAY 21 - SPARK CATALOG
+[info] ==========================================================================================
+[info] ==========================================================================================
+[info] 1. LIST DATABASES
+[info] ==========================================================================================
+[info] Databases available before creating hotel_analytics:
+[info] +-------+-------------+----------------+-----------------------------------------------------+
+[info] |name   |catalog      |description     |locationUri                                          |
+[info] +-------+-------------+----------------+-----------------------------------------------------+
+[info] |default|spark_catalog|default database|file:/home/babblu/spark-day21-catalog/spark-warehouse|
+[info] +-------+-------------+----------------+-----------------------------------------------------+
+[info] ==========================================================================================
+[info] 2. CREATE ANALYTICS DATABASE
+[info] ==========================================================================================
+[info] Database hotel_analytics created or already exists.
+[info] ==========================================================================================
+[info] 3. DATABASES AFTER CREATION
+[info] ==========================================================================================
+[info] +---------------+-------------+----------------+------------------------------------------------------------------------+
+[info] |name           |catalog      |description     |locationUri                                                             |
+[info] +---------------+-------------+----------------+------------------------------------------------------------------------+
+[info] |default        |spark_catalog|default database|file:/home/babblu/spark-day21-catalog/spark-warehouse                   |
+[info] |hotel_analytics|spark_catalog|                |file:/home/babblu/spark-day21-catalog/spark-warehouse/hotel_analytics.db|
+[info] +---------------+-------------+----------------+------------------------------------------------------------------------+
+[info] ==========================================================================================
+[info] 4. USE HOTEL ANALYTICS DATABASE
+[info] ==========================================================================================
+[info] Current database:
+[info] hotel_analytics
+[info] ==========================================================================================
+[info] 5. READ HOTEL BOOKINGS
+[info] ==========================================================================================
+[info] +----------+-----------+--------+-------------+-------------------+---------+---------+----------+----------+------+--------------+--------------+
+[info] |booking_id|customer_id|hotel_id|customer_name|hotel_name         |city     |room_type|check_in  |check_out |nights|booking_amount|booking_status|
+[info] +----------+-----------+--------+-------------+-------------------+---------+---------+----------+----------+------+--------------+--------------+
+[info] |B001      |C001       |H001    |Rahul Sharma |Grand Delhi Hotel  |Delhi    |Deluxe   |2026-09-01|2026-09-03|2     |12000         |Confirmed     |
+[info] |B002      |C002       |H002    |Ananya Singh |Mumbai Beach Resort|Mumbai   |Suite    |2026-09-02|2026-09-05|3     |27000         |Confirmed     |
+[info] |B003      |C003       |H003    |Arjun Rao    |Hyderabad Palace   |Hyderabad|Standard |2026-09-03|2026-09-04|1     |4500          |Completed     |
+[info] |B004      |C004       |H004    |Priya Reddy  |Bangalore Residency|Bangalore|Deluxe   |2026-09-04|2026-09-07|3     |18000         |Confirmed     |
+[info] |B005      |C005       |H005    |Kiran Kumar  |Chennai Grand      |Chennai  |Suite    |2026-09-05|2026-09-08|3     |24000         |Completed     |
+[info] |B006      |C006       |H006    |Sneha Das    |Pune Central Hotel |Pune     |Standard |2026-09-06|2026-09-07|1     |4000          |Cancelled     |
+[info] |B007      |C007       |H001    |Vikram Singh |Grand Delhi Hotel  |Delhi    |Suite    |2026-09-07|2026-09-10|3     |21000         |Confirmed     |
+[info] |B008      |C008       |H002    |Neha Sharma  |Mumbai Beach Resort|Mumbai   |Deluxe   |2026-09-08|2026-09-11|3     |19500         |Completed     |
+[info] |B009      |C001       |H003    |Rahul Sharma |Hyderabad Palace   |Hyderabad|Suite    |2026-09-09|2026-09-12|3     |16500         |Confirmed     |
+[info] |B010      |C002       |H004    |Ananya Singh |Bangalore Residency|Bangalore|Standard |2026-09-10|2026-09-12|2     |10000         |Completed     |
+[info] |B011      |C003       |H005    |Arjun Rao    |Chennai Grand      |Chennai  |Deluxe   |2026-09-11|2026-09-14|3     |21000         |Confirmed     |
+[info] |B012      |C004       |H006    |Priya Reddy  |Pune Central Hotel |Pune     |Suite    |2026-09-12|2026-09-15|3     |22500         |Confirmed     |
+[info] |B013      |C005       |H001    |Kiran Kumar  |Grand Delhi Hotel  |Delhi    |Standard |2026-09-13|2026-09-15|2     |9000          |Completed     |
+[info] |B014      |C006       |H002    |Sneha Das    |Mumbai Beach Resort|Mumbai   |Suite    |2026-09-14|2026-09-17|3     |25500         |Confirmed     |
+[info] |B015      |C007       |H003    |Vikram Singh |Hyderabad Palace   |Hyderabad|Deluxe   |2026-09-15|2026-09-18|3     |18000         |Completed     |
+[info] |B016      |C008       |H004    |Neha Sharma  |Bangalore Residency|Bangalore|Suite    |2026-09-16|2026-09-19|3     |24000         |Confirmed     |
+[info] |B017      |C001       |H005    |Rahul Sharma |Chennai Grand      |Chennai  |Deluxe   |2026-09-17|2026-09-20|3     |21000         |Completed     |
+[info] |B018      |C002       |H006    |Ananya Singh |Pune Central Hotel |Pune     |Standard |2026-09-18|2026-09-19|1     |4000          |Confirmed     |
+[info] |B019      |C003       |H001    |Arjun Rao    |Grand Delhi Hotel  |Delhi    |Suite    |2026-09-19|2026-09-22|3     |22500         |Confirmed     |
+[info] |B020      |C004       |H002    |Priya Reddy  |Mumbai Beach Resort|Mumbai   |Deluxe   |2026-09-20|2026-09-23|3     |19500         |Completed     |
+[info] +----------+-----------+--------+-------------+-------------------+---------+---------+----------+----------+------+--------------+--------------+
+[info] Schema:
+[info] root
+[info]  |-- booking_id: string (nullable = true)
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- hotel_id: string (nullable = true)
+[info]  |-- customer_name: string (nullable = true)
+[info]  |-- hotel_name: string (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info]  |-- room_type: string (nullable = true)
+[info]  |-- check_in: date (nullable = true)
+[info]  |-- check_out: date (nullable = true)
+[info]  |-- nights: integer (nullable = true)
+[info]  |-- booking_amount: integer (nullable = true)
+[info]  |-- booking_status: string (nullable = true)
+[info] ==========================================================================================
+[info] 6. CREATE TEMPORARY VIEW
+[info] ==========================================================================================
+[info] Temporary view hotel_bookings_temp created.
+[info] ==========================================================================================
+[info] 7. LIST TABLES AND VIEWS
+[info] ==========================================================================================
+[info] +-------------------+-------+---------+-----------+---------+-----------+
+[info] |name               |catalog|namespace|description|tableType|isTemporary|
+[info] +-------------------+-------+---------+-----------+---------+-----------+
+[info] |hotel_bookings_temp|NULL   |[]       |NULL       |TEMPORARY|true       |
+[info] +-------------------+-------+---------+-----------+---------+-----------+
+[info] ==========================================================================================
+[info] 8. QUERY TEMPORARY VIEW
+[info] ==========================================================================================
+[info] +----------+-------------+-------------------+---------+---------+------+--------------+
+[info] |booking_id|customer_name|hotel_name         |city     |room_type|nights|booking_amount|
+[info] +----------+-------------+-------------------+---------+---------+------+--------------+
+[info] |B002      |Ananya Singh |Mumbai Beach Resort|Mumbai   |Suite    |3     |27000         |
+[info] |B014      |Sneha Das    |Mumbai Beach Resort|Mumbai   |Suite    |3     |25500         |
+[info] |B016      |Neha Sharma  |Bangalore Residency|Bangalore|Suite    |3     |24000         |
+[info] |B012      |Priya Reddy  |Pune Central Hotel |Pune     |Suite    |3     |22500         |
+[info] |B019      |Arjun Rao    |Grand Delhi Hotel  |Delhi    |Suite    |3     |22500         |
+[info] |B007      |Vikram Singh |Grand Delhi Hotel  |Delhi    |Suite    |3     |21000         |
+[info] |B011      |Arjun Rao    |Chennai Grand      |Chennai  |Deluxe   |3     |21000         |
+[info] |B004      |Priya Reddy  |Bangalore Residency|Bangalore|Deluxe   |3     |18000         |
+[info] |B009      |Rahul Sharma |Hyderabad Palace   |Hyderabad|Suite    |3     |16500         |
+[info] |B001      |Rahul Sharma |Grand Delhi Hotel  |Delhi    |Deluxe   |2     |12000         |
+[info] |B018      |Ananya Singh |Pune Central Hotel |Pune     |Standard |1     |4000          |
+[info] +----------+-------------+-------------------+---------+---------+------+--------------+
+[info] ==========================================================================================
+[info] 9. CREATE MANAGED TABLE
+[info] ==========================================================================================
+[info] Managed table hotel_bookings created.
+[info] ==========================================================================================
+[info] 10. LIST TABLES
+[info] ==========================================================================================
+[info] +-------------------+-------------+-----------------+-----------+---------+-----------+
+[info] |name               |catalog      |namespace        |description|tableType|isTemporary|
+[info] +-------------------+-------------+-----------------+-----------+---------+-----------+
+[info] |hotel_bookings     |spark_catalog|[hotel_analytics]|NULL       |MANAGED  |false      |
+[info] |hotel_bookings_temp|NULL         |[]               |NULL       |TEMPORARY|true       |
+[info] +-------------------+-------------+-----------------+-----------+---------+-----------+
+[info] ==========================================================================================
+[info] 11. SHOW TABLES
+[info] ==========================================================================================
+[info] +---------------+-------------------+-----------+
+[info] |namespace      |tableName          |isTemporary|
+[info] +---------------+-------------------+-----------+
+[info] |hotel_analytics|hotel_bookings     |false      |
+[info] |               |hotel_bookings_temp|true       |
+[info] +---------------+-------------------+-----------+
+[info] ==========================================================================================
+[info] 12. DESCRIBE TABLE
+[info] ==========================================================================================
+[info] +--------------+---------+-------+
+[info] |col_name      |data_type|comment|
+[info] +--------------+---------+-------+
+[info] |booking_id    |string   |NULL   |
+[info] |customer_id   |string   |NULL   |
+[info] |hotel_id      |string   |NULL   |
+[info] |customer_name |string   |NULL   |
+[info] |hotel_name    |string   |NULL   |
+[info] |city          |string   |NULL   |
+[info] |room_type     |string   |NULL   |
+[info] |check_in      |date     |NULL   |
+[info] |check_out     |date     |NULL   |
+[info] |nights        |int      |NULL   |
+[info] |booking_amount|int      |NULL   |
+[info] |booking_status|string   |NULL   |
+[info] +--------------+---------+-------+
+[info] ==========================================================================================
+[info] 13. DESCRIBE EXTENDED
+[info] ==========================================================================================
+[info] +----------------------------+---------------------------------------------------------------------------------------+-------+
+[info] |col_name                    |data_type                                                                              |comment|
+[info] +----------------------------+---------------------------------------------------------------------------------------+-------+
+[info] |booking_id                  |string                                                                                 |NULL   |
+[info] |customer_id                 |string                                                                                 |NULL   |
+[info] |hotel_id                    |string                                                                                 |NULL   |
+[info] |customer_name               |string                                                                                 |NULL   |
+[info] |hotel_name                  |string                                                                                 |NULL   |
+[info] |city                        |string                                                                                 |NULL   |
+[info] |room_type                   |string                                                                                 |NULL   |
+[info] |check_in                    |date                                                                                   |NULL   |
+[info] |check_out                   |date                                                                                   |NULL   |
+[info] |nights                      |int                                                                                    |NULL   |
+[info] |booking_amount              |int                                                                                    |NULL   |
+[info] |booking_status              |string                                                                                 |NULL   |
+[info] |                            |                                                                                       |       |
+[info] |# Detailed Table Information|                                                                                       |       |
+[info] |Catalog                     |spark_catalog                                                                          |       |
+[info] |Database                    |hotel_analytics                                                                        |       |
+[info] |Table                       |hotel_bookings                                                                         |       |
+[info] |Created Time                |Wed Sep 30 11:49:06 IST 2026                                                           |       |
+[info] |Last Access                 |UNKNOWN                                                                                |       |
+[info] |Created By                  |Spark 3.5.6                                                                            |       |
+[info] |Type                        |MANAGED                                                                                |       |
+[info] |Provider                    |PARQUET                                                                                |       |
+[info] |Location                    |file:/home/babblu/spark-day21-catalog/spark-warehouse/hotel_analytics.db/hotel_bookings|       |
+[info] +----------------------------+---------------------------------------------------------------------------------------+-------+
+[info] ==========================================================================================
+[info] 14. TABLE METADATA USING CATALOG API
+[info] ==========================================================================================
+[info] Table name      : hotel_bookings
+[info] Database        : hotel_analytics
+[info] Table type      : MANAGED
+[info] Is temporary    : false
+[info] Catalog         : spark_catalog
+[info] ==========================================================================================
+[info] 15. TABLE EXISTS CHECK
+[info] ==========================================================================================
+[info] hotel_bookings exists = true
+[info] unknown_table exists = false
+[info] ==========================================================================================
+[info] 16. COLUMN METADATA
+[info] ==========================================================================================
+[info] +--------------+-----------+--------+--------+-----------+--------+
+[info] |name          |description|dataType|nullable|isPartition|isBucket|
+[info] +--------------+-----------+--------+--------+-----------+--------+
+[info] |booking_id    |NULL       |string  |true    |false      |false   |
+[info] |customer_id   |NULL       |string  |true    |false      |false   |
+[info] |hotel_id      |NULL       |string  |true    |false      |false   |
+[info] |customer_name |NULL       |string  |true    |false      |false   |
+[info] |hotel_name    |NULL       |string  |true    |false      |false   |
+[info] |city          |NULL       |string  |true    |false      |false   |
+[info] |room_type     |NULL       |string  |true    |false      |false   |
+[info] |check_in      |NULL       |date    |true    |false      |false   |
+[info] |check_out     |NULL       |date    |true    |false      |false   |
+[info] |nights        |NULL       |int     |true    |false      |false   |
+[info] |booking_amount|NULL       |int     |true    |false      |false   |
+[info] |booking_status|NULL       |string  |true    |false      |false   |
+[info] +--------------+-----------+--------+--------+-----------+--------+
+[info] ==========================================================================================
+[info] 17. QUERY REGISTERED TABLE
+[info] ==========================================================================================
+[info] +----------+-------------+-------------------+---------+--------------+--------------+
+[info] |booking_id|customer_name|hotel_name         |city     |booking_amount|booking_status|
+[info] +----------+-------------+-------------------+---------+--------------+--------------+
+[info] |B001      |Rahul Sharma |Grand Delhi Hotel  |Delhi    |12000         |Confirmed     |
+[info] |B002      |Ananya Singh |Mumbai Beach Resort|Mumbai   |27000         |Confirmed     |
+[info] |B003      |Arjun Rao    |Hyderabad Palace   |Hyderabad|4500          |Completed     |
+[info] |B004      |Priya Reddy  |Bangalore Residency|Bangalore|18000         |Confirmed     |
+[info] |B005      |Kiran Kumar  |Chennai Grand      |Chennai  |24000         |Completed     |
+[info] |B006      |Sneha Das    |Pune Central Hotel |Pune     |4000          |Cancelled     |
+[info] |B007      |Vikram Singh |Grand Delhi Hotel  |Delhi    |21000         |Confirmed     |
+[info] |B008      |Neha Sharma  |Mumbai Beach Resort|Mumbai   |19500         |Completed     |
+[info] |B009      |Rahul Sharma |Hyderabad Palace   |Hyderabad|16500         |Confirmed     |
+[info] |B010      |Ananya Singh |Bangalore Residency|Bangalore|10000         |Completed     |
+[info] |B011      |Arjun Rao    |Chennai Grand      |Chennai  |21000         |Confirmed     |
+[info] |B012      |Priya Reddy  |Pune Central Hotel |Pune     |22500         |Confirmed     |
+[info] |B013      |Kiran Kumar  |Grand Delhi Hotel  |Delhi    |9000          |Completed     |
+[info] |B014      |Sneha Das    |Mumbai Beach Resort|Mumbai   |25500         |Confirmed     |
+[info] |B015      |Vikram Singh |Hyderabad Palace   |Hyderabad|18000         |Completed     |
+[info] |B016      |Neha Sharma  |Bangalore Residency|Bangalore|24000         |Confirmed     |
+[info] |B017      |Rahul Sharma |Chennai Grand      |Chennai  |21000         |Completed     |
+[info] |B018      |Ananya Singh |Pune Central Hotel |Pune     |4000          |Confirmed     |
+[info] |B019      |Arjun Rao    |Grand Delhi Hotel  |Delhi    |22500         |Confirmed     |
+[info] |B020      |Priya Reddy  |Mumbai Beach Resort|Mumbai   |19500         |Completed     |
+[info] +----------+-------------+-------------------+---------+--------------+--------------+
+[info] ==========================================================================================
+[info] 18. HOTEL REVENUE ANALYSIS
+[info] ==========================================================================================
+[info] +-------------------+---------+-------------+-------------+------------------+
+[info] |hotel_name         |city     |booking_count|total_revenue|average_booking   |
+[info] +-------------------+---------+-------------+-------------+------------------+
+[info] |Mumbai Beach Resort|Mumbai   |4            |91500        |22875.0           |
+[info] |Chennai Grand      |Chennai  |3            |66000        |22000.0           |
+[info] |Grand Delhi Hotel  |Delhi    |4            |64500        |16125.0           |
+[info] |Bangalore Residency|Bangalore|3            |52000        |17333.333333333332|
+[info] |Hyderabad Palace   |Hyderabad|3            |39000        |13000.0           |
+[info] |Pune Central Hotel |Pune     |3            |30500        |10166.666666666666|
+[info] +-------------------+---------+-------------+-------------+------------------+
+[info] ==========================================================================================
+[info] 19. CITY ANALYSIS
+[info] ==========================================================================================
+[info] +---------+--------+------------+-------+
+[info] |city     |bookings|total_nights|revenue|
+[info] +---------+--------+------------+-------+
+[info] |Mumbai   |4       |12          |91500  |
+[info] |Chennai  |3       |9           |66000  |
+[info] |Delhi    |4       |10          |64500  |
+[info] |Bangalore|3       |8           |52000  |
+[info] |Hyderabad|3       |7           |39000  |
+[info] |Pune     |3       |5           |30500  |
+[info] +---------+--------+------------+-------+
+[info] ==========================================================================================
+[info] 20. ROOM TYPE ANALYSIS
+[info] ==========================================================================================
+[info] +---------+-------------+------------+-------------+------------------+
+[info] |room_type|booking_count|total_nights|total_revenue|average_booking   |
+[info] +---------+-------------+------------+-------------+------------------+
+[info] |Suite    |8            |24          |183000       |22875.0           |
+[info] |Deluxe   |7            |20          |129000       |18428.571428571428|
+[info] |Standard |5            |7           |31500        |6300.0            |
+[info] +---------+-------------+------------+-------------+------------------+
+[info] ==========================================================================================
+[info] 21. BOOKING STATUS ANALYSIS
+[info] ==========================================================================================
+[info] +--------------+-------------+------------+
+[info] |booking_status|booking_count|total_amount|
+[info] +--------------+-------------+------------+
+[info] |Confirmed     |11           |214000      |
+[info] |Completed     |8            |125500      |
+[info] |Cancelled     |1            |4000        |
+[info] +--------------+-------------+------------+
+[info] ==========================================================================================
+[info] 22. HIGH-VALUE BOOKINGS
+[info] ==========================================================================================
+[info] +----------+-------------+-------------------+---------+---------+------+--------------+
+[info] |booking_id|customer_name|hotel_name         |city     |room_type|nights|booking_amount|
+[info] +----------+-------------+-------------------+---------+---------+------+--------------+
+[info] |B002      |Ananya Singh |Mumbai Beach Resort|Mumbai   |Suite    |3     |27000         |
+[info] |B014      |Sneha Das    |Mumbai Beach Resort|Mumbai   |Suite    |3     |25500         |
+[info] |B005      |Kiran Kumar  |Chennai Grand      |Chennai  |Suite    |3     |24000         |
+[info] |B016      |Neha Sharma  |Bangalore Residency|Bangalore|Suite    |3     |24000         |
+[info] |B012      |Priya Reddy  |Pune Central Hotel |Pune     |Suite    |3     |22500         |
+[info] |B019      |Arjun Rao    |Grand Delhi Hotel  |Delhi    |Suite    |3     |22500         |
+[info] |B007      |Vikram Singh |Grand Delhi Hotel  |Delhi    |Suite    |3     |21000         |
+[info] |B011      |Arjun Rao    |Chennai Grand      |Chennai  |Deluxe   |3     |21000         |
+[info] |B017      |Rahul Sharma |Chennai Grand      |Chennai  |Deluxe   |3     |21000         |
+[info] +----------+-------------+-------------------+---------+---------+------+--------------+
+[info] ==========================================================================================
+[info] 23. CREATE HOTEL MASTER TABLE
+[info] ==========================================================================================
+[info] hotel_master table created.
+[info] ==========================================================================================
+[info] 24. ALL TABLES IN HOTEL ANALYTICS
+[info] ==========================================================================================
+[info] +-------------------+-------------+-----------------+-----------+---------+-----------+
+[info] |name               |catalog      |namespace        |description|tableType|isTemporary|
+[info] +-------------------+-------------+-----------------+-----------+---------+-----------+
+[info] |hotel_bookings     |spark_catalog|[hotel_analytics]|NULL       |MANAGED  |false      |
+[info] |hotel_master       |spark_catalog|[hotel_analytics]|NULL       |MANAGED  |false      |
+[info] |hotel_bookings_temp|NULL         |[]               |NULL       |TEMPORARY|true       |
+[info] |hotel_master_temp  |NULL         |[]               |NULL       |TEMPORARY|true       |
+[info] +-------------------+-------------+-----------------+-----------+---------+-----------+
+[info] ==========================================================================================
+[info] 25. JOIN BOOKINGS WITH HOTEL MASTER
+[info] ==========================================================================================
+[info] +----------+-------------+-------------------+---------+---------+--------------+--------+
+[info] |booking_id|customer_name|hotel_name         |city     |room_type|booking_amount|hotel_id|
+[info] +----------+-------------+-------------------+---------+---------+--------------+--------+
+[info] |B001      |Rahul Sharma |Grand Delhi Hotel  |Delhi    |Deluxe   |12000         |H001    |
+[info] |B002      |Ananya Singh |Mumbai Beach Resort|Mumbai   |Suite    |27000         |H002    |
+[info] |B003      |Arjun Rao    |Hyderabad Palace   |Hyderabad|Standard |4500          |H003    |
+[info] |B004      |Priya Reddy  |Bangalore Residency|Bangalore|Deluxe   |18000         |H004    |
+[info] |B005      |Kiran Kumar  |Chennai Grand      |Chennai  |Suite    |24000         |H005    |
+[info] |B006      |Sneha Das    |Pune Central Hotel |Pune     |Standard |4000          |H006    |
+[info] |B007      |Vikram Singh |Grand Delhi Hotel  |Delhi    |Suite    |21000         |H001    |
+[info] |B008      |Neha Sharma  |Mumbai Beach Resort|Mumbai   |Deluxe   |19500         |H002    |
+[info] |B009      |Rahul Sharma |Hyderabad Palace   |Hyderabad|Suite    |16500         |H003    |
+[info] |B010      |Ananya Singh |Bangalore Residency|Bangalore|Standard |10000         |H004    |
+[info] |B011      |Arjun Rao    |Chennai Grand      |Chennai  |Deluxe   |21000         |H005    |
+[info] |B012      |Priya Reddy  |Pune Central Hotel |Pune     |Suite    |22500         |H006    |
+[info] |B013      |Kiran Kumar  |Grand Delhi Hotel  |Delhi    |Standard |9000          |H001    |
+[info] |B014      |Sneha Das    |Mumbai Beach Resort|Mumbai   |Suite    |25500         |H002    |
+[info] |B015      |Vikram Singh |Hyderabad Palace   |Hyderabad|Deluxe   |18000         |H003    |
+[info] |B016      |Neha Sharma  |Bangalore Residency|Bangalore|Suite    |24000         |H004    |
+[info] |B017      |Rahul Sharma |Chennai Grand      |Chennai  |Deluxe   |21000         |H005    |
+[info] |B018      |Ananya Singh |Pune Central Hotel |Pune     |Standard |4000          |H006    |
+[info] |B019      |Arjun Rao    |Grand Delhi Hotel  |Delhi    |Suite    |22500         |H001    |
+[info] |B020      |Priya Reddy  |Mumbai Beach Resort|Mumbai   |Deluxe   |19500         |H002    |
+[info] +----------+-------------+-------------------+---------+---------+--------------+--------+
+[info] ==========================================================================================
+[info] 26. DATABASE METADATA
+[info] ==========================================================================================
+[info] Database name      : hotel_analytics
+[info] Catalog             : spark_catalog
+[info] Description         :
+[info] Location            : file:/home/babblu/spark-day21-catalog/spark-warehouse/hotel_analytics.db
+[info] ==========================================================================================
+[info] 27. TEMPORARY VIEW VS REGISTERED TABLE
+[info] ==========================================================================================
+[info] TEMPORARY VIEW
+[info] --------------
+[info] hotel_bookings_temp
+[info] Exists only for the current SparkSession.
+[info] It does not represent a persistent table in storage.
+[info] REGISTERED TABLE
+[info] ----------------
+[info] hotel_bookings
+[info] Registered in the Spark catalog.
+[info] The table can be associated with persisted data.
+[info] In this project:
+[info] hotel_bookings_temp -> temporary view
+[info] hotel_bookings       -> managed table
+[info] ==========================================================================================
+[info] 28. GLOBAL TEMPORARY VIEW
+[info] ==========================================================================================
+[info] Global temporary views are available using:
+[info] global_temp.view_name
+[info] Example:
+[info] SELECT *
+[info] FROM global_temp.global_hotel_bookings
+[info] +----------+-------------+-------------------+--------------+
+[info] |booking_id|customer_name|hotel_name         |booking_amount|
+[info] +----------+-------------+-------------------+--------------+
+[info] |B002      |Ananya Singh |Mumbai Beach Resort|27000         |
+[info] |B014      |Sneha Das    |Mumbai Beach Resort|25500         |
+[info] |B005      |Kiran Kumar  |Chennai Grand      |24000         |
+[info] |B016      |Neha Sharma  |Bangalore Residency|24000         |
+[info] |B012      |Priya Reddy  |Pune Central Hotel |22500         |
+[info] |B019      |Arjun Rao    |Grand Delhi Hotel  |22500         |
+[info] |B007      |Vikram Singh |Grand Delhi Hotel  |21000         |
+[info] |B011      |Arjun Rao    |Chennai Grand      |21000         |
+[info] |B017      |Rahul Sharma |Chennai Grand      |21000         |
+[info] |B008      |Neha Sharma  |Mumbai Beach Resort|19500         |
+[info] +----------+-------------+-------------------+--------------+
+[info] only showing top 10 rows
+[info] ==========================================================================================
+[info] 29. SPARK CATALOG API
+[info] ==========================================================================================
+[info] Useful Catalog APIs:
+[info] spark.catalog.listDatabases()
+[info] spark.catalog.listTables()
+[info] spark.catalog.listColumns("table")
+[info] spark.catalog.getTable("table")
+[info] spark.catalog.getDatabase("database")
+[info] spark.catalog.tableExists("table")
+[info] spark.catalog.currentDatabase
+[info] ==========================================================================================
+[info] 30. FINAL HOTEL ANALYTICS REPORT
+[info] ==========================================================================================
+[info] +---------+--------------+------------+-------------+---------------------+
+[info] |city     |total_bookings|total_nights|total_revenue|average_booking_value|
+[info] +---------+--------------+------------+-------------+---------------------+
+[info] |Mumbai   |4             |12          |91500        |22875.0              |
+[info] |Chennai  |3             |9           |66000        |22000.0              |
+[info] |Delhi    |4             |10          |64500        |16125.0              |
+[info] |Bangalore|3             |8           |52000        |17333.33             |
+[info] |Hyderabad|3             |7           |39000        |13000.0              |
+[info] |Pune     |2             |4           |26500        |13250.0              |
+[info] +---------+--------------+------------+-------------+---------------------+
+[info] ==========================================================================================
+[info] 31. DAY 21 VIVA SUMMARY
+[info] ==========================================================================================
+[info] Q1. What is Spark Catalog?
+[info] A:
+[info] Spark Catalog provides an interface for discovering
+[info] and managing databases, tables, views and metadata
+[info] available to Spark.
+[info] Q2. How do you list databases?
+[info] A:
+[info] spark.catalog.listDatabases()
+[info] Q3. How do you list tables?
+[info] A:
+[info] spark.catalog.listTables()
+[info] Q4. How do you create a temporary view?
+[info] A:
+[info] df.createOrReplaceTempView("view_name")
+[info] Q5. How do you query a temporary view?
+[info] A:
+[info] spark.sql("SELECT * FROM view_name")
+[info] Q6. What is a registered table?
+[info] A:
+[info] A table known to Spark's catalog and associated with
+[info] table metadata and storage information.
+[info] Q7. How do you inspect a table schema?
+[info] A:
+[info] DESCRIBE table_name
+[info] or:
+[info] df.printSchema()
+[info] Q8. How do you inspect detailed table metadata?
+[info] A:
+[info] DESCRIBE EXTENDED table_name
+[info] Q9. Difference between temporary view and table?
+[info] A:
+[info] A temporary view is scoped to the SparkSession and is
+[info] not a persistent table. A registered table has catalog
+[info] metadata and can reference persisted data.
+[info] Q10. What is a global temporary view?
+[info] A:
+[info] A temporary view available across SparkSessions within
+[info] the application through the global_temp database.
+[info] Q11. How do you check whether a table exists?
+[info] A:
+[info] spark.catalog.tableExists("table_name")
+[info] Q12. Why is a catalog important in data engineering?
+[info] A:
+[info] It provides metadata and discovery information so
+[info] datasets can be organized and queried as databases,
+[info] tables and views instead of treating every dataset
+[info] only as an individual file path.
+[info] ==========================================================================================
+[info] DAY 21 COMPLETED
+[info] ==========================================================================================
+[info] Topics completed:
+[info] [✓] Spark Catalog
+[info] [✓] List databases
+[info] [✓] Create database
+[info] [✓] List tables
+[info] [✓] Temporary views
+[info] [✓] Global temporary views
+[info] [✓] Managed table
+[info] [✓] Query registered tables
+[info] [✓] DESCRIBE
+[info] [✓] DESCRIBE EXTENDED
+[info] [✓] Table metadata
+[info] [✓] Column metadata
+[info] [✓] Database metadata
+[info] [✓] Table existence checks
+[info] [✓] Hotel booking analytics
+[success] Total time: 27 s, completed Sep 30, 2026, 11:49:12 AM

@@ -1,0 +1,11 @@
+sale_id,customer_id,product,category,quantity,unit_price,sale_date,city,total_amount
+S031,C007,Desk,Furniture,1,23000,2026-09-09,Kolkata,23000
+S015,C007,Chair,Furniture,4,6500,2026-09-04,Kolkata,26000
+S022,C006,Laptop,Electronics,1,79000,2026-09-06,Pune,79000
+S040,C008,Chair,Furniture,1,6800,2026-09-12,Jaipur,6800
+S030,C006,Chair,Furniture,3,6700,2026-09-09,Pune,20100
+S017,C001,Laptop,Electronics,1,77000,2026-09-04,Delhi,77000
+S001,C001,Laptop,Electronics,1,75000,2026-09-01,Delhi,75000
+S027,C003,Laptop,Electronics,1,78000,2026-09-08,Hyderabad,78000
+S018,C002,Mouse,Electronics,5,1400,2026-09-05,Mumbai,7000
+S034,C002,Monitor,Electronics,1,25000,2026-09-10,Mumbai,25000

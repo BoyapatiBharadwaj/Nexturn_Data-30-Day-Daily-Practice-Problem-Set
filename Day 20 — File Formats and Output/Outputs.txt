@@ -1,0 +1,471 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day20-file-formats$ sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day20-file-formats/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day20-file-formats (in build file:/home/babblu/spark-day20-file-formats/)
+[info] compiling 1 Scala source to /home/babblu/spark-day20-file-formats/target/scala-2.12/classes ...
+[info] running (fork) Day20FileFormatsApp
+[info] ==========================================================================================
+[info] DAY 20 - FILE FORMATS AND OUTPUT
+[info] ==========================================================================================
+[info] ==========================================================================================
+[info] 1. READ CSV
+[info] ==========================================================================================
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+
+[info] |sale_id|customer_id|product |category   |quantity|unit_price|sale_date |city     |
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+
+[info] |S001   |C001       |Laptop  |Electronics|1       |75000     |2026-09-01|Delhi    |
+[info] |S002   |C002       |Mouse   |Electronics|2       |1500      |2026-09-01|Mumbai   |
+[info] |S003   |C003       |Keyboard|Electronics|1       |2500      |2026-09-01|Hyderabad|
+[info] |S004   |C004       |Monitor |Electronics|1       |25000     |2026-09-01|Bangalore|
+[info] |S005   |C005       |Chair   |Furniture  |2       |7000      |2026-09-01|Chennai  |
+[info] |S006   |C006       |Desk    |Furniture  |1       |20000     |2026-09-01|Pune     |
+[info] |S007   |C007       |Laptop  |Electronics|1       |80000     |2026-09-02|Kolkata  |
+[info] |S008   |C008       |Mouse   |Electronics|3       |1500      |2026-09-02|Jaipur   |
+[info] |S009   |C001       |Monitor |Electronics|2       |25000     |2026-09-02|Delhi    |
+[info] |S010   |C002       |Chair   |Furniture  |1       |7000      |2026-09-02|Mumbai   |
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+
+[info] only showing top 10 rows
+[info] CSV Schema:
+[info] root
+[info]  |-- sale_id: string (nullable = true)
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- product: string (nullable = true)
+[info]  |-- category: string (nullable = true)
+[info]  |-- quantity: integer (nullable = true)
+[info]  |-- unit_price: integer (nullable = true)
+[info]  |-- sale_date: date (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info] CSV record count = 40
+[info] ==========================================================================================
+[info] 2. PREPARE SALES DATA
+[info] ==========================================================================================
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] |sale_id|customer_id|product |category   |quantity|unit_price|sale_date |city     |total_amount|year|month|day|
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] |S001   |C001       |Laptop  |Electronics|1       |75000     |2026-09-01|Delhi    |75000       |2026|9    |1  |
+[info] |S002   |C002       |Mouse   |Electronics|2       |1500      |2026-09-01|Mumbai   |3000        |2026|9    |1  |
+[info] |S003   |C003       |Keyboard|Electronics|1       |2500      |2026-09-01|Hyderabad|2500        |2026|9    |1  |
+[info] |S004   |C004       |Monitor |Electronics|1       |25000     |2026-09-01|Bangalore|25000       |2026|9    |1  |
+[info] |S005   |C005       |Chair   |Furniture  |2       |7000      |2026-09-01|Chennai  |14000       |2026|9    |1  |
+[info] |S006   |C006       |Desk    |Furniture  |1       |20000     |2026-09-01|Pune     |20000       |2026|9    |1  |
+[info] |S007   |C007       |Laptop  |Electronics|1       |80000     |2026-09-02|Kolkata  |80000       |2026|9    |2  |
+[info] |S008   |C008       |Mouse   |Electronics|3       |1500      |2026-09-02|Jaipur   |4500        |2026|9    |2  |
+[info] |S009   |C001       |Monitor |Electronics|2       |25000     |2026-09-02|Delhi    |50000       |2026|9    |2  |
+[info] |S010   |C002       |Chair   |Furniture  |1       |7000      |2026-09-02|Mumbai   |7000        |2026|9    |2  |
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] only showing top 10 rows
+[info] root
+[info]  |-- sale_id: string (nullable = true)
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- product: string (nullable = true)
+[info]  |-- category: string (nullable = true)
+[info]  |-- quantity: integer (nullable = true)
+[info]  |-- unit_price: integer (nullable = true)
+[info]  |-- sale_date: date (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info]  |-- total_amount: integer (nullable = true)
+[info]  |-- year: integer (nullable = true)
+[info]  |-- month: integer (nullable = true)
+[info]  |-- day: integer (nullable = true)
+[info] ==========================================================================================
+[info] 3. WRITE CSV
+[info] ==========================================================================================
+[info] CSV written to: output/csv_sales
+[info] ==========================================================================================
+[info] 4. READ WRITTEN CSV
+[info] ==========================================================================================
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+
+[info] |sale_id|customer_id|product |category   |quantity|unit_price|sale_date |city     |total_amount|
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+
+[info] |S001   |C001       |Laptop  |Electronics|1       |75000     |2026-09-01|Delhi    |75000       |
+[info] |S002   |C002       |Mouse   |Electronics|2       |1500      |2026-09-01|Mumbai   |3000        |
+[info] |S003   |C003       |Keyboard|Electronics|1       |2500      |2026-09-01|Hyderabad|2500        |
+[info] |S004   |C004       |Monitor |Electronics|1       |25000     |2026-09-01|Bangalore|25000       |
+[info] |S005   |C005       |Chair   |Furniture  |2       |7000      |2026-09-01|Chennai  |14000       |
+[info] |S006   |C006       |Desk    |Furniture  |1       |20000     |2026-09-01|Pune     |20000       |
+[info] |S007   |C007       |Laptop  |Electronics|1       |80000     |2026-09-02|Kolkata  |80000       |
+[info] |S008   |C008       |Mouse   |Electronics|3       |1500      |2026-09-02|Jaipur   |4500        |
+[info] |S009   |C001       |Monitor |Electronics|2       |25000     |2026-09-02|Delhi    |50000       |
+[info] |S010   |C002       |Chair   |Furniture  |1       |7000      |2026-09-02|Mumbai   |7000        |
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+
+[info] only showing top 10 rows
+[info] Records read from written CSV = 40
+[info] ==========================================================================================
+[info] 5. WRITE JSON
+[info] ==========================================================================================
+[info] JSON written to: output/json_sales
+[info] ==========================================================================================
+[info] 6. READ JSON
+[info] ==========================================================================================
+[info] +-----------+---------+-----------+--------+--------+----------+-------+------------+----------+
+[info] |category   |city     |customer_id|product |quantity|sale_date |sale_id|total_amount|unit_price|
+[info] +-----------+---------+-----------+--------+--------+----------+-------+------------+----------+
+[info] |Electronics|Delhi    |C001       |Laptop  |1       |2026-09-01|S001   |75000       |75000     |
+[info] |Electronics|Mumbai   |C002       |Mouse   |2       |2026-09-01|S002   |3000        |1500      |
+[info] |Electronics|Hyderabad|C003       |Keyboard|1       |2026-09-01|S003   |2500        |2500      |
+[info] |Electronics|Bangalore|C004       |Monitor |1       |2026-09-01|S004   |25000       |25000     |
+[info] |Furniture  |Chennai  |C005       |Chair   |2       |2026-09-01|S005   |14000       |7000      |
+[info] |Furniture  |Pune     |C006       |Desk    |1       |2026-09-01|S006   |20000       |20000     |
+[info] |Electronics|Kolkata  |C007       |Laptop  |1       |2026-09-02|S007   |80000       |80000     |
+[info] |Electronics|Jaipur   |C008       |Mouse   |3       |2026-09-02|S008   |4500        |1500      |
+[info] |Electronics|Delhi    |C001       |Monitor |2       |2026-09-02|S009   |50000       |25000     |
+[info] |Furniture  |Mumbai   |C002       |Chair   |1       |2026-09-02|S010   |7000        |7000      |
+[info] +-----------+---------+-----------+--------+--------+----------+-------+------------+----------+
+[info] only showing top 10 rows
+[info] JSON Schema:
+[info] root
+[info]  |-- category: string (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- product: string (nullable = true)
+[info]  |-- quantity: long (nullable = true)
+[info]  |-- sale_date: string (nullable = true)
+[info]  |-- sale_id: string (nullable = true)
+[info]  |-- total_amount: long (nullable = true)
+[info]  |-- unit_price: long (nullable = true)
+[info] Records read from JSON = 40
+[info] ==========================================================================================
+[info] 7. WRITE PARQUET
+[info] ==========================================================================================
+[info] Parquet written to: output/parquet_sales
+[info] ==========================================================================================
+[info] 8. READ PARQUET
+[info] ==========================================================================================
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] |sale_id|customer_id|product |category   |quantity|unit_price|sale_date |city     |total_amount|year|month|day|
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] |S001   |C001       |Laptop  |Electronics|1       |75000     |2026-09-01|Delhi    |75000       |2026|9    |1  |
+[info] |S002   |C002       |Mouse   |Electronics|2       |1500      |2026-09-01|Mumbai   |3000        |2026|9    |1  |
+[info] |S003   |C003       |Keyboard|Electronics|1       |2500      |2026-09-01|Hyderabad|2500        |2026|9    |1  |
+[info] |S004   |C004       |Monitor |Electronics|1       |25000     |2026-09-01|Bangalore|25000       |2026|9    |1  |
+[info] |S005   |C005       |Chair   |Furniture  |2       |7000      |2026-09-01|Chennai  |14000       |2026|9    |1  |
+[info] |S006   |C006       |Desk    |Furniture  |1       |20000     |2026-09-01|Pune     |20000       |2026|9    |1  |
+[info] |S007   |C007       |Laptop  |Electronics|1       |80000     |2026-09-02|Kolkata  |80000       |2026|9    |2  |
+[info] |S008   |C008       |Mouse   |Electronics|3       |1500      |2026-09-02|Jaipur   |4500        |2026|9    |2  |
+[info] |S009   |C001       |Monitor |Electronics|2       |25000     |2026-09-02|Delhi    |50000       |2026|9    |2  |
+[info] |S010   |C002       |Chair   |Furniture  |1       |7000      |2026-09-02|Mumbai   |7000        |2026|9    |2  |
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] only showing top 10 rows
+[info] Parquet Schema:
+[info] root
+[info]  |-- sale_id: string (nullable = true)
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- product: string (nullable = true)
+[info]  |-- category: string (nullable = true)
+[info]  |-- quantity: integer (nullable = true)
+[info]  |-- unit_price: integer (nullable = true)
+[info]  |-- sale_date: date (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info]  |-- total_amount: integer (nullable = true)
+[info]  |-- year: integer (nullable = true)
+[info]  |-- month: integer (nullable = true)
+[info]  |-- day: integer (nullable = true)
+[info] Records read from Parquet = 40
+[info] ==========================================================================================
+[info] 9. FILE FORMAT COMPARISON
+[info] ==========================================================================================
+[info] CSV
+[info] ---
+[info] Text-based.
+[info] Human-readable.
+[info] Simple and widely supported.
+[info] Does not store Spark schema in the same way as Parquet.
+[info] JSON
+[info] ----
+[info] Semi-structured.
+[info] Useful for nested and API-style data.
+[info] Usually larger than columnar formats for analytics.
+[info] PARQUET
+[info] -------
+[info] Columnar storage format.
+[info] Stores schema information.
+[info] Efficient for analytical queries.
+[info] Supports column pruning and predicate pushdown.
+[info] Commonly used in data lakes and lakehouses.
+[info] ==========================================================================================
+[info] 10. PARTITIONED OUTPUT
+[info] ==========================================================================================
+[info] Partitioned Parquet written to: output/daily_sales
+[info] ==========================================================================================
+[info] 11. READ PARTITIONED DATA
+[info] ==========================================================================================
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] |sale_id|customer_id|product |category   |quantity|unit_price|sale_date |city     |total_amount|year|month|day|
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] |S001   |C001       |Laptop  |Electronics|1       |75000     |2026-09-01|Delhi    |75000       |2026|9    |1  |
+[info] |S002   |C002       |Mouse   |Electronics|2       |1500      |2026-09-01|Mumbai   |3000        |2026|9    |1  |
+[info] |S003   |C003       |Keyboard|Electronics|1       |2500      |2026-09-01|Hyderabad|2500        |2026|9    |1  |
+[info] |S004   |C004       |Monitor |Electronics|1       |25000     |2026-09-01|Bangalore|25000       |2026|9    |1  |
+[info] |S005   |C005       |Chair   |Furniture  |2       |7000      |2026-09-01|Chennai  |14000       |2026|9    |1  |
+[info] |S006   |C006       |Desk    |Furniture  |1       |20000     |2026-09-01|Pune     |20000       |2026|9    |1  |
+[info] |S007   |C007       |Laptop  |Electronics|1       |80000     |2026-09-02|Kolkata  |80000       |2026|9    |2  |
+[info] |S008   |C008       |Mouse   |Electronics|3       |1500      |2026-09-02|Jaipur   |4500        |2026|9    |2  |
+[info] |S009   |C001       |Monitor |Electronics|2       |25000     |2026-09-02|Delhi    |50000       |2026|9    |2  |
+[info] |S010   |C002       |Chair   |Furniture  |1       |7000      |2026-09-02|Mumbai   |7000        |2026|9    |2  |
+[info] |S011   |C003       |Desk    |Furniture  |1       |22000     |2026-09-03|Hyderabad|22000       |2026|9    |3  |
+[info] |S012   |C004       |Laptop  |Electronics|1       |76000     |2026-09-03|Bangalore|76000       |2026|9    |3  |
+[info] |S013   |C005       |Keyboard|Electronics|2       |2500      |2026-09-03|Chennai  |5000        |2026|9    |3  |
+[info] |S014   |C006       |Monitor |Electronics|1       |24000     |2026-09-03|Pune     |24000       |2026|9    |3  |
+[info] |S015   |C007       |Chair   |Furniture  |4       |6500      |2026-09-04|Kolkata  |26000       |2026|9    |4  |
+[info] |S016   |C008       |Desk    |Furniture  |2       |21000     |2026-09-04|Jaipur   |42000       |2026|9    |4  |
+[info] |S017   |C001       |Laptop  |Electronics|1       |77000     |2026-09-04|Delhi    |77000       |2026|9    |4  |
+[info] |S018   |C002       |Mouse   |Electronics|5       |1400      |2026-09-05|Mumbai   |7000        |2026|9    |5  |
+[info] |S019   |C003       |Monitor |Electronics|1       |25500     |2026-09-05|Hyderabad|25500       |2026|9    |5  |
+[info] |S020   |C004       |Chair   |Furniture  |2       |6800      |2026-09-05|Bangalore|13600       |2026|9    |5  |
+[info] +-------+-----------+--------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] only showing top 20 rows
+[info] ==========================================================================================
+[info] 12. EXPECTED PARTITION DIRECTORY STRUCTURE
+[info] ==========================================================================================
+[info] output/daily_sales/
+[info]   year=2026/
+[info]     |
+[info]     +-- month=9/
+[info]          |
+[info]          +-- day=1/
+[info]          |     +-- part-xxxxx.parquet
+[info]          |
+[info]          +-- day=2/
+[info]          |     +-- part-xxxxx.parquet
+[info]          |
+[info]          +-- day=3/
+[info]          |     +-- part-xxxxx.parquet
+[info]          |
+[info]          +-- ...
+[info] The exact file names are generated by Spark.
+[info] ==========================================================================================
+[info] 13. PARTITION PRUNING
+[info] ==========================================================================================
+[info] If data is partitioned by:
+[info] year
+[info] month
+[info] day
+[info] and we query:
+[info] year = 2026
+[info] AND month = 9
+[info] AND day = 5
+[info] Spark can avoid scanning unrelated partition directories.
+[info] This is called partition pruning.
+[info] +-------+-----------+-------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] |sale_id|customer_id|product|category   |quantity|unit_price|sale_date |city     |total_amount|year|month|day|
+[info] +-------+-----------+-------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] |S018   |C002       |Mouse  |Electronics|5       |1400      |2026-09-05|Mumbai   |7000        |2026|9    |5  |
+[info] |S019   |C003       |Monitor|Electronics|1       |25500     |2026-09-05|Hyderabad|25500       |2026|9    |5  |
+[info] |S020   |C004       |Chair  |Furniture  |2       |6800      |2026-09-05|Bangalore|13600       |2026|9    |5  |
+[info] +-------+-----------+-------+-----------+--------+----------+----------+---------+------------+----+-----+---+
+[info] ==========================================================================================
+[info] 14. REPARTITION BEFORE WRITING
+[info] ==========================================================================================
+[info] Original partitions = 1
+[info] After repartition(4) = 4
+[info] Repartitioned data written to: output/repartitioned_sales
+[info] ==========================================================================================
+[info] 15. COALESCE BEFORE WRITING
+[info] ==========================================================================================
+[info] After coalesce(2) = 1
+[info] Coalesced data written to: output/coalesced_sales
+[info] ==========================================================================================
+[info] 16. REPARTITION VS COALESCE
+[info] ==========================================================================================
+[info] repartition(N)
+[info] ---------------
+[info] Changes the number of partitions.
+[info] Can increase or decrease partitions.
+[info] Generally causes a shuffle.
+[info] coalesce(N)
+[info] -----------
+[info] Primarily used to reduce partitions.
+[info] Usually avoids a full shuffle.
+[info] Example:
+[info] 8 partitions
+[info]     |
+[info]     +-- repartition(4)
+[info]     |       |
+[info]     |       +--> shuffle
+[info]     |
+[info]     +-- coalesce(4)
+[info]             |
+[info]             +--> generally avoids full shuffle
+[info] ==========================================================================================
+[info] 17. NUMBER OF OUTPUT FILES
+[info] ==========================================================================================
+[info] Spark generally creates output files based on
+[info] the number of partitions being written.
+[info] For example:
+[info] 4 partitions
+[info]      |
+[info]      v
+[info] Approximately 4 part files
+[info] Example:
+[info] part-00000-xxxxx.parquet
+[info] part-00001-xxxxx.parquet
+[info] part-00002-xxxxx.parquet
+[info] part-00003-xxxxx.parquet
+[info] Spark also creates metadata files such as:
+[info] _SUCCESS
+[info] The exact number of files can depend on the
+[info] partitioning and write operation.
+[info] ==========================================================================================
+[info] 18. PARTITION COUNT ANALYSIS
+[info] ==========================================================================================
+[info] Sales partitions = 1
+[info] Repartitioned sales partitions = 4
+[info] Coalesced sales partitions = 1
+[info] ==========================================================================================
+[info] 19. DAILY SALES ANALYSIS
+[info] ==========================================================================================
+[info] +----+-----+---+-----------------+--------------+-----------+------------------+
+[info] |year|month|day|transaction_count|total_quantity|total_sales|average_sale      |
+[info] +----+-----+---+-----------------+--------------+-----------+------------------+
+[info] |2026|9    |1  |6                |8             |139500     |23250.0           |
+[info] |2026|9    |2  |4                |7             |141500     |35375.0           |
+[info] |2026|9    |3  |4                |5             |127000     |31750.0           |
+[info] |2026|9    |4  |3                |7             |145000     |48333.333333333336|
+[info] |2026|9    |5  |3                |8             |46100      |15366.666666666666|
+[info] |2026|9    |6  |3                |5             |107700     |35900.0           |
+[info] |2026|9    |7  |3                |4             |60300      |20100.0           |
+[info] |2026|9    |8  |3                |6             |108300     |36100.0           |
+[info] |2026|9    |9  |3                |5             |124100     |41366.666666666664|
+[info] |2026|9    |10 |3                |5             |44200      |14733.333333333334|
+[info] |2026|9    |11 |3                |5             |104000     |34666.666666666664|
+[info] |2026|9    |12 |2                |3             |57800      |28900.0           |
+[info] +----+-----+---+-----------------+--------------+-----------+------------------+
+[info] ==========================================================================================
+[info] 20. MONTHLY SALES
+[info] ==========================================================================================
+[info] +----+-----+-----------------+-----------+------------+
+[info] |year|month|transaction_count|total_sales|average_sale|
+[info] +----+-----+-----------------+-----------+------------+
+[info] |2026|9    |40               |1205500    |30137.5     |
+[info] +----+-----+-----------------+-----------+------------+
+[info] ==========================================================================================
+[info] 21. PRODUCT SALES
+[info] ==========================================================================================
+[info] +--------+-----------+--------------+-----------+
+[info] |product |category   |total_quantity|total_sales|
+[info] +--------+-----------+--------------+-----------+
+[info] |Laptop  |Electronics|8             |623500     |
+[info] |Monitor |Electronics|10            |251000     |
+[info] |Desk    |Furniture  |8             |171000     |
+[info] |Chair   |Furniture  |17            |115300     |
+[info] |Mouse   |Electronics|17            |24800      |
+[info] |Keyboard|Electronics|8             |19900      |
+[info] +--------+-----------+--------------+-----------+
+[info] ==========================================================================================
+[info] 22. HOW PARTITIONED OUTPUT WORKS
+[info] ==========================================================================================
+[info] Input DataFrame
+[info]        |
+[info]        v
+[info] partitionBy(year, month, day)
+[info]        |
+[info]        v
+[info] Spark groups rows by partition columns
+[info]        |
+[info]        v
+[info] Directory structure
+[info] year=2026/
+[info]     month=9/
+[info]         day=1/
+[info]         day=2/
+[info]         day=3/
+[info] Partition columns are stored in the directory path.
+[info] The Parquet files inside each directory contain
+[info] the actual records.
+[info] ==========================================================================================
+[info] 23. FILE FORMAT FOR ANALYTICS
+[info] ==========================================================================================
+[info] For analytical workloads, Parquet is often preferred
+[info] over CSV/JSON because it is a columnar format and
+[info] works efficiently with Spark SQL.
+[info] Typical data lake pattern:
+[info] Raw ingestion
+[info]      |
+[info]      v
+[info] CSV / JSON
+[info]      |
+[info]      v
+[info] Transformation
+[info]      |
+[info]      v
+[info] Parquet
+[info]      |
+[info]      v
+[info] Analytics
+[info] ==========================================================================================
+[info] 24. DAY 20 VIVA SUMMARY
+[info] ==========================================================================================
+[info] Q1. What is CSV?
+[info] A:
+[info] CSV is a text-based tabular file format where values
+[info] are separated by delimiters such as commas.
+[info] Q2. What is JSON?
+[info] A:
+[info] JSON is a semi-structured text format commonly used
+[info] for APIs and nested data.
+[info] Q3. What is Parquet?
+[info] A:
+[info] Parquet is a columnar storage format designed for
+[info] efficient analytical workloads.
+[info] Q4. Why is Parquet useful in Spark?
+[info] A:
+[info] It supports columnar storage, schema information,
+[info] compression and efficient analytical reads.
+[info] Q5. What does partitionBy do during writing?
+[info] A:
+[info] It organizes output into directory partitions based
+[info] on the specified column values.
+[info] Q6. What does this produce?
+[info] partitionBy("year", "month", "day")
+[info] A:
+[info] year=2026/
+[info]   month=9/
+[info]     day=1/
+[info]     day=2/
+[info]     day=3/
+[info] Q7. What determines the number of output files?
+[info] A:
+[info] The number of partitions being written is a major
+[info] factor in the number of part files.
+[info] Q8. What does repartition() do?
+[info] A:
+[info] It changes the number of partitions and generally
+[info] causes a shuffle.
+[info] Q9. What does coalesce() do?
+[info] A:
+[info] It is mainly used to reduce the number of partitions
+[info] and generally avoids a full shuffle.
+[info] Q10. Why shouldn't we create too many output files?
+[info] A:
+[info] Too many small files create metadata and filesystem
+[info] overhead and can reduce query performance.
+[info] Q11. What is partition pruning?
+[info] A:
+[info] Partition pruning allows Spark to skip partition
+[info] directories that cannot contain rows matching the filter.
+[info] Q12. Why partition daily sales by year/month/day?
+[info] A:
+[info] It organizes data by time and allows queries for specific
+[info] dates or periods to avoid scanning unrelated partitions.
+[info] ==========================================================================================
+[info] DAY 20 COMPLETED
+[info] ==========================================================================================
+[info] Topics completed:
+[info] [✓] Read CSV
+[info] [✓] Write CSV
+[info] [✓] Read JSON
+[info] [✓] Write JSON
+[info] [✓] Read Parquet
+[info] [✓] Write Parquet
+[info] [✓] Partitioned output
+[info] [✓] year/month/day partitioning
+[info] [✓] Repartition
+[info] [✓] Coalesce
+[info] [✓] Output file counts
+[info] [✓] part-* files
+[info] [✓] _SUCCESS
+[info] [✓] Partition pruning
+[info] [✓] Daily sales analytics
+[info] [✓] File format comparison
+[success] Total time: 25 s, completed Sep 30, 2026, 11:41:08 AM

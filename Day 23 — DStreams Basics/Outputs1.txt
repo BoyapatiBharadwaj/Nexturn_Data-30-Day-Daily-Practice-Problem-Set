@@ -1,0 +1,56 @@
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[error] 26/09/30 12:04:26 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/09/30 12:04:26 WARN BlockManager: Block input-0-1790750066600 replicated to only 0 peer(s) instead of 1 peers
+[info] ========== RAW BATCH ==========
+[info] 2026-09-30 12:05:01 INFO Application started
+[info] Records in current batch: 1
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ========== LOG LEVEL COUNTS ==========
+[info] INFO -> 1
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[error] 26/09/30 12:04:46 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/09/30 12:04:46 WARN BlockManager: Block input-0-1790750085800 replicated to only 0 peer(s) instead of 1 peers
+[info] ========== RAW BATCH ==========
+[info] 2026-09-30 12:05:02 ERROR Database connection failed
+[info] Records in current batch: 1
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 1 ********
+[info] ========== LOG LEVEL COUNTS ==========
+[info] ERROR -> 1
+[error] 26/09/30 12:04:54 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/09/30 12:04:54 WARN BlockManager: Block input-0-1790750094400 replicated to only 0 peer(s) instead of 1 peers
+[info] ========== RAW BATCH ==========
+[info] 2026-09-30 12:05:03 INFO User logged in
+[info] Records in current batch: 1
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ========== LOG LEVEL COUNTS ==========
+[info] INFO -> 1
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[error] 26/09/30 12:05:03 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/09/30 12:05:03 WARN BlockManager: Block input-0-1790750103600 replicated to only 0 peer(s) instead of 1 peers
+[info] ========== RAW BATCH ==========
+[info] 2026-09-30 12:05:05 WARN High memory usage
+[info] Records in current batch: 1
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ========== LOG LEVEL COUNTS ==========
+[info] WARN -> 1
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********
+[info] ******** ERROR COUNT IN CURRENT 5-SECOND BATCH: 0 ********

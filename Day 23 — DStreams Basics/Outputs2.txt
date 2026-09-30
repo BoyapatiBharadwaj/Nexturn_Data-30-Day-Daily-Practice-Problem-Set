@@ -1,0 +1,5 @@
+babblu@LAPTOP-E7CK2BER:~$ nc -l 9999
+2026-09-30 12:05:01 INFO Application started
+2026-09-30 12:05:02 ERROR Database connection failed
+2026-09-30 12:05:03 INFO User logged in
+2026-09-30 12:05:05 WARN High memory usage

@@ -1,0 +1,299 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day22-batch-project$ sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day22-batch-project/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day22-batch-project (in build file:/home/babblu/spark-day22-batch-project/)
+[info] running (fork) Day22BatchPipelineApp
+[info] ==============================================
+[info] DAY 22 - E-COMMERCE BATCH PIPELINE
+[info] ==============================================
+[info] ========== RAW TRANSACTIONS ==========
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] |transaction_id|customer_id|product_id|quantity|transaction_date|status   |
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] |T001          |C001       |P001      |1       |2026-09-01      |COMPLETED|
+[info] |T002          |C002       |P002      |2       |2026-09-01      |COMPLETED|
+[info] |T003          |C003       |P003      |2       |2026-09-01      |COMPLETED|
+[info] |T004          |C001       |P004      |1       |2026-09-02      |COMPLETED|
+[info] |T005          |C004       |P005      |2       |2026-09-02      |COMPLETED|
+[info] |T006          |C005       |P001      |1       |2026-09-03      |COMPLETED|
+[info] |T007          |C006       |P006      |1       |2026-09-03      |COMPLETED|
+[info] |T008          |C003       |P002      |3       |2026-09-03      |COMPLETED|
+[info] |T009          |C007       |P004      |2       |2026-09-04      |COMPLETED|
+[info] |T010          |C008       |P007      |2       |2026-09-04      |COMPLETED|
+[info] |T011          |C001       |P008      |1       |2026-09-05      |COMPLETED|
+[info] |T012          |C002       |P005      |1       |2026-09-05      |CANCELLED|
+[info] |T013          |C003       |P001      |1       |2026-09-06      |COMPLETED|
+[info] |T014          |C004       |P006      |2       |2026-09-06      |COMPLETED|
+[info] |T015          |C005       |P007      |2       |2026-09-07      |COMPLETED|
+[info] |T016          |C006       |P003      |1       |2026-09-07      |COMPLETED|
+[info] |T017          |C007       |P002      |4       |2026-09-08      |COMPLETED|
+[info] |T018          |C008       |P004      |1       |2026-09-08      |COMPLETED|
+[info] |T019          |C001       |P001      |0       |2026-09-09      |COMPLETED|
+[info] |T020          |C002       |P002      |-2      |2026-09-09      |COMPLETED|
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] only showing top 20 rows
+[info] Raw transaction count = 30
+[info] root
+[info]  |-- transaction_id: string (nullable = true)
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- product_id: string (nullable = true)
+[info]  |-- quantity: integer (nullable = true)
+[info]  |-- transaction_date: date (nullable = true)
+[info]  |-- status: string (nullable = true)
+[info] ========== CUSTOMERS ==========
+[info] +-----------+-------------+---------+----------------+
+[info] |customer_id|customer_name|city     |customer_segment|
+[info] +-----------+-------------+---------+----------------+
+[info] |C001       |Rahul        |Delhi    |Premium         |
+[info] |C002       |Ananya       |Mumbai   |Regular         |
+[info] |C003       |Arjun        |Hyderabad|Premium         |
+[info] |C004       |Priya        |Bangalore|Regular         |
+[info] |C005       |Kiran        |Chennai  |Premium         |
+[info] |C006       |Sneha        |Pune     |Regular         |
+[info] |C007       |Vikram       |Kolkata  |Premium         |
+[info] |C008       |Neha         |Jaipur   |Regular         |
+[info] +-----------+-------------+---------+----------------+
+[info] Customer count = 8
+[info] ========== PRODUCTS ==========
+[info] +----------+------------+-----------+----------+
+[info] |product_id|product_name|category   |unit_price|
+[info] +----------+------------+-----------+----------+
+[info] |P001      |Laptop      |Electronics|75000     |
+[info] |P002      |Mouse       |Electronics|1500      |
+[info] |P003      |Keyboard    |Electronics|2500      |
+[info] |P004      |Monitor     |Electronics|25000     |
+[info] |P005      |Office Chair|Furniture  |7000      |
+[info] |P006      |Desk        |Furniture  |15000     |
+[info] |P007      |Headphones  |Electronics|5000      |
+[info] |P008      |Webcam      |Electronics|4000      |
+[info] +----------+------------+-----------+----------+
+[info] Product count = 8
+[info] ========== DATA QUALITY CHECKS ==========
+[info] Invalid quantity records:
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] |transaction_id|customer_id|product_id|quantity|transaction_date|status   |
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] |T019          |C001       |P001      |0       |2026-09-09      |COMPLETED|
+[info] |T020          |C002       |P002      |-2      |2026-09-09      |COMPLETED|
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] Invalid quantity count = 2
+[info] Cancelled transactions:
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] |transaction_id|customer_id|product_id|quantity|transaction_date|status   |
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] |T012          |C002       |P005      |1       |2026-09-05      |CANCELLED|
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] Cancelled count = 1
+[info] ========== CLEAN TRANSACTIONS ==========
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] |transaction_id|customer_id|product_id|quantity|transaction_date|status   |
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] |T001          |C001       |P001      |1       |2026-09-01      |COMPLETED|
+[info] |T002          |C002       |P002      |2       |2026-09-01      |COMPLETED|
+[info] |T003          |C003       |P003      |2       |2026-09-01      |COMPLETED|
+[info] |T004          |C001       |P004      |1       |2026-09-02      |COMPLETED|
+[info] |T005          |C004       |P005      |2       |2026-09-02      |COMPLETED|
+[info] |T006          |C005       |P001      |1       |2026-09-03      |COMPLETED|
+[info] |T007          |C006       |P006      |1       |2026-09-03      |COMPLETED|
+[info] |T008          |C003       |P002      |3       |2026-09-03      |COMPLETED|
+[info] |T009          |C007       |P004      |2       |2026-09-04      |COMPLETED|
+[info] |T010          |C008       |P007      |2       |2026-09-04      |COMPLETED|
+[info] |T011          |C001       |P008      |1       |2026-09-05      |COMPLETED|
+[info] |T013          |C003       |P001      |1       |2026-09-06      |COMPLETED|
+[info] |T014          |C004       |P006      |2       |2026-09-06      |COMPLETED|
+[info] |T015          |C005       |P007      |2       |2026-09-07      |COMPLETED|
+[info] |T016          |C006       |P003      |1       |2026-09-07      |COMPLETED|
+[info] |T017          |C007       |P002      |4       |2026-09-08      |COMPLETED|
+[info] |T018          |C008       |P004      |1       |2026-09-08      |COMPLETED|
+[info] |T021          |C003       |P003      |2       |2026-09-09      |COMPLETED|
+[info] |T022          |C004       |P005      |1       |2026-09-10      |COMPLETED|
+[info] |T023          |C005       |P006      |1       |2026-09-10      |COMPLETED|
+[info] +--------------+-----------+----------+--------+----------------+---------+
+[info] only showing top 20 rows
+[info] Clean transaction count = 27
+[info] Records removed = 3
+[info] ========== WRITE CLEANED DATA ==========
+[info] Cleaned transactions written to: output/cleaned_transactions
+[info] ========== CUSTOMER JOIN ==========
+[info] +--------------+-----------+----------+--------+----------------+---------+-------------+---------+----------------+
+[info] |transaction_id|customer_id|product_id|quantity|transaction_date|status   |customer_name|city     |customer_segment|
+[info] +--------------+-----------+----------+--------+----------------+---------+-------------+---------+----------------+
+[info] |T001          |C001       |P001      |1       |2026-09-01      |COMPLETED|Rahul        |Delhi    |Premium         |
+[info] |T002          |C002       |P002      |2       |2026-09-01      |COMPLETED|Ananya       |Mumbai   |Regular         |
+[info] |T003          |C003       |P003      |2       |2026-09-01      |COMPLETED|Arjun        |Hyderabad|Premium         |
+[info] |T004          |C001       |P004      |1       |2026-09-02      |COMPLETED|Rahul        |Delhi    |Premium         |
+[info] |T005          |C004       |P005      |2       |2026-09-02      |COMPLETED|Priya        |Bangalore|Regular         |
+[info] |T006          |C005       |P001      |1       |2026-09-03      |COMPLETED|Kiran        |Chennai  |Premium         |
+[info] |T007          |C006       |P006      |1       |2026-09-03      |COMPLETED|Sneha        |Pune     |Regular         |
+[info] |T008          |C003       |P002      |3       |2026-09-03      |COMPLETED|Arjun        |Hyderabad|Premium         |
+[info] |T009          |C007       |P004      |2       |2026-09-04      |COMPLETED|Vikram       |Kolkata  |Premium         |
+[info] |T010          |C008       |P007      |2       |2026-09-04      |COMPLETED|Neha         |Jaipur   |Regular         |
+[info] |T011          |C001       |P008      |1       |2026-09-05      |COMPLETED|Rahul        |Delhi    |Premium         |
+[info] |T013          |C003       |P001      |1       |2026-09-06      |COMPLETED|Arjun        |Hyderabad|Premium         |
+[info] |T014          |C004       |P006      |2       |2026-09-06      |COMPLETED|Priya        |Bangalore|Regular         |
+[info] |T015          |C005       |P007      |2       |2026-09-07      |COMPLETED|Kiran        |Chennai  |Premium         |
+[info] |T016          |C006       |P003      |1       |2026-09-07      |COMPLETED|Sneha        |Pune     |Regular         |
+[info] |T017          |C007       |P002      |4       |2026-09-08      |COMPLETED|Vikram       |Kolkata  |Premium         |
+[info] |T018          |C008       |P004      |1       |2026-09-08      |COMPLETED|Neha         |Jaipur   |Regular         |
+[info] |T021          |C003       |P003      |2       |2026-09-09      |COMPLETED|Arjun        |Hyderabad|Premium         |
+[info] |T022          |C004       |P005      |1       |2026-09-10      |COMPLETED|Priya        |Bangalore|Regular         |
+[info] |T023          |C005       |P006      |1       |2026-09-10      |COMPLETED|Kiran        |Chennai  |Premium         |
+[info] +--------------+-----------+----------+--------+----------------+---------+-------------+---------+----------------+
+[info] only showing top 20 rows
+[info] Customer-enriched count = 26
+[info] ========== PRODUCT JOIN ==========
+[info] Final enriched transaction dataset:
+[info] +--------------+-----------+-------------+---------+----------------+----------+------------+-----------+----------+--------+----------------+---------+-------+----+-----+---+
+[info] |transaction_id|customer_id|customer_name|city     |customer_segment|product_id|product_name|category   |unit_price|quantity|transaction_date|status   |revenue|year|month|day|
+[info] +--------------+-----------+-------------+---------+----------------+----------+------------+-----------+----------+--------+----------------+---------+-------+----+-----+---+
+[info] |T001          |C001       |Rahul        |Delhi    |Premium         |P001      |Laptop      |Electronics|75000     |1       |2026-09-01      |COMPLETED|75000  |2026|9    |1  |
+[info] |T002          |C002       |Ananya       |Mumbai   |Regular         |P002      |Mouse       |Electronics|1500      |2       |2026-09-01      |COMPLETED|3000   |2026|9    |1  |
+[info] |T003          |C003       |Arjun        |Hyderabad|Premium         |P003      |Keyboard    |Electronics|2500      |2       |2026-09-01      |COMPLETED|5000   |2026|9    |1  |
+[info] |T004          |C001       |Rahul        |Delhi    |Premium         |P004      |Monitor     |Electronics|25000     |1       |2026-09-02      |COMPLETED|25000  |2026|9    |2  |
+[info] |T005          |C004       |Priya        |Bangalore|Regular         |P005      |Office Chair|Furniture  |7000      |2       |2026-09-02      |COMPLETED|14000  |2026|9    |2  |
+[info] |T006          |C005       |Kiran        |Chennai  |Premium         |P001      |Laptop      |Electronics|75000     |1       |2026-09-03      |COMPLETED|75000  |2026|9    |3  |
+[info] |T007          |C006       |Sneha        |Pune     |Regular         |P006      |Desk        |Furniture  |15000     |1       |2026-09-03      |COMPLETED|15000  |2026|9    |3  |
+[info] |T008          |C003       |Arjun        |Hyderabad|Premium         |P002      |Mouse       |Electronics|1500      |3       |2026-09-03      |COMPLETED|4500   |2026|9    |3  |
+[info] |T009          |C007       |Vikram       |Kolkata  |Premium         |P004      |Monitor     |Electronics|25000     |2       |2026-09-04      |COMPLETED|50000  |2026|9    |4  |
+[info] |T010          |C008       |Neha         |Jaipur   |Regular         |P007      |Headphones  |Electronics|5000      |2       |2026-09-04      |COMPLETED|10000  |2026|9    |4  |
+[info] |T011          |C001       |Rahul        |Delhi    |Premium         |P008      |Webcam      |Electronics|4000      |1       |2026-09-05      |COMPLETED|4000   |2026|9    |5  |
+[info] |T013          |C003       |Arjun        |Hyderabad|Premium         |P001      |Laptop      |Electronics|75000     |1       |2026-09-06      |COMPLETED|75000  |2026|9    |6  |
+[info] |T014          |C004       |Priya        |Bangalore|Regular         |P006      |Desk        |Furniture  |15000     |2       |2026-09-06      |COMPLETED|30000  |2026|9    |6  |
+[info] |T015          |C005       |Kiran        |Chennai  |Premium         |P007      |Headphones  |Electronics|5000      |2       |2026-09-07      |COMPLETED|10000  |2026|9    |7  |
+[info] |T016          |C006       |Sneha        |Pune     |Regular         |P003      |Keyboard    |Electronics|2500      |1       |2026-09-07      |COMPLETED|2500   |2026|9    |7  |
+[info] |T017          |C007       |Vikram       |Kolkata  |Premium         |P002      |Mouse       |Electronics|1500      |4       |2026-09-08      |COMPLETED|6000   |2026|9    |8  |
+[info] |T018          |C008       |Neha         |Jaipur   |Regular         |P004      |Monitor     |Electronics|25000     |1       |2026-09-08      |COMPLETED|25000  |2026|9    |8  |
+[info] |T021          |C003       |Arjun        |Hyderabad|Premium         |P003      |Keyboard    |Electronics|2500      |2       |2026-09-09      |COMPLETED|5000   |2026|9    |9  |
+[info] |T022          |C004       |Priya        |Bangalore|Regular         |P005      |Office Chair|Furniture  |7000      |1       |2026-09-10      |COMPLETED|7000   |2026|9    |10 |
+[info] |T023          |C005       |Kiran        |Chennai  |Premium         |P006      |Desk        |Furniture  |15000     |1       |2026-09-10      |COMPLETED|15000  |2026|9    |10 |
+[info] +--------------+-----------+-------------+---------+----------------+----------+------------+-----------+----------+--------+----------------+---------+-------+----+-----+---+
+[info] only showing top 20 rows
+[info] root
+[info]  |-- transaction_id: string (nullable = true)
+[info]  |-- customer_id: string (nullable = true)
+[info]  |-- customer_name: string (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info]  |-- customer_segment: string (nullable = true)
+[info]  |-- product_id: string (nullable = true)
+[info]  |-- product_name: string (nullable = true)
+[info]  |-- category: string (nullable = true)
+[info]  |-- unit_price: integer (nullable = true)
+[info]  |-- quantity: integer (nullable = true)
+[info]  |-- transaction_date: date (nullable = true)
+[info]  |-- status: string (nullable = true)
+[info]  |-- revenue: integer (nullable = true)
+[info]  |-- year: integer (nullable = true)
+[info]  |-- month: integer (nullable = true)
+[info]  |-- day: integer (nullable = true)
+[info] Enriched transaction count = 25
+[info] Enriched transactions written to: output/enriched_transactions
+[info] ========== DAILY SALES ==========
+[info] +----------------+----+-----+---+-----------------+----------+-------------+-------------------------+
+[info] |transaction_date|year|month|day|transaction_count|units_sold|total_revenue|average_transaction_value|
+[info] +----------------+----+-----+---+-----------------+----------+-------------+-------------------------+
+[info] |2026-09-01      |2026|9    |1  |3                |5         |83000        |27666.666666666668       |
+[info] |2026-09-02      |2026|9    |2  |2                |3         |39000        |19500.0                  |
+[info] |2026-09-03      |2026|9    |3  |3                |5         |94500        |31500.0                  |
+[info] |2026-09-04      |2026|9    |4  |2                |4         |60000        |30000.0                  |
+[info] |2026-09-05      |2026|9    |5  |1                |1         |4000         |4000.0                   |
+[info] |2026-09-06      |2026|9    |6  |2                |3         |105000       |52500.0                  |
+[info] |2026-09-07      |2026|9    |7  |2                |3         |12500        |6250.0                   |
+[info] |2026-09-08      |2026|9    |8  |2                |5         |31000        |15500.0                  |
+[info] |2026-09-09      |2026|9    |9  |1                |2         |5000         |5000.0                   |
+[info] |2026-09-10      |2026|9    |10 |3                |5         |37000        |12333.333333333334       |
+[info] |2026-09-11      |2026|9    |11 |2                |3         |83000        |41500.0                  |
+[info] |2026-09-12      |2026|9    |12 |2                |3         |30000        |15000.0                  |
+[info] +----------------+----+-----+---+-----------------+----------+-------------+-------------------------+
+[info] Daily sales written to: output/daily_sales
+[info] ========== PRODUCT SALES ==========
+[info] +----------+------------+-----------+----------+-------------+-----------------+
+[info] |product_id|product_name|category   |units_sold|total_revenue|transaction_count|
+[info] +----------+------------+-----------+----------+-------------+-----------------+
+[info] |P001      |Laptop      |Electronics|4         |300000       |4                |
+[info] |P004      |Monitor     |Electronics|5         |125000       |4                |
+[info] |P006      |Desk        |Furniture  |4         |60000        |3                |
+[info] |P007      |Headphones  |Electronics|7         |35000        |3                |
+[info] |P005      |Office Chair|Furniture  |3         |21000        |2                |
+[info] |P003      |Keyboard    |Electronics|7         |17500        |4                |
+[info] |P002      |Mouse       |Electronics|9         |13500        |3                |
+[info] |P008      |Webcam      |Electronics|3         |12000        |2                |
+[info] +----------+------------+-----------+----------+-------------+-----------------+
+[info] Product sales written to: output/product_sales
+[info] ========== CATEGORY SALES ==========
+[info] +-----------+----------+-------------+-----------------+
+[info] |category   |units_sold|total_revenue|transaction_count|
+[info] +-----------+----------+-------------+-----------------+
+[info] |Electronics|35        |503000       |20               |
+[info] |Furniture  |7         |81000        |5                |
+[info] +-----------+----------+-------------+-----------------+
+[info] Category sales written to: output/category_sales
+[info] ========== CUSTOMER REVENUE ==========
+[info] +-----------+-------------+---------+----------------+-------------+---------------+-----------------+
+[info] |customer_id|customer_name|city     |customer_segment|total_revenue|units_purchased|transaction_count|
+[info] +-----------+-------------+---------+----------------+-------------+---------------+-----------------+
+[info] |C008       |Neha         |Jaipur   |Regular         |110000       |4              |3                |
+[info] |C001       |Rahul        |Delhi    |Premium         |109000       |5              |4                |
+[info] |C005       |Kiran        |Chennai  |Premium         |100000       |4              |3                |
+[info] |C003       |Arjun        |Hyderabad|Premium         |89500        |8              |4                |
+[info] |C007       |Vikram       |Kolkata  |Premium         |64000        |8              |3                |
+[info] |C004       |Priya        |Bangalore|Regular         |51000        |5              |3                |
+[info] |C006       |Sneha        |Pune     |Regular         |32500        |5              |3                |
+[info] |C002       |Ananya       |Mumbai   |Regular         |28000        |3              |2                |
+[info] +-----------+-------------+---------+----------------+-------------+---------------+-----------------+
+[info] ========== HIGH-VALUE TRANSACTIONS ==========
+[info] +--------------+-----------+-------------+---------+----------------+----------+------------+-----------+----------+--------+----------------+---------+-------+----+-----+---+
+[info] |transaction_id|customer_id|customer_name|city     |customer_segment|product_id|product_name|category   |unit_price|quantity|transaction_date|status   |revenue|year|month|day|
+[info] +--------------+-----------+-------------+---------+----------------+----------+------------+-----------+----------+--------+----------------+---------+-------+----+-----+---+
+[info] |T001          |C001       |Rahul        |Delhi    |Premium         |P001      |Laptop      |Electronics|75000     |1       |2026-09-01      |COMPLETED|75000  |2026|9    |1  |
+[info] |T006          |C005       |Kiran        |Chennai  |Premium         |P001      |Laptop      |Electronics|75000     |1       |2026-09-03      |COMPLETED|75000  |2026|9    |3  |
+[info] |T013          |C003       |Arjun        |Hyderabad|Premium         |P001      |Laptop      |Electronics|75000     |1       |2026-09-06      |COMPLETED|75000  |2026|9    |6  |
+[info] |T026          |C008       |Neha         |Jaipur   |Regular         |P001      |Laptop      |Electronics|75000     |1       |2026-09-11      |COMPLETED|75000  |2026|9    |11 |
+[info] |T009          |C007       |Vikram       |Kolkata  |Premium         |P004      |Monitor     |Electronics|25000     |2       |2026-09-04      |COMPLETED|50000  |2026|9    |4  |
+[info] +--------------+-----------+-------------+---------+----------------+----------+------------+-----------+----------+--------+----------------+---------+-------+----+-----+---+
+[info] ========== PARTITION PRUNING ==========
+[info] +----------------+-----------------+----------+-------------+-------------------------+----+-----+---+
+[info] |transaction_date|transaction_count|units_sold|total_revenue|average_transaction_value|year|month|day|
+[info] +----------------+-----------------+----------+-------------+-------------------------+----+-----+---+
+[info] |2026-09-09      |1                |2         |5000         |5000.0                   |2026|9    |9  |
+[info] +----------------+-----------------+----------+-------------+-------------------------+----+-----+---+
+[info] Physical plan for partition pruning:
+[info] == Parsed Logical Plan ==
+[info] 'Filter ((('year = 2026) AND ('month = 9)) AND ('day = 9))
+[info] +- Relation [transaction_date#1534,transaction_count#1535L,units_sold#1536L,total_revenue#1537L,average_transaction_value#1538,year#1539,month#1540,day#1541] parquet
+[info] == Analyzed Logical Plan ==
+[info] transaction_date: date, transaction_count: bigint, units_sold: bigint, total_revenue: bigint, average_transaction_value: double, year: int, month: int, day: int
+[info] Filter (((year#1539 = 2026) AND (month#1540 = 9)) AND (day#1541 = 9)
+[info] +- Relation [transaction_date#1534,transaction_count#1535L,units_sold#1536L,total_revenue#1537L,average_transaction_value#1538,year#1539,month#1540,day#1541] parquet
+[info] == Optimized Logical Plan ==
+[info] Filter (((isnotnull(year#1539) AND isnotnull(month#1540)) AND isnotnull(day#1541)) AND (((year#1539 = 2026) AND (month#1540 = 9)) AND (day#1541 = 9)))
+[info] +- Relation [transaction_date#1534,transaction_count#1535L,units_sold#1536L,total_revenue#1537L,average_transaction_value#1538,year#1539,month#1540,day#1541] parquet
+[info] == Physical Plan ==
+[info] *(1) ColumnarToRow
+[info] +- FileScan parquet [transaction_date#1534,transaction_count#1535L,units_sold#1536L,total_revenue#1537L,average_transaction_value#1538,year#1539,month#1540,day#1541] Batched: true, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/home/babblu/spark-day22-batch-project/output/daily_sales], PartitionFilters: [isnotnull(year#1539), isnotnull(month#1540), isnotnull(day#1541), (year#1539 = 2026), (month#154..., PushedFilters: [], ReadSchema: struct<transaction_date:date,transaction_count:bigint,units_sold:bigint,total_revenue:bigint,aver...
+[info] ========== CITY REVENUE ==========
+[info] +---------+-------------+----------+
+[info] |city     |total_revenue|units_sold|
+[info] +---------+-------------+----------+
+[info] |Jaipur   |110000       |4         |
+[info] |Delhi    |109000       |5         |
+[info] |Chennai  |100000       |4         |
+[info] |Hyderabad|89500        |8         |
+[info] |Kolkata  |64000        |8         |
+[info] |Bangalore|51000        |5         |
+[info] |Pune     |32500        |5         |
+[info] |Mumbai   |28000        |3         |
+[info] +---------+-------------+----------+
+[info] ==============================================
+[info] PIPELINE COMPLETED
+[info] ==============================================
+[info] Raw transactions       : 30
+[info] Clean transactions     : 27
+[info] Removed records        : 3
+[info] Output locations:
+[info]   Cleaned transactions : output/cleaned_transactions
+[info]   Enriched transactions: output/enriched_transactions
+[info]   Daily sales          : output/daily_sales
+[info]   Product sales        : output/product_sales
+[info]   Category sales       : output/category_sales
+[success] Total time: 21 s, completed Sep 30, 2026, 11:55:26 AM

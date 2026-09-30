@@ -1,0 +1,11 @@
+branch_id,branch_name,city,state,region,manager
+BR001,Delhi Main Branch,Delhi,Delhi,North,Rajesh Kumar
+BR002,Mumbai Central,Mumbai,Maharashtra,West,Priya Sharma
+BR003,Hyderabad Central,Hyderabad,Telangana,South,Arjun Rao
+BR004,Bangalore Tech Park,Bangalore,Karnataka,South,Sneha Reddy
+BR005,Chennai Central,Chennai,Tamil Nadu,South,Kiran Kumar
+BR006,Kolkata Main Branch,Kolkata,West Bengal,East,Ananya Das
+BR007,Pune Central,Pune,Maharashtra,West,Vikram Singh
+BR008,Jaipur Main Branch,Jaipur,Rajasthan,North,Neha Sharma
+BR009,Ahmedabad Central,Ahmedabad,Gujarat,West,Amit Patel
+BR010,Kochi Central,Kochi,Kerala,South,Meera Nair

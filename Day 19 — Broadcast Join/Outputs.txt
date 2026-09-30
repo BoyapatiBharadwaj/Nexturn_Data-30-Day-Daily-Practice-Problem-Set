@@ -1,0 +1,568 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day19-broadcast-join$ sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20)
+[info] loading project definition from /home/babblu/spark-day19-broadcast-join/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day19-broadcast-join (in build file:/home/babblu/spark-day19-broadcast-join/)
+[info] compiling 1 Scala source to /home/babblu/spark-day19-broadcast-join/target/scala-2.12/classes ...
+[info] running (fork) Day19BroadcastJoinApp
+[info] ==========================================================================================
+[info] DAY 19 - BROADCAST JOIN
+[info] ==========================================================================================
+[info] ==========================================================================================
+[info] 1. BRANCH MASTER
+[info] ==========================================================================================
+[info] +---------+-------------------+---------+-----------+------+------------+
+[info] |branch_id|branch_name        |city     |state      |region|manager     |
+[info] +---------+-------------------+---------+-----------+------+------------+
+[info] |BR001    |Delhi Main Branch  |Delhi    |Delhi      |North |Rajesh Kumar|
+[info] |BR002    |Mumbai Central     |Mumbai   |Maharashtra|West  |Priya Sharma|
+[info] |BR003    |Hyderabad Central  |Hyderabad|Telangana  |South |Arjun Rao   |
+[info] |BR004    |Bangalore Tech Park|Bangalore|Karnataka  |South |Sneha Reddy |
+[info] |BR005    |Chennai Central    |Chennai  |Tamil Nadu |South |Kiran Kumar |
+[info] |BR006    |Kolkata Main Branch|Kolkata  |West Bengal|East  |Ananya Das  |
+[info] |BR007    |Pune Central       |Pune     |Maharashtra|West  |Vikram Singh|
+[info] |BR008    |Jaipur Main Branch |Jaipur   |Rajasthan  |North |Neha Sharma |
+[info] |BR009    |Ahmedabad Central  |Ahmedabad|Gujarat    |West  |Amit Patel  |
+[info] |BR010    |Kochi Central      |Kochi    |Kerala     |South |Meera Nair  |
+[info] +---------+-------------------+---------+-----------+------+------------+
+[info] Branch master count:
+[info] 10
+[info] Branch master schema:
+[info] root
+[info]  |-- branch_id: string (nullable = true)
+[info]  |-- branch_name: string (nullable = true)
+[info]  |-- city: string (nullable = true)
+[info]  |-- state: string (nullable = true)
+[info]  |-- region: string (nullable = true)
+[info]  |-- manager: string (nullable = true)
+[info] ==========================================================================================
+[info] 2. CREATING LARGE TRANSACTION FACT DATAFRAME
+[info] ==========================================================================================
+[info] Number of transactions = 1000000
+[info] Transaction sample:
+[info] +--------------+----------+---------+----------------+------+----------------+
+[info] |transaction_id|account_id|branch_id|transaction_type|amount|transaction_date|
+[info] +--------------+----------+---------+----------------+------+----------------+
+[info] |T000000000    |A000000   |BR001    |DEPOSIT         |100   |2026-09-01      |
+[info] |T000000001    |A000001   |BR002    |WITHDRAWAL      |101   |2026-09-02      |
+[info] |T000000002    |A000002   |BR003    |DEPOSIT         |102   |2026-09-03      |
+[info] |T000000003    |A000003   |BR004    |WITHDRAWAL      |103   |2026-09-04      |
+[info] |T000000004    |A000004   |BR005    |DEPOSIT         |104   |2026-09-05      |
+[info] |T000000005    |A000005   |BR006    |WITHDRAWAL      |105   |2026-09-06      |
+[info] |T000000006    |A000006   |BR007    |DEPOSIT         |106   |2026-09-07      |
+[info] |T000000007    |A000007   |BR008    |WITHDRAWAL      |107   |2026-09-08      |
+[info] |T000000008    |A000008   |BR009    |DEPOSIT         |108   |2026-09-09      |
+[info] |T000000009    |A000009   |BR010    |WITHDRAWAL      |109   |2026-09-10      |
+[info] +--------------+----------+---------+----------------+------+----------------+
+[info] only showing top 10 rows
+[info] Transaction schema:
+[info] root
+[info]  |-- transaction_id: string (nullable = false)
+[info]  |-- account_id: string (nullable = true)
+[info]  |-- branch_id: string (nullable = true)
+[info]  |-- transaction_type: string (nullable = false)
+[info]  |-- amount: long (nullable = true)
+[info]  |-- transaction_date: date (nullable = true)
+[info] Transaction partitions = 4
+[info] ==========================================================================================
+[info] 3. TRANSACTION STATISTICS
+[info] ==========================================================================================
+[info] +-----------------+------------+--------------+--------------+--------------+
+[info] |transaction_count|total_amount|average_amount|minimum_amount|maximum_amount|
+[info] +-----------------+------------+--------------+--------------+--------------+
+[info] |1000000          |50099500000 |50099.5       |100           |100099        |
+[info] +-----------------+------------+--------------+--------------+--------------+
+[info] ==========================================================================================
+[info] 4. NORMAL JOIN
+[info] ==========================================================================================
+[info] Normal join result:
+[info] +--------------+----------+---------+----------------+------+-------------------+---------+-----------+------+
+[info] |transaction_id|account_id|branch_id|transaction_type|amount|branch_name        |city     |state      |region|
+[info] +--------------+----------+---------+----------------+------+-------------------+---------+-----------+------+
+[info] |T000000000    |A000000   |BR001    |DEPOSIT         |100   |Delhi Main Branch  |Delhi    |Delhi      |North |
+[info] |T000000001    |A000001   |BR002    |WITHDRAWAL      |101   |Mumbai Central     |Mumbai   |Maharashtra|West  |
+[info] |T000000002    |A000002   |BR003    |DEPOSIT         |102   |Hyderabad Central  |Hyderabad|Telangana  |South |
+[info] |T000000003    |A000003   |BR004    |WITHDRAWAL      |103   |Bangalore Tech Park|Bangalore|Karnataka  |South |
+[info] |T000000004    |A000004   |BR005    |DEPOSIT         |104   |Chennai Central    |Chennai  |Tamil Nadu |South |
+[info] |T000000005    |A000005   |BR006    |WITHDRAWAL      |105   |Kolkata Main Branch|Kolkata  |West Bengal|East  |
+[info] |T000000006    |A000006   |BR007    |DEPOSIT         |106   |Pune Central       |Pune     |Maharashtra|West  |
+[info] |T000000007    |A000007   |BR008    |WITHDRAWAL      |107   |Jaipur Main Branch |Jaipur   |Rajasthan  |North |
+[info] |T000000008    |A000008   |BR009    |DEPOSIT         |108   |Ahmedabad Central  |Ahmedabad|Gujarat    |West  |
+[info] |T000000009    |A000009   |BR010    |WITHDRAWAL      |109   |Kochi Central      |Kochi    |Kerala     |South |
+[info] +--------------+----------+---------+----------------+------+-------------------+---------+-----------+------+
+[info] only showing top 10 rows
+[info] ==========================================================================================
+[info] 5. NORMAL JOIN EXECUTION PLAN
+[info] ==========================================================================================
+[info] == Parsed Logical Plan ==
+[info] Join Inner, (branch_id#81 = branch_id#17)
+[info] :- Project [transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, transaction_date#99]
+[info] :  +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, date_add(cast(2026-09-01 as date), cast((id#72L % cast(30 as bigint)) as int)) AS transaction_date#99]
+[info] :     +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, transaction_type#86, round(((id#72L % cast(100000 as bigint)) + cast(100 as bigint)), 2) AS amount#92L]
+[info] :        +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, CASE WHEN ((id#72L % cast(2 as bigint)) = cast(0 as bigint)) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86]
+[info] :           +- Project [id#72L, transaction_id#74, account_id#77, concat(BR, lpad(cast(((id#72L % cast(10 as bigint)) + cast(1 as bigint)) as string), 3, 0)) AS branch_id#81]
+[info] :              +- Project [id#72L, transaction_id#74, concat(A, lpad(cast((id#72L % cast(100000 as bigint)) as string), 6, 0)) AS account_id#77]
+[info] :                 +- Project [id#72L, concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74]
+[info] :                    +- Range (0, 1000000, step=1, splits=Some(4))
+[info] +- Relation [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] csv
+[info] == Analyzed Logical Plan ==
+[info] transaction_id: string, account_id: string, branch_id: string, transaction_type: string, amount: bigint, transaction_date: date, branch_id: string, branch_name: string, city: string, state: string, region: string, manager: string
+[info] Join Inner, (branch_id#81 = branch_id#17)
+[info] :- Project [transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, transaction_date#99]
+[info] :  +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, date_add(cast(2026-09-01 as date), cast((id#72L % cast(30 as bigint)) as int)) AS transaction_date#99]
+[info] :     +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, transaction_type#86, round(((id#72L % cast(100000 as bigint)) + cast(100 as bigint)), 2) AS amount#92L]
+[info] :        +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, CASE WHEN ((id#72L % cast(2 as bigint)) = cast(0 as bigint)) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86]
+[info] :           +- Project [id#72L, transaction_id#74, account_id#77, concat(BR, lpad(cast(((id#72L % cast(10 as bigint)) + cast(1 as bigint)) as string), 3, 0)) AS branch_id#81]
+[info] :              +- Project [id#72L, transaction_id#74, concat(A, lpad(cast((id#72L % cast(100000 as bigint)) as string), 6, 0)) AS account_id#77]
+[info] :                 +- Project [id#72L, concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74]
+[info] :                    +- Range (0, 1000000, step=1, splits=Some(4))
+[info] +- Relation [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] csv
+[info] == Optimized Logical Plan ==
+[info] Join Inner, (branch_id#81 = branch_id#17)
+[info] :- Project [concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74, concat(A, lpad(cast((id#72L % 100000) as string), 6, 0)) AS account_id#77, concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)) AS branch_id#81, CASE WHEN ((id#72L % 2) = 0) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86, round(((id#72L % 100000) + 100), 2) AS amount#92L, date_add(2026-09-01, cast((id#72L % 30) as int)) AS transaction_date#99]
+[info] :  +- Filter isnotnull(concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)))
+[info] :     +- Range (0, 1000000, step=1, splits=Some(4))
+[info] +- Filter isnotnull(branch_id#17)
+[info]    +- Relation [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] csv
+[info] == Physical Plan ==
+[info] AdaptiveSparkPlan isFinalPlan=false
+[info] +- BroadcastHashJoin [branch_id#81], [branch_id#17], Inner, BuildRight, false
+[info]    :- Project [concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74, concat(A, lpad(cast((id#72L % 100000) as string), 6, 0)) AS account_id#77, concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)) AS branch_id#81, CASE WHEN ((id#72L % 2) = 0) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86, round(((id#72L % 100000) + 100), 2) AS amount#92L, date_add(2026-09-01, cast((id#72L % 30) as int)) AS transaction_date#99]
+[info]    :  +- Filter isnotnull(concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)))
+[info]    :     +- Range (0, 1000000, step=1, splits=4)
+[info]    +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=222]
+[info]       +- Filter isnotnull(branch_id#17)
+[info]          +- FileScan csv [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] Batched: false, DataFilters: [isnotnull(branch_id#17)], Format: CSV, Location: InMemoryFileIndex(1 paths)[file:/home/babblu/spark-day19-broadcast-join/data/branches.csv], PartitionFilters: [], PushedFilters: [IsNotNull(branch_id)], ReadSchema: struct<branch_id:string,branch_name:string,city:string,state:string,region:string,manager:string>
+[info] ==========================================================================================
+[info] 6. EXPLICIT BROADCAST JOIN
+[info] ==========================================================================================
+[info] Broadcast join result:
+[info] +--------------+----------+---------+----------------+------+----------------+-------------------+---------+-----------+------+------------+
+[info] |transaction_id|account_id|branch_id|transaction_type|amount|transaction_date|branch_name        |city     |state      |region|manager     |
+[info] +--------------+----------+---------+----------------+------+----------------+-------------------+---------+-----------+------+------------+
+[info] |T000000000    |A000000   |BR001    |DEPOSIT         |100   |2026-09-01      |Delhi Main Branch  |Delhi    |Delhi      |North |Rajesh Kumar|
+[info] |T000000001    |A000001   |BR002    |WITHDRAWAL      |101   |2026-09-02      |Mumbai Central     |Mumbai   |Maharashtra|West  |Priya Sharma|
+[info] |T000000002    |A000002   |BR003    |DEPOSIT         |102   |2026-09-03      |Hyderabad Central  |Hyderabad|Telangana  |South |Arjun Rao   |
+[info] |T000000003    |A000003   |BR004    |WITHDRAWAL      |103   |2026-09-04      |Bangalore Tech Park|Bangalore|Karnataka  |South |Sneha Reddy |
+[info] |T000000004    |A000004   |BR005    |DEPOSIT         |104   |2026-09-05      |Chennai Central    |Chennai  |Tamil Nadu |South |Kiran Kumar |
+[info] |T000000005    |A000005   |BR006    |WITHDRAWAL      |105   |2026-09-06      |Kolkata Main Branch|Kolkata  |West Bengal|East  |Ananya Das  |
+[info] |T000000006    |A000006   |BR007    |DEPOSIT         |106   |2026-09-07      |Pune Central       |Pune     |Maharashtra|West  |Vikram Singh|
+[info] |T000000007    |A000007   |BR008    |WITHDRAWAL      |107   |2026-09-08      |Jaipur Main Branch |Jaipur   |Rajasthan  |North |Neha Sharma |
+[info] |T000000008    |A000008   |BR009    |DEPOSIT         |108   |2026-09-09      |Ahmedabad Central  |Ahmedabad|Gujarat    |West  |Amit Patel  |
+[info] |T000000009    |A000009   |BR010    |WITHDRAWAL      |109   |2026-09-10      |Kochi Central      |Kochi    |Kerala     |South |Meera Nair  |
+[info] +--------------+----------+---------+----------------+------+----------------+-------------------+---------+-----------+------+------------+
+[info] only showing top 10 rows
+[info] ==========================================================================================
+[info] 7. BROADCAST JOIN EXECUTION PLAN
+[info] ==========================================================================================
+[info] == Parsed Logical Plan ==
+[info] Join Inner, (branch_id#81 = branch_id#17)
+[info] :- Project [transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, transaction_date#99]
+[info] :  +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, date_add(cast(2026-09-01 as date), cast((id#72L % cast(30 as bigint)) as int)) AS transaction_date#99]
+[info] :     +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, transaction_type#86, round(((id#72L % cast(100000 as bigint)) + cast(100 as bigint)), 2) AS amount#92L]
+[info] :        +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, CASE WHEN ((id#72L % cast(2 as bigint)) = cast(0 as bigint)) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86]
+[info] :           +- Project [id#72L, transaction_id#74, account_id#77, concat(BR, lpad(cast(((id#72L % cast(10 as bigint)) + cast(1 as bigint)) as string), 3, 0)) AS branch_id#81]
+[info] :              +- Project [id#72L, transaction_id#74, concat(A, lpad(cast((id#72L % cast(100000 as bigint)) as string), 6, 0)) AS account_id#77]
+[info] :                 +- Project [id#72L, concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74]
+[info] :                    +- Range (0, 1000000, step=1, splits=Some(4))
+[info] +- ResolvedHint (strategy=broadcast)
+[info]    +- Relation [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] csv
+[info] == Analyzed Logical Plan ==
+[info] transaction_id: string, account_id: string, branch_id: string, transaction_type: string, amount: bigint, transaction_date: date, branch_id: string, branch_name: string, city: string, state: string, region: string, manager: string
+[info] Join Inner, (branch_id#81 = branch_id#17)
+[info] :- Project [transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, transaction_date#99]
+[info] :  +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, date_add(cast(2026-09-01 as date), cast((id#72L % cast(30 as bigint)) as int)) AS transaction_date#99]
+[info] :     +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, transaction_type#86, round(((id#72L % cast(100000 as bigint)) + cast(100 as bigint)), 2) AS amount#92L]
+[info] :        +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, CASE WHEN ((id#72L % cast(2 as bigint)) = cast(0 as bigint)) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86]
+[info] :           +- Project [id#72L, transaction_id#74, account_id#77, concat(BR, lpad(cast(((id#72L % cast(10 as bigint)) + cast(1 as bigint)) as string), 3, 0)) AS branch_id#81]
+[info] :              +- Project [id#72L, transaction_id#74, concat(A, lpad(cast((id#72L % cast(100000 as bigint)) as string), 6, 0)) AS account_id#77]
+[info] :                 +- Project [id#72L, concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74]
+[info] :                    +- Range (0, 1000000, step=1, splits=Some(4))
+[info] +- ResolvedHint (strategy=broadcast)
+[info]    +- Relation [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] csv
+[info] == Optimized Logical Plan ==
+[info] Join Inner, (branch_id#81 = branch_id#17), rightHint=(strategy=broadcast)
+[info] :- Project [concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74, concat(A, lpad(cast((id#72L % 100000) as string), 6, 0)) AS account_id#77, concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)) AS branch_id#81, CASE WHEN ((id#72L % 2) = 0) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86, round(((id#72L % 100000) + 100), 2) AS amount#92L, date_add(2026-09-01, cast((id#72L % 30) as int)) AS transaction_date#99]
+[info] :  +- Filter isnotnull(concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)))
+[info] :     +- Range (0, 1000000, step=1, splits=Some(4))
+[info] +- Filter isnotnull(branch_id#17)
+[info]    +- Relation [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] csv
+[info] == Physical Plan ==
+[info] AdaptiveSparkPlan isFinalPlan=false
+[info] +- BroadcastHashJoin [branch_id#81], [branch_id#17], Inner, BuildRight, false
+[info]    :- Project [concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74, concat(A, lpad(cast((id#72L % 100000) as string), 6, 0)) AS account_id#77, concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)) AS branch_id#81, CASE WHEN ((id#72L % 2) = 0) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86, round(((id#72L % 100000) + 100), 2) AS amount#92L, date_add(2026-09-01, cast((id#72L % 30) as int)) AS transaction_date#99]
+[info]    :  +- Filter isnotnull(concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)))
+[info]    :     +- Range (0, 1000000, step=1, splits=4)
+[info]    +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=327]
+[info]       +- Filter isnotnull(branch_id#17)
+[info]          +- FileScan csv [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] Batched: false, DataFilters: [isnotnull(branch_id#17)], Format: CSV, Location: InMemoryFileIndex(1 paths)[file:/home/babblu/spark-day19-broadcast-join/data/branches.csv], PartitionFilters: [], PushedFilters: [IsNotNull(branch_id)], ReadSchema: struct<branch_id:string,branch_name:string,city:string,state:string,region:string,manager:string>
+[info] ==========================================================================================
+[info] 8. VERIFY BROADCAST JOIN
+[info] ==========================================================================================
+[info] Look for the following in the physical plan:
+[info] BroadcastHashJoin
+[info] and:
+[info] BroadcastExchange
+[info] This indicates that Spark is broadcasting the small
+[info] branch reference dataset.
+[info] ==========================================================================================
+[info] 9. ENRICHED TRANSACTION COUNT
+[info] ==========================================================================================
+[info] Enriched transaction count = 1000000
+[info] ==========================================================================================
+[info] 10. TRANSACTIONS BY REGION
+[info] ==========================================================================================
+[info] +------+-----------------+------------+--------------+
+[info] |region|transaction_count|total_amount|average_amount|
+[info] +------+-----------------+------------+--------------+
+[info] |South |400000           |20039800000 |50099.5       |
+[info] |West  |300000           |15030000000 |50100.0       |
+[info] |North |200000           |10019700000 |50098.5       |
+[info] |East  |100000           |5010000000  |50100.0       |
+[info] +------+-----------------+------------+--------------+
+[info] ==========================================================================================
+[info] 11. TRANSACTIONS BY BRANCH
+[info] ==========================================================================================
+[info] +---------+-------------------+---------+-----------+------+-----------------+------------+--------------+-------------------+
+[info] |branch_id|branch_name        |city     |state      |region|transaction_count|total_amount|average_amount|maximum_transaction|
+[info] +---------+-------------------+---------+-----------+------+-----------------+------------+--------------+-------------------+
+[info] |BR010    |Kochi Central      |Kochi    |Kerala     |South |100000           |5010400000  |50104.0       |100099             |
+[info] |BR009    |Ahmedabad Central  |Ahmedabad|Gujarat    |West  |100000           |5010300000  |50103.0       |100098             |
+[info] |BR008    |Jaipur Main Branch |Jaipur   |Rajasthan  |North |100000           |5010200000  |50102.0       |100097             |
+[info] |BR007    |Pune Central       |Pune     |Maharashtra|West  |100000           |5010100000  |50101.0       |100096             |
+[info] |BR006    |Kolkata Main Branch|Kolkata  |West Bengal|East  |100000           |5010000000  |50100.0       |100095             |
+[info] |BR005    |Chennai Central    |Chennai  |Tamil Nadu |South |100000           |5009900000  |50099.0       |100094             |
+[info] |BR004    |Bangalore Tech Park|Bangalore|Karnataka  |South |100000           |5009800000  |50098.0       |100093             |
+[info] |BR003    |Hyderabad Central  |Hyderabad|Telangana  |South |100000           |5009700000  |50097.0       |100092             |
+[info] |BR002    |Mumbai Central     |Mumbai   |Maharashtra|West  |100000           |5009600000  |50096.0       |100091             |
+[info] |BR001    |Delhi Main Branch  |Delhi    |Delhi      |North |100000           |5009500000  |50095.0       |100090             |
+[info] +---------+-------------------+---------+-----------+------+-----------------+------------+--------------+-------------------+
+[info] ==========================================================================================
+[info] 12. TRANSACTION TYPE ANALYSIS
+[info] ==========================================================================================
+[info] +----------------+-----------------+------------+--------------+
+[info] |transaction_type|transaction_count|total_amount|average_amount|
+[info] +----------------+-----------------+------------+--------------+
+[info] |WITHDRAWAL      |500000           |25050000000 |50100.0       |
+[info] |DEPOSIT         |500000           |25049500000 |50099.0       |
+[info] +----------------+-----------------+------------+--------------+
+[info] ==========================================================================================
+[info] 13. BROADCAST JOIN + FILTER
+[info] ==========================================================================================
+[info] +--------------+----------+---------+------+-----------------+---------+------+
+[info] |transaction_id|account_id|branch_id|amount|branch_name      |city     |region|
+[info] +--------------+----------+---------+------+-----------------+---------+------+
+[info] |T000099999    |A099999   |BR010    |100099|Kochi Central    |Kochi    |South |
+[info] |T000899999    |A099999   |BR010    |100099|Kochi Central    |Kochi    |South |
+[info] |T000399999    |A099999   |BR010    |100099|Kochi Central    |Kochi    |South |
+[info] |T000799999    |A099999   |BR010    |100099|Kochi Central    |Kochi    |South |
+[info] |T000599999    |A099999   |BR010    |100099|Kochi Central    |Kochi    |South |
+[info] |T000999999    |A099999   |BR010    |100099|Kochi Central    |Kochi    |South |
+[info] |T000299999    |A099999   |BR010    |100099|Kochi Central    |Kochi    |South |
+[info] |T000199999    |A099999   |BR010    |100099|Kochi Central    |Kochi    |South |
+[info] |T000499999    |A099999   |BR010    |100099|Kochi Central    |Kochi    |South |
+[info] |T000699999    |A099999   |BR010    |100099|Kochi Central    |Kochi    |South |
+[info] |T000799998    |A099998   |BR009    |100098|Ahmedabad Central|Ahmedabad|West  |
+[info] |T000299998    |A099998   |BR009    |100098|Ahmedabad Central|Ahmedabad|West  |
+[info] |T000899998    |A099998   |BR009    |100098|Ahmedabad Central|Ahmedabad|West  |
+[info] |T000099998    |A099998   |BR009    |100098|Ahmedabad Central|Ahmedabad|West  |
+[info] |T000999998    |A099998   |BR009    |100098|Ahmedabad Central|Ahmedabad|West  |
+[info] |T000399998    |A099998   |BR009    |100098|Ahmedabad Central|Ahmedabad|West  |
+[info] |T000599998    |A099998   |BR009    |100098|Ahmedabad Central|Ahmedabad|West  |
+[info] |T000499998    |A099998   |BR009    |100098|Ahmedabad Central|Ahmedabad|West  |
+[info] |T000199998    |A099998   |BR009    |100098|Ahmedabad Central|Ahmedabad|West  |
+[info] |T000699998    |A099998   |BR009    |100098|Ahmedabad Central|Ahmedabad|West  |
+[info] +--------------+----------+---------+------+-----------------+---------+------+
+[info] only showing top 20 rows
+[info] ==========================================================================================
+[info] 14. BROADCAST JOIN USING SQL
+[info] ==========================================================================================
+[info] +--------------+----------+---------+----------------+------+----------------+-------------------+---------+-----------+------+------------+
+[info] |transaction_id|account_id|branch_id|transaction_type|amount|transaction_date|branch_name        |city     |state      |region|manager     |
+[info] +--------------+----------+---------+----------------+------+----------------+-------------------+---------+-----------+------+------------+
+[info] |T000000000    |A000000   |BR001    |DEPOSIT         |100   |2026-09-01      |Delhi Main Branch  |Delhi    |Delhi      |North |Rajesh Kumar|
+[info] |T000000001    |A000001   |BR002    |WITHDRAWAL      |101   |2026-09-02      |Mumbai Central     |Mumbai   |Maharashtra|West  |Priya Sharma|
+[info] |T000000002    |A000002   |BR003    |DEPOSIT         |102   |2026-09-03      |Hyderabad Central  |Hyderabad|Telangana  |South |Arjun Rao   |
+[info] |T000000003    |A000003   |BR004    |WITHDRAWAL      |103   |2026-09-04      |Bangalore Tech Park|Bangalore|Karnataka  |South |Sneha Reddy |
+[info] |T000000004    |A000004   |BR005    |DEPOSIT         |104   |2026-09-05      |Chennai Central    |Chennai  |Tamil Nadu |South |Kiran Kumar |
+[info] |T000000005    |A000005   |BR006    |WITHDRAWAL      |105   |2026-09-06      |Kolkata Main Branch|Kolkata  |West Bengal|East  |Ananya Das  |
+[info] |T000000006    |A000006   |BR007    |DEPOSIT         |106   |2026-09-07      |Pune Central       |Pune     |Maharashtra|West  |Vikram Singh|
+[info] |T000000007    |A000007   |BR008    |WITHDRAWAL      |107   |2026-09-08      |Jaipur Main Branch |Jaipur   |Rajasthan  |North |Neha Sharma |
+[info] |T000000008    |A000008   |BR009    |DEPOSIT         |108   |2026-09-09      |Ahmedabad Central  |Ahmedabad|Gujarat    |West  |Amit Patel  |
+[info] |T000000009    |A000009   |BR010    |WITHDRAWAL      |109   |2026-09-10      |Kochi Central      |Kochi    |Kerala     |South |Meera Nair  |
+[info] +--------------+----------+---------+----------------+------+----------------+-------------------+---------+-----------+------+------------+
+[info] only showing top 10 rows
+[info] SQL broadcast join physical plan:
+[info] == Parsed Logical Plan ==
+[info] 'UnresolvedHint BROADCAST, ['b]
+[info] +- 'Project ['t.transaction_id, 't.account_id, 't.branch_id, 't.transaction_type, 't.amount, 't.transaction_date, 'b.branch_name, 'b.city, 'b.state, 'b.region, 'b.manager]
+[info]    +- 'Join Inner, ('t.branch_id = 'b.branch_id)
+[info]       :- 'SubqueryAlias t
+[info]       :  +- 'UnresolvedRelation [transactions], [], false
+[info]       +- 'SubqueryAlias b
+[info]          +- 'UnresolvedRelation [branches], [], false
+[info] == Analyzed Logical Plan ==
+[info] transaction_id: string, account_id: string, branch_id: string, transaction_type: string, amount: bigint, transaction_date: date, branch_name: string, city: string, state: string, region: string, manager: string
+[info] Project [transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, transaction_date#99, branch_name#18, city#19, state#20, region#21, manager#22]
+[info] +- Join Inner, (branch_id#81 = branch_id#17)
+[info]    :- SubqueryAlias t
+[info]    :  +- SubqueryAlias transactions
+[info]    :     +- View (`transactions`, [transaction_id#74,account_id#77,branch_id#81,transaction_type#86,amount#92L,transaction_date#99])
+[info]    :        +- Project [transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, transaction_date#99]
+[info]    :           +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, date_add(cast(2026-09-01 as date), cast((id#72L % cast(30 as bigint)) as int)) AS transaction_date#99]
+[info]    :              +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, transaction_type#86, round(((id#72L % cast(100000 as bigint)) + cast(100 as bigint)), 2) AS amount#92L]
+[info]    :                 +- Project [id#72L, transaction_id#74, account_id#77, branch_id#81, CASE WHEN ((id#72L % cast(2 as bigint)) = cast(0 as bigint)) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86]
+[info]    :                    +- Project [id#72L, transaction_id#74, account_id#77, concat(BR, lpad(cast(((id#72L % cast(10 as bigint)) + cast(1 as bigint)) as string), 3, 0)) AS branch_id#81]
+[info]    :                       +- Project [id#72L, transaction_id#74, concat(A, lpad(cast((id#72L % cast(100000 as bigint)) as string), 6, 0)) AS account_id#77]
+[info]    :                          +- Project [id#72L, concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74]
+[info]    :                             +- Range (0, 1000000, step=1, splits=Some(4))
+[info]    +- ResolvedHint (strategy=broadcast)
+[info]       +- SubqueryAlias b
+[info]          +- SubqueryAlias branches
+[info]             +- View (`branches`, [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22])
+[info]                +- Relation [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] csv
+[info] == Optimized Logical Plan ==
+[info] Project [transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, transaction_date#99, branch_name#18, city#19, state#20, region#21, manager#22]
+[info] +- Join Inner, (branch_id#81 = branch_id#17), rightHint=(strategy=broadcast)
+[info]    :- Project [concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74, concat(A, lpad(cast((id#72L % 100000) as string), 6, 0)) AS account_id#77, concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)) AS branch_id#81, CASE WHEN ((id#72L % 2) = 0) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86, round(((id#72L % 100000) + 100), 2) AS amount#92L, date_add(2026-09-01, cast((id#72L % 30) as int)) AS transaction_date#99]
+[info]    :  +- Filter isnotnull(concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)))
+[info]    :     +- Range (0, 1000000, step=1, splits=Some(4))
+[info]    +- Filter isnotnull(branch_id#17)
+[info]       +- Relation [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] csv
+[info] == Physical Plan ==
+[info] AdaptiveSparkPlan isFinalPlan=false
+[info] +- Project [transaction_id#74, account_id#77, branch_id#81, transaction_type#86, amount#92L, transaction_date#99, branch_name#18, city#19, state#20, region#21, manager#22]
+[info]    +- BroadcastHashJoin [branch_id#81], [branch_id#17], Inner, BuildRight, false
+[info]       :- Project [concat(T, lpad(cast(id#72L as string), 9, 0)) AS transaction_id#74, concat(A, lpad(cast((id#72L % 100000) as string), 6, 0)) AS account_id#77, concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)) AS branch_id#81, CASE WHEN ((id#72L % 2) = 0) THEN DEPOSIT ELSE WITHDRAWAL END AS transaction_type#86, round(((id#72L % 100000) + 100), 2) AS amount#92L, date_add(2026-09-01, cast((id#72L % 30) as int)) AS transaction_date#99]
+[info]       :  +- Filter isnotnull(concat(BR, lpad(cast(((id#72L % 10) + 1) as string), 3, 0)))
+[info]       :     +- Range (0, 1000000, step=1, splits=4)
+[info]       +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=1108]
+[info]          +- Filter isnotnull(branch_id#17)
+[info]             +- FileScan csv [branch_id#17,branch_name#18,city#19,state#20,region#21,manager#22] Batched: false, DataFilters: [isnotnull(branch_id#17)], Format: CSV, Location: InMemoryFileIndex(1 paths)[file:/home/babblu/spark-day19-broadcast-join/data/branches.csv], PartitionFilters: [], PushedFilters: [IsNotNull(branch_id)], ReadSchema: struct<branch_id:string,branch_name:string,city:string,state:string,region:string,manager:string>
+[info] ==========================================================================================
+[info] 15. REAL-WORLD USE CASE
+[info] ==========================================================================================
+[info] Large Fact Table:
+[info] Transactions
+[info] -----------------------------
+[info] Millions / Billions of rows
+[info] Small Reference Table:
+[info] Branches
+[info] -----------------------------
+[info] Hundreds / Thousands of rows
+[info] Join:
+[info] Transactions.branch_id
+[info]             =
+[info] Branches.branch_id
+[info] Result:
+[info] Transaction + Branch Information
+[info] This is an ideal pattern for a broadcast join when
+[info] the branch master is sufficiently small to fit
+[info] comfortably in executor memory.
+[info] ==========================================================================================
+[info] 16. BROADCAST JOIN VS SHUFFLE SORT MERGE JOIN
+[info] ==========================================================================================
+[info] BROADCAST HASH JOIN
+[info] -------------------
+[info] Small table
+[info]      |
+[info]      v
+[info] Broadcast
+[info]      |
+[info]      +--------+--------+
+[info]      |        |        |
+[info]      v        v        v
+[info]  Executor  Executor  Executor
+[info]      |        |        |
+[info]      +--------+--------+
+[info]               |
+[info]               v
+[info]              JOIN
+[info] SHUFFLE SORT MERGE JOIN
+[info] ----------------------
+[info] Large table            Large table
+[info]      |                     |
+[info]      v                     v
+[info]  Partition               Partition
+[info]      |                     |
+[info]      v                     v
+[info]   Shuffle               Shuffle
+[info]      |                     |
+[info]      v                     v
+[info]     Sort                 Sort
+[info]        \                 /
+[info]         \               /
+[info]          v             v
+[info]              MERGE
+[info] Broadcast:
+[info]   Small dataset is copied to executors.
+[info] Shuffle Sort Merge:
+[info]   Both datasets participate in repartitioning
+[info]   and sorting based on the join key.
+[info] ==========================================================================================
+[info] 17. WHEN IS BROADCAST JOIN APPROPRIATE?
+[info] ==========================================================================================
+[info] Use broadcast join when:
+[info] 1. One side of the join is small.
+[info] 2. The small dataset can comfortably fit in the
+[info]    memory available to executors.
+[info] 3. The large dataset should avoid a full shuffle.
+[info] 4. The small dataset is reused across many records
+[info]    of the large dataset.
+[info] Examples:
+[info] Transaction Fact + Branch Master
+[info] Sales Fact + Product Master
+[info] Orders + Small Customer Reference
+[info] Events + Country/Region Lookup
+[info] Employees + Department Master
+[info] ==========================================================================================
+[info] 18. WHEN SHOULD YOU AVOID BROADCAST JOIN?
+[info] ==========================================================================================
+[info] Avoid broadcast when:
+[info] 1. The supposedly small table is actually very large.
+[info] 2. Broadcasting it would consume excessive executor memory.
+[info] 3. The reference table cannot comfortably fit on
+[info]    the executors.
+[info] 4. The dataset size changes significantly and may
+[info]    become too large to broadcast.
+[info] Potential problem:
+[info] Large table
+[info]       +
+[info] Broadcast large table
+[info]       |
+[info]       v
+[info] Executor memory pressure
+[info]       |
+[info]       v
+[info] Possible performance degradation or failure
+[info] ==========================================================================================
+[info] 19. AUTOMATIC BROADCAST JOIN
+[info] ==========================================================================================
+[info] Spark SQL has an automatic broadcast mechanism.
+[info] Current configuration:
+[info] spark.sql.autoBroadcastJoinThreshold
+[info] In this application:
+[info] 10 MB
+[info] If a relation is sufficiently small, Spark's optimizer
+[info] may automatically choose a broadcast join.
+[info] Explicit:
+[info] broadcast(branches)
+[info] forces the broadcast hint for this join.
+[info] ==========================================================================================
+[info] 20. BRANCH MASTER SIZE CHECK
+[info] ==========================================================================================
+[info] Number of branch records = 10
+[info] The number of rows alone does not determine whether
+[info] a dataset is safe to broadcast.
+[info] Actual serialized size and executor memory matter.
+[info] ==========================================================================================
+[info] 21. FINAL BANKING SCENARIO
+[info] ==========================================================================================
+[info]                     BRANCH MASTER
+[info]                          |
+[info]                          |
+[info]                   Small Reference Data
+[info]                          |
+[info]                          v
+[info]                   BROADCAST JOIN
+[info]                          |
+[info]                          |
+[info]                          v
+[info]                     +---------+
+[info]                     |         |
+[info]                     | SPARK   |
+[info]                     |EXECUTOR |
+[info]                     |         |
+[info]                     +---------+
+[info]                        ^   ^
+[info]                        |   |
+[info]                  Large Transactions
+[info]                        |
+[info]                        |
+[info]                        v
+[info]                  ENRICHED DATA
+[info] Example final record:
+[info] T000000001
+[info] A000001
+[info] BR001
+[info] DEPOSIT
+[info] 100
+[info] 2026-09-01
+[info] Delhi Main Branch
+[info] Delhi
+[info] Delhi
+[info] North
+[info] Rajesh Kumar
+[info] The transaction originally only knows branch_id.
+[info] The broadcast join enriches it with branch information.
+[info] ==========================================================================================
+[info] 22. DAY 19 VIVA SUMMARY
+[info] ==========================================================================================
+[info] Q1. What is a broadcast join?
+[info] A:
+[info] A broadcast join distributes a small dataset to the
+[info] executors so it can be joined locally with a larger
+[info] dataset without shuffling the large dataset.
+[info] Q2. Why is broadcast join useful?
+[info] A:
+[info] It can avoid a large shuffle when one side of the
+[info] join is sufficiently small.
+[info] Q3. What function explicitly requests broadcasting?
+[info] A:
+[info] broadcast()
+[info] Example:
+[info] transactions.join(
+[info]     broadcast(branches),
+[info]     ...
+[info] )
+[info] Q4. What should be small for a broadcast join?
+[info] A:
+[info] The side being broadcast should be small enough to fit
+[info] comfortably in executor memory.
+[info] Q5. What is Shuffle Sort Merge Join?
+[info] A:
+[info] It is a join strategy where data is shuffled according
+[info] to the join key, sorted within partitions and then merged.
+[info] Q6. What is the major difference?
+[info] A:
+[info] Broadcast Join:
+[info] Small side is broadcast to executors.
+[info] Shuffle Sort Merge Join:
+[info] Both sides are generally repartitioned/shuffled and sorted.
+[info] Q7. Why can shuffle be expensive?
+[info] A:
+[info] It may require network transfer, serialization,
+[info] disk I/O and sorting.
+[info] Q8. Does row count alone determine whether a table
+[info] should be broadcast?
+[info] A:
+[info] No. The actual size of the serialized dataset and
+[info] available executor memory matter.
+[info] Q9. What happens if we broadcast a very large table?
+[info] A:
+[info] It can create substantial memory pressure on executors
+[info] and can hurt performance or cause failures.
+[info] Q10. What is the banking use case in this project?
+[info] A:
+[info] Millions of transactions are joined with a small branch
+[info] master using branch_id. The branch master can be broadcast
+[info] to enrich every transaction with branch information.
+[info] ==========================================================================================
+[info] DAY 19 COMPLETED
+[info] ==========================================================================================
+[info] Topics completed:
+[info] [✓] Large transaction fact DataFrame
+[info] [✓] Small branch reference DataFrame
+[info] [✓] Normal join
+[info] [✓] Explicit broadcast join
+[info] [✓] Broadcast execution plan
+[info] [✓] BroadcastHashJoin
+[info] [✓] BroadcastExchange
+[info] [✓] SQL broadcast hint
+[info] [✓] Transaction analytics
+[info] [✓] Shuffle Sort Merge Join comparison
+[info] [✓] When to use broadcast
+[info] [✓] When not to use broadcast
+[info] [✓] Real-world banking scenario
+[info] [✓] Day 19 viva questions
+[success] Total time: 28 s, completed Sep 30, 2026, 11:34:25 AM

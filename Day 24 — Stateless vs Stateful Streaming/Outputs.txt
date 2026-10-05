@@ -1,0 +1,237 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day24-stateful-streaming$ cd ~/spark-day24-stateful-streaming
+sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20.1)
+[info] loading project definition from /home/babblu/spark-day24-stateful-streaming/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day24-stateful-streaming (in build file:/home/babblu/spark-day24-stateful-streaming/)
+[info] running (fork) Day24StatefulStreamingApp
+[info] ==============================================
+[info] DAY 24 - STATELESS VS STATEFUL STREAMING
+[info] ==============================================
+[info] Batch interval : 5 seconds
+[info] Socket         : localhost:9999
+[info] Input format   : account_id,transaction_type,amount
+[info] Streaming application started.
+[info] Waiting for transactions...
+[info] Press Ctrl+C to stop.
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] No accumulated state available.
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] No accumulated state available.
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] No accumulated state available.
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] No accumulated state available.
+[error] 26/10/05 11:47:23 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/10/05 11:47:23 WARN BlockManager: Block input-0-1791181043200 replicated to only 0 peer(s) instead of 1 peers
+[error] 26/10/05 11:47:23 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/10/05 11:47:23 WARN BlockManager: Block input-0-1791181043600 replicated to only 0 peer(s) instead of 1 peers
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] A1001 -> 2 transaction(s) in current batch
+[info] A1002 -> 1 transaction(s) in current batch
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 2 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 1 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 2 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 1 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 2 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 1 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[error] 26/10/05 11:47:38 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/10/05 11:47:38 WARN BlockManager: Block input-0-1791181058600 replicated to only 0 peer(s) instead of 1 peers
+[error] 26/10/05 11:47:39 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/10/05 11:47:39 WARN BlockManager: Block input-0-1791181059200 replicated to only 0 peer(s) instead of 1 peers
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] A1001 -> 2 transaction(s) in current batch
+[info] A1003 -> 1 transaction(s) in current batch
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)
+[info] ========== CURRENT BATCH COUNTS ==========
+[info] No transactions in this batch.
+[info] ========== RUNNING ACCOUNT COUNTS ==========
+[info] A1001 -> 4 total transaction(s)
+[info] A1002 -> 1 total transaction(s)
+[info] A1003 -> 1 total transaction(s)
+[info] ========== RUNNING TRANSACTION TYPE COUNTS ==========
+[info] DEPOSIT -> 4 total transaction(s)
+[info] WITHDRAW -> 2 total transaction(s)

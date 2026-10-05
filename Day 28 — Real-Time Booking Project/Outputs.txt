@@ -1,0 +1,344 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day28-booking$ cd ~/spark-day28-booking
+
+SBT_OPTS="-Dlog4j.configurationFile=$(pwd)/src/main/resources/log4j2.properties" sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20.1)
+[info] loading project definition from /home/babblu/spark-day28-booking/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day28-booking (in build file:/home/babblu/spark-day28-booking/)
+[info] running (fork) Day28BookingApp
+[info] ================================================
+[info]         DAY 28 - REAL-TIME BOOKING
+[info] ================================================
+[info] Batch interval : 5 seconds
+[info] Window size    : 30 seconds
+[info] Slide interval : 5 seconds
+[info] Socket         : localhost:9999
+[info] ----------------------------------------------
+[info] Streaming application started.
+[info] Waiting for booking events...
+[info] ----------------------------------------------
+[info] ----------------------------------------------
+[info]           CURRENT BOOKING ACTIVITY
+[info] ----------------------------------------------
+[info] Resource=BUS301 | Net Change=2
+[info] Resource=FLIGHT201 | Net Change=5
+[info] Resource=HOTEL101 | Net Change=2
+[info] Resource=HOTEL102 | Net Change=4
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]           30-SECOND BOOKING WINDOW
+[info] ----------------------------------------------
+[info] Resource=BUS301 | Bookings in last 30 seconds=3
+[info] Resource=FLIGHT201 | Bookings in last 30 seconds=5
+[info] Resource=HOTEL101 | Bookings in last 30 seconds=3
+[info] Resource=HOTEL102 | Bookings in last 30 seconds=4
+[info] ==============================================
+[info]           HIGH-DEMAND ALERT
+[info] ==============================================
+[info] ALERT | Resource=BUS301 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=FLIGHT201 | 5 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL101 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL102 | 4 bookings in last 30 seconds
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]           30-SECOND BOOKING WINDOW
+[info] ----------------------------------------------
+[info] Resource=BUS301 | Bookings in last 30 seconds=3
+[info] Resource=FLIGHT201 | Bookings in last 30 seconds=5
+[info] Resource=HOTEL101 | Bookings in last 30 seconds=3
+[info] Resource=HOTEL102 | Bookings in last 30 seconds=4
+[info] ==============================================
+[info]           HIGH-DEMAND ALERT
+[info] ==============================================
+[info] ALERT | Resource=BUS301 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=FLIGHT201 | 5 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL101 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL102 | 4 bookings in last 30 seconds
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]           30-SECOND BOOKING WINDOW
+[info] ----------------------------------------------
+[info] Resource=BUS301 | Bookings in last 30 seconds=3
+[info] Resource=FLIGHT201 | Bookings in last 30 seconds=5
+[info] Resource=HOTEL101 | Bookings in last 30 seconds=3
+[info] Resource=HOTEL102 | Bookings in last 30 seconds=4
+[info] ==============================================
+[info]           HIGH-DEMAND ALERT
+[info] ==============================================
+[info] ALERT | Resource=BUS301 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=FLIGHT201 | 5 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL101 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL102 | 4 bookings in last 30 seconds
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]           30-SECOND BOOKING WINDOW
+[info] ----------------------------------------------
+[info] Resource=BUS301 | Bookings in last 30 seconds=3
+[info] Resource=FLIGHT201 | Bookings in last 30 seconds=5
+[info] Resource=HOTEL101 | Bookings in last 30 seconds=3
+[info] Resource=HOTEL102 | Bookings in last 30 seconds=4
+[info] ==============================================
+[info]           HIGH-DEMAND ALERT
+[info] ==============================================
+[info] ALERT | Resource=BUS301 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=FLIGHT201 | 5 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL101 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL102 | 4 bookings in last 30 seconds
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]           30-SECOND BOOKING WINDOW
+[info] ----------------------------------------------
+[info] Resource=BUS301 | Bookings in last 30 seconds=3
+[info] Resource=FLIGHT201 | Bookings in last 30 seconds=5
+[info] Resource=HOTEL101 | Bookings in last 30 seconds=3
+[info] Resource=HOTEL102 | Bookings in last 30 seconds=4
+[info] ==============================================
+[info]           HIGH-DEMAND ALERT
+[info] ==============================================
+[info] ALERT | Resource=BUS301 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=FLIGHT201 | 5 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL101 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL102 | 4 bookings in last 30 seconds
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]           30-SECOND BOOKING WINDOW
+[info] ----------------------------------------------
+[info] Resource=BUS301 | Bookings in last 30 seconds=3
+[info] Resource=FLIGHT201 | Bookings in last 30 seconds=5
+[info] Resource=HOTEL101 | Bookings in last 30 seconds=3
+[info] Resource=HOTEL102 | Bookings in last 30 seconds=4
+[info] ==============================================
+[info]           HIGH-DEMAND ALERT
+[info] ==============================================
+[info] ALERT | Resource=BUS301 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=FLIGHT201 | 5 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL101 | 3 bookings in last 30 seconds
+[info] ALERT | Resource=HOTEL102 | 4 bookings in last 30 seconds
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] ----------------------------------------------
+[info]        OCCUPANCY & AVAILABILITY
+[info] ----------------------------------------------
+[info] Resource=BUS301     | Type=BUS    | Booked=2    | Available=43   | Occupancy=4.44%
+[info] Resource=FLIGHT201  | Type=FLIGHT | Booked=5    | Available=175  | Occupancy=2.78%
+[info] Resource=HOTEL101   | Type=HOTEL  | Booked=2    | Available=98   | Occupancy=2.00%
+[info] Resource=HOTEL102   | Type=HOTEL  | Booked=4    | Available=76   | Occupancy=5.00%
+[info] ----------------------------------------------
+[info]              SPARK SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |resource_id|resource_type|resource_name|capacity|booked|available|occupancy_percent|
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+
+[info] |HOTEL102   |HOTEL        |ITC Delhi    |80      |4     |76       |5.0              |
+[info] |BUS301     |BUS          |TSRTC-301    |45      |2     |43       |4.44             |
+[info] |FLIGHT201  |FLIGHT       |AI-201       |180     |5     |175      |2.78             |
+[info] |HOTEL101   |HOTEL        |Taj Hyderabad|100     |2     |98       |2.0              |
+[info] +-----------+-------------+-------------+--------+------+---------+-----------------+

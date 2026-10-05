@@ -1,0 +1,78 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day27-banking$ cd ~/spark-day27-banking
+rm -rf checkpoint
+sbt compile
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20.1)
+[info] loading project definition from /home/babblu/spark-day27-banking/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day27-banking (in build file:/home/babblu/spark-day27-banking/)
+[info] Executing in batch mode. For better performance use sbt's shell
+[info] compiling 1 Scala source to /home/babblu/spark-day27-banking/target/scala-2.12/classes ...
+[warn] one deprecation (since Spark 3.4.0); re-run with -deprecation for details
+[warn] one warning found
+[success] Total time: 5 s, completed Oct 5, 2026, 12:13:42 PM
+babblu@LAPTOP-E7CK2BER:~/spark-day27-banking$ cd ~/spark-day27-banking
+
+SBT_OPTS="-Dlog4j.configurationFile=$(pwd)/src/main/resources/log4j2.properties" sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20.1)
+[info] loading project definition from /home/babblu/spark-day27-banking/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day27-banking (in build file:/home/babblu/spark-day27-banking/)
+[info] running (fork) Day27BankingApp
+[info] ================================================
+[info]         DAY 27 - REAL-TIME BANKING
+[info] ================================================
+[info] Batch interval : 5 seconds
+[info] Window size    : 30 seconds
+[info] Slide interval : 5 seconds
+[info] Socket         : localhost:9999
+[info] ----------------------------------------------
+[info] Streaming application started.
+[info] Waiting for banking transactions...
+[info] ----------------------------------------------
+[info] ----------------------------------------------
+[info]        ACCOUNT TRANSACTION TOTALS
+[info] ----------------------------------------------
+[info] Account=A1001    | Total Amount=₹70000.00
+[info] Account=A1002    | Total Amount=₹30000.00
+[info] Account=A1003    | Total Amount=₹150000.00
+[info] Account=A1004    | Total Amount=₹25000.00
+[info] Account=A1005    | Total Amount=₹90000.00
+[info] ==============================================
+[info]         SUSPICIOUS TRANSACTION BURST
+[info] ==============================================
+[info] ALERT | Account=A1001 | 3 transactions in last 30 seconds
+[info] ALERT | Account=A1003 | 3 transactions in last 30 seconds
+[info] ----------------------------------------------
+[info]        ENRICHED BANK TRANSACTIONS
+[info] ----------------------------------------------
+[info] Account=A1001    | Amount=₹50000.00 | Type=DEPOSIT    | Branch=B001 | Location=HYDERABAD  | Risk=LOW
+[info] Account=A1002    | Amount=₹10000.00 | Type=WITHDRAWAL | Branch=B002 | Location=DELHI      | Risk=MEDIUM
+[info] Account=A1001    | Amount=₹15000.00 | Type=TRANSFER   | Branch=B001 | Location=HYDERABAD  | Risk=LOW
+[info] Account=A1001    | Amount=₹5000.00 | Type=WITHDRAWAL | Branch=B001 | Location=HYDERABAD  | Risk=LOW
+[info] Account=A1003    | Amount=₹80000.00 | Type=WITHDRAWAL | Branch=B003 | Location=MUMBAI     | Risk=HIGH
+[info] Account=A1004    | Amount=₹25000.00 | Type=DEPOSIT    | Branch=B004 | Location=BANGALORE  | Risk=LOW
+[info] Account=A1003    | Amount=₹40000.00 | Type=TRANSFER   | Branch=B003 | Location=MUMBAI     | Risk=HIGH
+[info] Account=A1003    | Amount=₹30000.00 | Type=WITHDRAWAL | Branch=B003 | Location=MUMBAI     | Risk=HIGH
+[info] Account=A1005    | Amount=₹90000.00 | Type=WITHDRAWAL | Branch=B005 | Location=CHENNAI    | Risk=HIGH
+[info] Account=A1002    | Amount=₹20000.00 | Type=DEPOSIT    | Branch=B002 | Location=DELHI      | Risk=MEDIUM
+[info] ----------------------------------------------
+[info]           HIGH-RISK TRANSACTIONS
+[info] ----------------------------------------------
+[info] RISK ALERT | Account=A1003    | Branch=B003 | Amount=₹80000.00 | Type=WITHDRAWAL
+[info] RISK ALERT | Account=A1003    | Branch=B003 | Amount=₹40000.00 | Type=TRANSFER
+[info] RISK ALERT | Account=A1003    | Branch=B003 | Amount=₹30000.00 | Type=WITHDRAWAL
+[info] RISK ALERT | Account=A1005    | Branch=B005 | Amount=₹90000.00 | Type=WITHDRAWAL
+[info] ----------------------------------------------
+[info]            PARTITION INFORMATION
+[info] ----------------------------------------------
+[info] Number of partitions = 4
+[info] ----------------------------------------------
+[info]           BANKING STREAM SUMMARY
+[info] ----------------------------------------------
+[info] Transactions in current batch = 10
+[info] Suspicious transaction counter = 10
+[info] ==============================================
+[info]         SUSPICIOUS TRANSACTION BURST
+[info] ==============================================
+[info] ALERT | Account=A1001 | 3 transactions in last 30 seconds
+[info] ALERT | Account=A1003 | 3 transactions in last 30 seconds

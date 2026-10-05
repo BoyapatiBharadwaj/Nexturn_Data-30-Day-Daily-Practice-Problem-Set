@@ -1,0 +1,94 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day26-healthcare$ cd ~/spark-day26-healthcare
+
+rm -rf checkpoint
+
+SBT_OPTS="-Dlog4j.configurationFile=$(pwd)/src/main/resources/log4j2.properties" sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20.1)
+[info] loading project definition from /home/babblu/spark-day26-healthcare/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day26-healthcare (in build file:/home/babblu/spark-day26-healthcare/)
+[info] running (fork) Day26HealthcareApp
+[info] ==============================================
+[info]        DAY 26 - HEALTHCARE MONITORING
+[info] ==============================================
+[info] Batch interval : 5 seconds
+[info] Window size    : 30 seconds
+[info] Slide interval : 5 seconds
+[info] Socket         : localhost:9999
+[info] Streaming application started.
+[info] Waiting for patient vital events...
+[info] ----------------------------------------------
+[info]            ABNORMAL VITAL ALERTS
+[info] ----------------------------------------------
+[info] ALERT | Patient=P002  | Vital=HEART_RATE   | Value=125.0 | Normal=60.0-100.0 | Time=2026-10-05T10:00:02
+[info] ALERT | Patient=P003  | Vital=TEMPERATURE  | Value=39.2 | Normal=36.0-38.0 | Time=2026-10-05T10:00:04
+[info] ALERT | Patient=P005  | Vital=OXYGEN       | Value=91.0 | Normal=95.0-100.0 | Time=2026-10-05T10:00:06
+[info] ALERT | Patient=P001  | Vital=HEART_RATE   | Value=130.0 | Normal=60.0-100.0 | Time=2026-10-05T10:00:07
+[info] ALERT | Patient=P003  | Vital=TEMPERATURE  | Value=39.5 | Normal=36.0-38.0 | Time=2026-10-05T10:00:09
+[info] ALERT | Patient=P001  | Vital=HEART_RATE   | Value=135.0 | Normal=60.0-100.0 | Time=2026-10-05T10:00:10
+[info] ALERT | Patient=P006  | Vital=OXYGEN       | Value=93.0 | Normal=95.0-100.0 | Time=2026-10-05T10:00:11
+[info] ALERT | Patient=P001  | Vital=HEART_RATE   | Value=140.0 | Normal=60.0-100.0 | Time=2026-10-05T10:00:13
+[info] ALERT | Patient=P003  | Vital=TEMPERATURE  | Value=39.8 | Normal=36.0-38.0 | Time=2026-10-05T10:00:14
+[info] Total abnormal events so far = 9
+[info] ----------------------------------------------
+[info]        CURRENT BATCH ABNORMAL COUNTS
+[info] ----------------------------------------------
+[info] Patient=P001  | Current abnormal readings=3
+[info] Patient=P002  | Current abnormal readings=1
+[info] Patient=P003  | Current abnormal readings=3
+[info] Patient=P005  | Current abnormal readings=1
+[info] Patient=P006  | Current abnormal readings=1
+[info] ==============================================
+[info]        CRITICAL REPEATED-VITAL ALERT
+[info] ==============================================
+[info] CRITICAL | Patient=P001 | 3 abnormal readings in last 30 seconds
+[info] CRITICAL | Patient=P003 | 3 abnormal readings in last 30 seconds
+[info] ----------------------------------------------
+[info]              WINDOW SUMMARY
+[info] ----------------------------------------------
+[info] 30-second abnormal-vital window count = 9
+[info] ==============================================
+[info]        CRITICAL REPEATED-VITAL ALERT
+[info] ==============================================
+[info] CRITICAL | Patient=P001 | 3 abnormal readings in last 30 seconds
+[info] CRITICAL | Patient=P003 | 3 abnormal readings in last 30 seconds
+[info] ----------------------------------------------
+[info]              WINDOW SUMMARY
+[info] ----------------------------------------------
+[info] 30-second abnormal-vital window count = 9
+[info] ==============================================
+[info]        CRITICAL REPEATED-VITAL ALERT
+[info] ==============================================
+[info] CRITICAL | Patient=P001 | 3 abnormal readings in last 30 seconds
+[info] CRITICAL | Patient=P003 | 3 abnormal readings in last 30 seconds
+[info] ----------------------------------------------
+[info]              WINDOW SUMMARY
+[info] ----------------------------------------------
+[info] 30-second abnormal-vital window count = 9
+[info] ==============================================
+[info]        CRITICAL REPEATED-VITAL ALERT
+[info] ==============================================
+[info] CRITICAL | Patient=P001 | 3 abnormal readings in last 30 seconds
+[info] CRITICAL | Patient=P003 | 3 abnormal readings in last 30 seconds
+[info] ----------------------------------------------
+[info]              WINDOW SUMMARY
+[info] ----------------------------------------------
+[info] 30-second abnormal-vital window count = 9
+[info] ==============================================
+[info]        CRITICAL REPEATED-VITAL ALERT
+[info] ==============================================
+[info] CRITICAL | Patient=P001 | 3 abnormal readings in last 30 seconds
+[info] CRITICAL | Patient=P003 | 3 abnormal readings in last 30 seconds
+[info] ----------------------------------------------
+[info]              WINDOW SUMMARY
+[info] ----------------------------------------------
+[info] 30-second abnormal-vital window count = 9
+[info] ==============================================
+[info]        CRITICAL REPEATED-VITAL ALERT
+[info] ==============================================
+[info] CRITICAL | Patient=P001 | 3 abnormal readings in last 30 seconds
+[info] CRITICAL | Patient=P003 | 3 abnormal readings in last 30 seconds
+[info] ----------------------------------------------
+[info]              WINDOW SUMMARY
+[info] ----------------------------------------------
+[info] 30-second abnormal-vital window count = 9

@@ -1,0 +1,484 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day25-window-operations$ cd ~/spark-day25-window-operations
+rm -rf checkpoint
+sbt compile
+sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20.1)
+[info] loading project definition from /home/babblu/spark-day25-window-operations/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day25-window-operations (in build file:/home/babblu/spark-day25-window-operations/)
+[info] Executing in batch mode. For better performance use sbt's shell
+[info] compiling 1 Scala source to /home/babblu/spark-day25-window-operations/target/scala-2.12/classes ...
+[warn] one deprecation (since Spark 3.4.0); re-run with -deprecation for details
+[warn] one warning found
+[success] Total time: 4 s, completed Oct 5, 2026, 11:55:11 AM
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20.1)
+[info] loading project definition from /home/babblu/spark-day25-window-operations/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day25-window-operations (in build file:/home/babblu/spark-day25-window-operations/)
+[info] running (fork) Day25WindowOperationsApp
+[error] Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+[error] 26/10/05 11:55:17 INFO SparkContext: Running Spark version 3.5.6
+[error] 26/10/05 11:55:17 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+[error] 26/10/05 11:55:17 INFO SparkContext: Java version 17.0.20.1
+[error] 26/10/05 11:55:17 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[error] 26/10/05 11:55:17 INFO ResourceUtils: ==============================================================
+[error] 26/10/05 11:55:17 INFO ResourceUtils: No custom resources configured for spark.driver.
+[error] 26/10/05 11:55:17 INFO ResourceUtils: ==============================================================
+[error] 26/10/05 11:55:17 INFO SparkContext: Submitted application: Day25 Window Operations
+[error] 26/10/05 11:55:17 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+[error] 26/10/05 11:55:17 INFO ResourceProfile: Limiting resource is cpu
+[error] 26/10/05 11:55:17 INFO ResourceProfileManager: Added ResourceProfile id: 0
+[error] 26/10/05 11:55:17 INFO SecurityManager: Changing view acls to: babblu
+[error] 26/10/05 11:55:17 INFO SecurityManager: Changing modify acls to: babblu
+[error] 26/10/05 11:55:17 INFO SecurityManager: Changing view acls groups to:
+[error] 26/10/05 11:55:17 INFO SecurityManager: Changing modify acls groups to:
+[error] 26/10/05 11:55:17 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: babblu; groups with view permissions: EMPTY; users with modify permissions: babblu; groups with modify permissions: EMPTY
+[error] 26/10/05 11:55:17 INFO Utils: Successfully started service 'sparkDriver' on port 36315.
+[error] 26/10/05 11:55:17 INFO SparkEnv: Registering MapOutputTracker
+[error] 26/10/05 11:55:17 INFO SparkEnv: Registering BlockManagerMaster
+[error] 26/10/05 11:55:17 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+[error] 26/10/05 11:55:17 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+[error] 26/10/05 11:55:17 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+[error] 26/10/05 11:55:17 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-7990913e-20d1-4b9a-a64d-06017760fe57
+[error] 26/10/05 11:55:17 INFO MemoryStore: MemoryStore started with capacity 1615.2 MiB
+[error] 26/10/05 11:55:17 INFO SparkEnv: Registering OutputCommitCoordinato
+[error] 26/10/05 11:55:17 INFO JettyUtils: Start Jetty 127.0.0.1:4040 for SparkUI
+[error] 26/10/05 11:55:17 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+[error] 26/10/05 11:55:18 INFO Executor: Starting executor ID driver on host localhost
+[error] 26/10/05 11:55:18 INFO Executor: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+[error] 26/10/05 11:55:18 INFO Executor: Java version 17.0.20.1
+[error] 26/10/05 11:55:18 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+[error] 26/10/05 11:55:18 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@1f6917fb for default.
+[error] 26/10/05 11:55:18 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 39525.
+[error] 26/10/05 11:55:18 INFO NettyBlockTransferService: Server created on localhost:39525
+[error] 26/10/05 11:55:18 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+[error] 26/10/05 11:55:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, localhost, 39525, None)
+[error] 26/10/05 11:55:18 INFO BlockManagerMasterEndpoint: Registering block manager localhost:39525 with 1615.2 MiB RAM, BlockManagerId(driver, localhost, 39525, None)
+[error] 26/10/05 11:55:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, localhost, 39525, None)
+[error] 26/10/05 11:55:18 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, localhost, 39525, None)
+[info] ==============================================
+[info] DAY 25 - WINDOW OPERATIONS
+[info] ==============================================
+[info] Batch interval  : 5 seconds
+[info] Window size     : 10 minutes
+[info] Slide interval  : 5 seconds
+[info] Socket          : localhost:9999
+[info] Streaming application started.
+[info] Waiting for transactions...
+[info] Press Ctrl+C to stop.
+[error] 26/10/05 11:55:19 WARN ReceiverSupervisorImpl: Restarting receiver with delay 2000 ms: Error connecting to localhost:9999
+[error] java.net.ConnectException: Connection refused
+[error]         at java.base/sun.nio.ch.Net.connect0(Native Method)
+[error]         at java.base/sun.nio.ch.Net.connect(Net.java:591)
+[error]         at java.base/sun.nio.ch.Net.connect(Net.java:580)
+[error]         at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:593)
+[error]         at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+[error]         at java.base/java.net.Socket.connect(Socket.java:633)
+[error]         at java.base/java.net.Socket.connect(Socket.java:583)
+[error]         at java.base/java.net.Socket.<init>(Socket.java:507)
+[error]         at java.base/java.net.Socket.<init>(Socket.java:287)
+[error]         at org.apache.spark.streaming.dstream.SocketReceiver.onStart(SocketInputDStream.scala:61)
+[error]         at org.apache.spark.streaming.receiver.ReceiverSupervisor.startReceiver(ReceiverSupervisor.scala:149)
+[error]         at org.apache.spark.streaming.receiver.ReceiverSupervisor.start(ReceiverSupervisor.scala:131)
+[error]         at org.apache.spark.streaming.scheduler.ReceiverTracker$ReceiverTrackerEndpoint.$anonfun$startReceiver$1(ReceiverTracker.scala:596)
+[error]         at org.apache.spark.streaming.scheduler.ReceiverTracker$ReceiverTrackerEndpoint.$anonfun$startReceiver$1$adapted(ReceiverTracker.scala:586)
+[error]         at org.apache.spark.SparkContext.$anonfun$submitJob$1(SparkContext.scala:2542)
+[error]         at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:93)
+[error]         at org.apache.spark.TaskContext.runTaskWithListeners(TaskContext.scala:166)
+[error]         at org.apache.spark.scheduler.Task.run(Task.scala:141)
+[error]         at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$4(Executor.scala:621)
+[error]         at org.apache.spark.util.SparkErrorUtils.tryWithSafeFinally(SparkErrorUtils.scala:64)
+[error]         at org.apache.spark.util.SparkErrorUtils.tryWithSafeFinally$(SparkErrorUtils.scala:61)
+[error]         at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:94)
+[error]         at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:624)
+[error]         at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+[error]         at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+[error]         at java.base/java.lang.Thread.run(Thread.java:840)
+[error] 26/10/05 11:55:19 ERROR ReceiverTracker: Deregistered receiver for stream 0: Restarting receiver with delay 2000ms: Error connecting to localhost:9999 - java.net.ConnectException: Connection refused
+[error]         at java.base/sun.nio.ch.Net.connect0(Native Method)
+[error]         at java.base/sun.nio.ch.Net.connect(Net.java:591)
+[error]         at java.base/sun.nio.ch.Net.connect(Net.java:580)
+[error]         at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:593)
+[error]         at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+[error]         at java.base/java.net.Socket.connect(Socket.java:633)
+[error]         at java.base/java.net.Socket.connect(Socket.java:583)
+[error]         at java.base/java.net.Socket.<init>(Socket.java:507)
+[error]         at java.base/java.net.Socket.<init>(Socket.java:287)
+[error]         at org.apache.spark.streaming.dstream.SocketReceiver.onStart(SocketInputDStream.scala:61)
+[error]         at org.apache.spark.streaming.receiver.ReceiverSupervisor.startReceiver(ReceiverSupervisor.scala:149)
+[error]         at org.apache.spark.streaming.receiver.ReceiverSupervisor.start(ReceiverSupervisor.scala:131)
+[error]         at org.apache.spark.streaming.scheduler.ReceiverTracker$ReceiverTrackerEndpoint.$anonfun$startReceiver$1(ReceiverTracker.scala:596)
+[error]         at org.apache.spark.streaming.scheduler.ReceiverTracker$ReceiverTrackerEndpoint.$anonfun$startReceiver$1$adapted(ReceiverTracker.scala:586)
+[error]         at org.apache.spark.SparkContext.$anonfun$submitJob$1(SparkContext.scala:2542)
+[error]         at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:93)
+[error]         at org.apache.spark.TaskContext.runTaskWithListeners(TaskContext.scala:166)
+[error]         at org.apache.spark.scheduler.Task.run(Task.scala:141)
+[error]         at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$4(Executor.scala:621)
+[error]         at org.apache.spark.util.SparkErrorUtils.tryWithSafeFinally(SparkErrorUtils.scala:64)
+[error]         at org.apache.spark.util.SparkErrorUtils.tryWithSafeFinally$(SparkErrorUtils.scala:61)
+[error]         at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:94)
+[error]         at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:624)
+[error]         at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+[error]         at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+[error]         at java.base/java.lang.Thread.run(Thread.java:840)
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] No transactions in current window.
+[error] 26/10/05 11:55:21 WARN ReceiverSupervisorImpl: Restarting receiver with delay 2000 ms: Error connecting to localhost:9999
+[error] java.net.ConnectException: Connection refused
+[error]         at java.base/sun.nio.ch.Net.connect0(Native Method)
+[error]         at java.base/sun.nio.ch.Net.connect(Net.java:591)
+[error]         at java.base/sun.nio.ch.Net.connect(Net.java:580)
+[error]         at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:593)
+[error]         at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+[error]         at java.base/java.net.Socket.connect(Socket.java:633)
+[error]         at java.base/java.net.Socket.connect(Socket.java:583)
+[error]         at java.base/java.net.Socket.<init>(Socket.java:507)
+[error]         at java.base/java.net.Socket.<init>(Socket.java:287)
+[error]         at org.apache.spark.streaming.dstream.SocketReceiver.onStart(SocketInputDStream.scala:61)
+[error]         at org.apache.spark.streaming.receiver.ReceiverSupervisor.startReceiver(ReceiverSupervisor.scala:149)
+[error]         at org.apache.spark.streaming.receiver.ReceiverSupervisor.$anonfun$restartReceiver$1(ReceiverSupervisor.scala:198)
+[error]         at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+[error]         at scala.concurrent.Future$.$anonfun$apply$1(Future.scala:659)
+[error]         at scala.util.Success.$anonfun$map$1(Try.scala:255)
+[error]         at scala.util.Success.map(Try.scala:213)
+[error]         at scala.concurrent.Future.$anonfun$map$1(Future.scala:292)
+[error]         at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)
+[error]         at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)
+[error]         at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+[error]         at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+[error]         at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+[error]         at java.base/java.lang.Thread.run(Thread.java:840)
+[error] 26/10/05 11:55:21 ERROR ReceiverTracker: Deregistered receiver for stream 0: Restarting receiver with delay 2000ms: Error connecting to localhost:9999 - java.net.ConnectException: Connection refused
+[error]         at java.base/sun.nio.ch.Net.connect0(Native Method)
+[error]         at java.base/sun.nio.ch.Net.connect(Net.java:591)
+[error]         at java.base/sun.nio.ch.Net.connect(Net.java:580)
+[error]         at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:593)
+[error]         at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+[error]         at java.base/java.net.Socket.connect(Socket.java:633)
+[error]         at java.base/java.net.Socket.connect(Socket.java:583)
+[error]         at java.base/java.net.Socket.<init>(Socket.java:507)
+[error]         at java.base/java.net.Socket.<init>(Socket.java:287)
+[error]         at org.apache.spark.streaming.dstream.SocketReceiver.onStart(SocketInputDStream.scala:61)
+[error]         at org.apache.spark.streaming.receiver.ReceiverSupervisor.startReceiver(ReceiverSupervisor.scala:149)
+[error]         at org.apache.spark.streaming.receiver.ReceiverSupervisor.$anonfun$restartReceiver$1(ReceiverSupervisor.scala:198)
+[error]         at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+[error]         at scala.concurrent.Future$.$anonfun$apply$1(Future.scala:659)
+[error]         at scala.util.Success.$anonfun$map$1(Try.scala:255)
+[error]         at scala.util.Success.map(Try.scala:213)
+[error]         at scala.concurrent.Future.$anonfun$map$1(Future.scala:292)
+[error]         at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)
+[error]         at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)
+[error]         at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+[error]         at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+[error]         at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+[error]         at java.base/java.lang.Thread.run(Thread.java:840)
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] No transactions in current window.
+[error] 26/10/05 11:55:27 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/10/05 11:55:27 WARN BlockManager: Block input-0-1791181527200 replicated to only 0 peer(s) instead of 1 peers
+[error] 26/10/05 11:55:28 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/10/05 11:55:28 WARN BlockManager: Block input-0-1791181528000 replicated to only 0 peer(s) instead of 1 peers
+[info] ========== CURRENT BATCH COUNT ==========
+[info] Transactions in current 5-second batch = 4
+[info] 10-minute rolling transaction count = 4
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹6000.00
+[info] A1002 -> ₹3000.00
+[info] A1003 -> ₹7000.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] Normal activity: 4 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹16000.00
+[info] 10-minute rolling transaction count = 4
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹6000.00
+[info] A1002 -> ₹3000.00
+[info] A1003 -> ₹7000.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] Normal activity: 4 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹16000.00
+[info] 10-minute rolling transaction count = 4
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹6000.00
+[info] A1002 -> ₹3000.00
+[info] A1003 -> ₹7000.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] Normal activity: 4 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹16000.00
+[info] 10-minute rolling transaction count = 4
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹6000.00
+[info] A1002 -> ₹3000.00
+[info] A1003 -> ₹7000.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] Normal activity: 4 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹16000.00
+[info] 10-minute rolling transaction count = 4
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹6000.00
+[info] A1002 -> ₹3000.00
+[info] A1003 -> ₹7000.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] Normal activity: 4 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹16000.00
+[info] 10-minute rolling transaction count = 4
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹6000.00
+[info] A1002 -> ₹3000.00
+[info] A1003 -> ₹7000.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] Normal activity: 4 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹16000.00
+[error] 26/10/05 11:55:59 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/10/05 11:55:59 WARN BlockManager: Block input-0-1791181558800 replicated to only 0 peer(s) instead of 1 peers
+[error] 26/10/05 11:56:00 WARN RandomBlockReplicationPolicy: Expecting 1 replicas with only 0 peer/s.
+[error] 26/10/05 11:56:00 WARN BlockManager: Block input-0-1791181559800 replicated to only 0 peer(s) instead of 1 peers
+[info] ========== CURRENT BATCH COUNT ==========
+[info] Transactions in current 5-second batch = 29
+[info] 10-minute rolling transaction count = 33
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹15000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 33 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹136500.00
+[info] ========== CURRENT BATCH COUNT ==========
+[info] Transactions in current 5-second batch = 1
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00
+[info] 10-minute rolling transaction count = 34
+[info] ========== 10-MINUTE ROLLING SALES ==========
+[info] A1001 -> ₹22000.00
+[info] A1002 -> ₹13500.00
+[info] A1003 -> ₹27500.00
+[info] A1004 -> ₹15000.00
+[info] A1005 -> ₹15000.00
+[info] A1006 -> ₹16000.00
+[info] A1007 -> ₹23000.00
+[info] A1008 -> ₹12500.00
+[info] ========== TRANSACTION ACTIVITY MONITOR ==========
+[info] ALERT: Sudden transaction activity detected! 34 transactions in the last 10 minutes.
+[error] 26/10/05 11:57:20 WARN ReceiverSupervisorImpl: Restarting receiver with delay 2000 ms: Socket data stream had no more data
+[error] 26/10/05 11:57:20 ERROR ReceiverTracker: Deregistered receiver for stream 0: Restarting receiver with delay 2000ms: Socket data stream had no more data
+[info] ========== TOTAL ROLLING SALES ==========
+[info] Last 10 minutes sales = ₹144500.00

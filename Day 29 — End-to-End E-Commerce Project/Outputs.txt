@@ -1,0 +1,146 @@
+babblu@LAPTOP-E7CK2BER:~/spark-day29-ecommerce$ SBT_OPTS="-Dlog4j.configurationFile=$(pwd)/src/main/resources/log4j2.properties" sbt "run"
+[info] welcome to sbt 1.12.15 (Ubuntu Java 17.0.20.1)
+[info] loading project definition from /home/babblu/spark-day29-ecommerce/project
+[info] loading settings for project root from build.sbt...
+[info] set current project to spark-day29-ecommerce (in build file:/home/babblu/spark-day29-ecommerce/)
+[info] running (fork) Day29EcommerceApp
+[info] ================================================
+[info]        DAY 29 - END-TO-END E-COMMERCE
+[info] ================================================
+[info] Pipeline:
+[info] RAW -> CLEAN -> ENRICH -> AGGREGATE
+[info] ----------------------------------------------
+[info]               RAW DATA LAYER
+[info] ----------------------------------------------
+[info] Raw event records = 15
+[info] ----------------------------------------------
+[info]           EVENT TYPE COUNTS
+[info] ----------------------------------------------
+[info] CART -> 4
+[info] PURCHASE -> 7
+[info] VIEW -> 4
+[info] ----------------------------------------------
+[info]              CLEAN DATA
+[info] ----------------------------------------------
+[info] +-------+----------+---------+---------+--------+-------------------
+[info] |eventId|customerId|productId|eventType|quantity|timestamp
+[info] +-------+----------+---------+---------+--------+-------------------
+[info] |E001   |C001      |P001     |VIEW     |1       |2026-10-05T10:00:01
+[info] |E002   |C001      |P001     |CART     |1       |2026-10-05T10:00:05
+[info] |E003   |C001      |P001     |PURCHASE |1       |2026-10-05T10:00:10
+[info] |E004   |C002      |P002     |VIEW     |1       |2026-10-05T10:00:15
+[info] |E005   |C002      |P002     |CART     |1       |2026-10-05T10:00:20
+[info] |E006   |C003      |P003     |PURCHASE |2       |2026-10-05T10:00:25
+[info] |E007   |C004      |P004     |VIEW     |1       |2026-10-05T10:00:30
+[info] |E008   |C004      |P004     |PURCHASE |2       |2026-10-05T10:00:35
+[info] |E009   |C005      |P006     |CART     |1       |2026-10-05T10:00:40
+[info] |E010   |C005      |P006     |PURCHASE |1       |2026-10-05T10:00:45
+[info] |E011   |C006      |P007     |VIEW     |1       |2026-10-05T10:00:50
+[info] |E012   |C006      |P007     |CART     |1       |2026-10-05T10:00:55
+[info] |E013   |C001      |P003     |PURCHASE |3       |2026-10-05T10:01:00
+[info] |E014   |C003      |P002     |PURCHASE |1       |2026-10-05T10:01:05
+[info] |E015   |C005      |P008     |PURCHASE |2       |2026-10-05T10:01:10
+[info] +-------+----------+---------+---------+--------+-------------------
+[info] ----------------------------------------------
+[info]              ENRICHED DATA
+[info] ----------------------------------------------
+[info] +----------+---------+-------+---------+--------+-------------------+-----------+-----------+-------+---------+-------+--------------+-------+-------------------+
+[info] |customerId|productId|eventId|eventType|quantity|timestamp          |productName|category   |price  |city     |segment|customer_value|revenue|event_timestamp    |
+[info] +----------+---------+-------+---------+--------+-------------------+-----------+-----------+-------+---------+-------+--------------+-------+-------------------+
+[info] |C001      |P001     |E001   |VIEW     |1       |2026-10-05T10:00:01|Laptop     |Electronics|55000.0|Hyderabad|PREMIUM|HIGH_VALUE    |0.0    |2026-10-05 10:00:01|
+[info] |C001      |P001     |E002   |CART     |1       |2026-10-05T10:00:05|Laptop     |Electronics|55000.0|Hyderabad|PREMIUM|HIGH_VALUE    |0.0    |2026-10-05 10:00:05|
+[info] |C001      |P001     |E003   |PURCHASE |1       |2026-10-05T10:00:10|Laptop     |Electronics|55000.0|Hyderabad|PREMIUM|HIGH_VALUE    |55000.0|2026-10-05 10:00:10|
+[info] |C002      |P002     |E004   |VIEW     |1       |2026-10-05T10:00:15|Smartphone |Electronics|30000.0|Delhi    |REGULAR|STANDARD_VALUE|0.0    |2026-10-05 10:00:15|
+[info] |C002      |P002     |E005   |CART     |1       |2026-10-05T10:00:20|Smartphone |Electronics|30000.0|Delhi    |REGULAR|STANDARD_VALUE|0.0    |2026-10-05 10:00:20|
+[info] |C003      |P003     |E006   |PURCHASE |2       |2026-10-05T10:00:25|Headphones |Electronics|2500.0 |Mumbai   |PREMIUM|HIGH_VALUE    |5000.0 |2026-10-05 10:00:25|
+[info] |C004      |P004     |E007   |VIEW     |1       |2026-10-05T10:00:30|Keyboard   |Accessories|1800.0 |Bangalore|REGULAR|STANDARD_VALUE|0.0    |2026-10-05 10:00:30|
+[info] |C004      |P004     |E008   |PURCHASE |2       |2026-10-05T10:00:35|Keyboard   |Accessories|1800.0 |Bangalore|REGULAR|STANDARD_VALUE|3600.0 |2026-10-05 10:00:35|
+[info] |C005      |P006     |E009   |CART     |1       |2026-10-05T10:00:40|Monitor    |Electronics|15000.0|Chennai  |PREMIUM|HIGH_VALUE    |0.0    |2026-10-05 10:00:40|
+[info] |C005      |P006     |E010   |PURCHASE |1       |2026-10-05T10:00:45|Monitor    |Electronics|15000.0|Chennai  |PREMIUM|HIGH_VALUE    |15000.0|2026-10-05 10:00:45|
+[info] |C006      |P007     |E011   |VIEW     |1       |2026-10-05T10:00:50|Backpack   |Travel     |2200.0 |Pune     |REGULAR|STANDARD_VALUE|0.0    |2026-10-05 10:00:50|
+[info] |C006      |P007     |E012   |CART     |1       |2026-10-05T10:00:55|Backpack   |Travel     |2200.0 |Pune     |REGULAR|STANDARD_VALUE|0.0    |2026-10-05 10:00:55|
+[info] |C001      |P003     |E013   |PURCHASE |3       |2026-10-05T10:01:00|Headphones |Electronics|2500.0 |Hyderabad|PREMIUM|HIGH_VALUE    |7500.0 |2026-10-05 10:01:00|
+[info] |C003      |P002     |E014   |PURCHASE |1       |2026-10-05T10:01:05|Smartphone |Electronics|30000.0|Mumbai   |PREMIUM|HIGH_VALUE    |30000.0|2026-10-05 10:01:05|
+[info] |C005      |P008     |E015   |PURCHASE |2       |2026-10-05T10:01:10|Shoes      |Fashion    |3500.0 |Chennai  |PREMIUM|HIGH_VALUE    |7000.0 |2026-10-05 10:01:10|
+[info] +----------+---------+-------+---------+--------+-------------------+-----------+-----------+-------+---------+-------+--------------+-------+-------------------+
+[info] ----------------------------------------------
+[info]         CUSTOMER RUNNING REVENUE
+[info] ----------------------------------------------
+[info] +----------+-------+---------+-------+---------------+
+[info] |customerId|eventId|eventType|revenue|running_revenue|
+[info] +----------+-------+---------+-------+---------------+
+[info] |C001      |E001   |VIEW     |0.0    |0.0            |
+[info] |C001      |E002   |CART     |0.0    |0.0            |
+[info] |C001      |E003   |PURCHASE |55000.0|55000.0        |
+[info] |C001      |E013   |PURCHASE |7500.0 |62500.0        |
+[info] |C002      |E004   |VIEW     |0.0    |0.0            |
+[info] |C002      |E005   |CART     |0.0    |0.0            |
+[info] |C003      |E006   |PURCHASE |5000.0 |5000.0         |
+[info] |C003      |E014   |PURCHASE |30000.0|35000.0        |
+[info] |C004      |E007   |VIEW     |0.0    |0.0            |
+[info] |C004      |E008   |PURCHASE |3600.0 |3600.0         |
+[info] |C005      |E009   |CART     |0.0    |0.0            |
+[info] |C005      |E010   |PURCHASE |15000.0|15000.0        |
+[info] |C005      |E015   |PURCHASE |7000.0 |22000.0        |
+[info] |C006      |E011   |VIEW     |0.0    |0.0            |
+[info] |C006      |E012   |CART     |0.0    |0.0            |
+[info] +----------+-------+---------+-------+---------------+
+[info] ----------------------------------------------
+[info]             PRODUCT SALES
+[info] ----------------------------------------------
+[info] +---------+-----------+-----------+----------+-------------+
+[info] |productId|productName|category   |units_sold|total_revenue|
+[info] +---------+-----------+-----------+----------+-------------+
+[info] |P001     |Laptop     |Electronics|1         |55000.0      |
+[info] |P002     |Smartphone |Electronics|1         |30000.0      |
+[info] |P006     |Monitor    |Electronics|1         |15000.0      |
+[info] |P003     |Headphones |Electronics|5         |12500.0      |
+[info] |P008     |Shoes      |Fashion    |2         |7000.0       |
+[info] |P004     |Keyboard   |Accessories|2         |3600.0       |
+[info] +---------+-----------+-----------+----------+-------------+
+[info] ----------------------------------------------
+[info]             CUSTOMER SALES
+[info] ----------------------------------------------
+[info] +----------+---------+-------+---------------+----------------+
+[info] |customerId|city     |segment|items_purchased|customer_revenue|
+[info] +----------+---------+-------+---------------+----------------+
+[info] |C001      |Hyderabad|PREMIUM|4              |62500.0         |
+[info] |C003      |Mumbai   |PREMIUM|3              |35000.0         |
+[info] |C005      |Chennai  |PREMIUM|3              |22000.0         |
+[info] |C004      |Bangalore|REGULAR|2              |3600.0          |
+[info] +----------+---------+-------+---------------+----------------+
+[info] ----------------------------------------------
+[info]             CATEGORY SALES
+[info] ----------------------------------------------
+[info] +-----------+----------+--------+
+[info] |category   |units_sold|revenue |
+[info] +-----------+----------+--------+
+[info] |Electronics|8         |112500.0|
+[info] |Fashion    |2         |7000.0  |
+[info] |Accessories|2         |3600.0  |
+[info] +-----------+----------+--------+
+[info] ----------------------------------------------
+[info]              SQL REPORT
+[info] ----------------------------------------------
+[info] +-----------+---------------+----------+--------+
+[info] |category   |purchase_events|units_sold|revenue |
+[info] +-----------+---------------+----------+--------+
+[info] |Electronics|5              |8         |112500.0|
+[info] |Fashion    |1              |2         |7000.0  |
+[info] |Accessories|1              |2         |3600.0  |
+[info] +-----------+---------------+----------+--------+
+[info] ----------------------------------------------
+[info]           PARTITION INFORMATION
+[info] ----------------------------------------------
+[info] Raw RDD partitions = 2
+[info] Clean Dataset partitions = 2
+[info] Enriched DataFrame partitions = 2
+[info] ================================================
+[info]              FINAL E-COMMERCE SUMMARY
+[info] ================================================
+[info] Total events      = 15
+[info] Purchase events   = 7
+[info] Total revenue     = ₹123100.00
+[info] RAW -> CLEAN -> ENRICH -> AGGREGATE completed.
+[info] ================================================
+[success] Total time: 10 s, completed Oct 5, 2026, 12:24:28 PM
